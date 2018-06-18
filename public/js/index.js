@@ -3,6 +3,8 @@ function indexmap() {
   var marker;
   var infoWindow;
   var zoom;
+  var lat;
+  var lng;
 
   setDefault();
 
@@ -11,6 +13,7 @@ function indexmap() {
     lat = 35.729756;
     lng = 139.711069;
     zoom = 3;
+
     createMap(lat,lng,zoom);
     searchSpot(lat,lng);
   }
@@ -63,10 +66,14 @@ function indexmap() {
   function CurrentPositionMarker(lat,lng) {
     var latlng = new google.maps.LatLng(lat,lng);
     var image = 'http://i.stack.imgur.com/orZ4x.png';
+    var size = new google.maps.Size(25, 25);
     var marker = new google.maps.Marker({
             position: latlng,
             map: map,
-            icon: image
+            icon: {
+              url :image,
+              scaledSize: size,
+            },
         });
     marker.setMap(map);
 
@@ -111,20 +118,18 @@ function indexmap() {
     var _token = $('meta[name="csrf-token"]').attr('content');
 
     $.post('http://127.0.0.1:8000/api/searchSpot',{lat:lat,lng:lng,_token:_token},function(match){
+
       $.each(match,function(i,val){
         var glat = val.lat;
         var glng = val.lng;
         var icon_name = val.icon_name;
         var id = val.id;
         var GLatLng = new google.maps.LatLng(glat, glng);
-        // var gicn= 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
         createMarker(GLatLng,icon_name,id);
       });
     });
   }
-
-  //
 
 
 };

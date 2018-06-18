@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+<!-- cssの読み込み -->
+@section('css')
+<link href="{{ asset('css/create.css') }}" rel="stylesheet">
+@endsection
+
+<!-- contentの読み込み -->
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -32,8 +38,23 @@
 
                     <div class="form-group">
 
-                        <label for="file" class="control-label">upload img</label>
-                        <input name="file" type="file" id="file">
+                        <!-- <label for="file" class="control-label">upload img</label>
+                        <input name="file" type="file" id="file"> -->
+                        <br>
+                        <label for="photo">画像ファイル（複数可）:</label>
+                        <input type="file" class="form-control" name="files[][photo]">
+                        <input type="file" class="form-control" name="files[][photo]">
+                        <input type="file" class="form-control" name="files[][photo]">
+                        <input type="file" class="form-control" name="files[][photo]">
+                    </div>
+                    <div class="form-group">
+                        <span class="star-rating">
+                          <input type="radio" name="rating" value="1"><i></i>
+                          <input type="radio" name="rating" value="2"><i></i>
+                          <input type="radio" name="rating" value="3"><i></i>
+                          <input type="radio" name="rating" value="4"><i></i>
+                          <input type="radio" name="rating" value="5"><i></i>
+                        </span>
                     </div>
                     <body onload="create()"></body>
                     <div class="form-group">
@@ -61,8 +82,6 @@
                         <div id="map_canvas" style="width:480px; height:300px"></div>
                     </div>
 
-                    <!-- <label for="comment">comment</label><br>
-                    <textarea id="comment" name="comment"  placeholder="comment">{{ Input::old('comment') }}</textarea> -->
                     <input type="text" name="spot_name" value="{{ Input::old('spot_name') }}" placeholder="spot_name">
                     <div class="form-group">
                         {!! Form::submit('upload', ['class' => 'btn btn-default']) !!}

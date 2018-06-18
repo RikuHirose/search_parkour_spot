@@ -1,15 +1,16 @@
 function create() {
   var Marker;
   var map;
-
+  var zoom;
   // 最初に設定したlat lngのマーカーを作成
     var old_lat = document.getElementById('old_lat').value;
     var old_lng = document.getElementById('old_lng').value;
+    zoom = 13;
 
   if(old_lat === '' ||  old_lat === null && old_lng === '' ||  old_lng === null){
     setDefault();
   }else{
-    createMap(old_lat,old_lng);
+    createMap(old_lat,old_lng,zoom);
   }
 
 
@@ -19,7 +20,8 @@ function create() {
   function setDefault() {
     lat = 35.729756;
     lng = 139.711069;
-    createMap(lat,lng);
+    zoom = 3;
+    createMap(lat,lng,zoom);
   }
 
   // 現在地取得
@@ -40,8 +42,9 @@ function create() {
   function success(position) {
       var latval = position.coords.latitude;
       var lngval = position.coords.longitude;
+      zoom = 13;
 
-      createMap(latval,lngval);
+      createMap(latval,lngval,zoom);
       CurrentPositionMarker(latval,lngval);
   }
 
@@ -51,10 +54,10 @@ function create() {
   }
 
   // create Map
-  function createMap(latval,lngval) {
+  function createMap(latval,lngval,zoom) {
     var latlng = new google.maps.LatLng(latval,lngval);
     var opts = {
-        zoom: 12,
+        zoom: zoom,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }

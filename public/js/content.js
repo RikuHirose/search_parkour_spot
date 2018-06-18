@@ -17,8 +17,9 @@ function content() {
 	function success(position) {
 	    var currentLat = position.coords.latitude;
 	    var currentLng = position.coords.longitude;
-	    document.getElementById('currentLat').value = currentLat;
-	    document.getElementById('currentLng').value = currentLng;
+
+	    // document.getElementById('currentLat').value = currentLat;
+	    // document.getElementById('currentLng').value = currentLng;
 
 	    // show action でcurrentpositonを取りたい
 	    // var _token = $('meta[name="csrf-token"]').attr('content');
@@ -53,7 +54,7 @@ function content() {
     function createContentMap(myLatLng) {
         map = new google.maps.Map(document.getElementById('map_canvas'), {
             center: myLatLng,
-            zoom: 15,
+            zoom: 4,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         var marker = new google.maps.Marker({

@@ -21,6 +21,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/default.css') }}" rel="stylesheet">
+  </head>
+    @yield('css')
+
+
 </head>
 <body>
     <div id="app">
@@ -87,8 +92,19 @@
             @yield('content')
         </main>
     </div>
+    <footer class="footer">
+        <div class="container container-footer">
+            <ul class="footer__item">
+              <a href="/rules">利用規約</a>
+              <a href="/privacy">プライバシーポリシー</a>
+              <a href="/contact">お問い合わせ</a>
+            </ul>
+            <p class="footer__copy">©2018&nbsp;&nbsp;All&nbsp;Rights&nbsp;Reserved.</p>
+        </div>
+    </footer>
     <!-- Scripts（Jquery） -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+
     <!-- Scripts（bootstrapのjavascript） -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!-- google map api -->
@@ -100,5 +116,7 @@
     <script src="{{asset('js/index.js')}}"></script>
     <script src="{{asset('js/route.js')}}"></script>
     <script src="{{asset('js/edit.js')}}"></script>
+    <!-- <script src="{{asset('js/slide.js')}}"></script> -->
+
 </body>
 </html>

@@ -31,31 +31,31 @@
 
                     <div class="form-group">
                         <?php foreach($content as $v): ?>
-                            @if($v->icon_name)
                             <div>
                                 <p>
-                                    <img src="{{ asset('storage/avatar/' . $v->icon_name) }}" alt="avatar" style="object-fit: cover;height: 150px;width: 150px;">
-                                    {{ $v->id }}
+                                    <?php foreach($v['img'] as $img): ?>
+                                        <img class="card_item_img" src="/item/{{ $img }}" style="height: 50px; width: 50px;">
+                                    <?php endforeach; ?>
+                                    {{ $v['id'] }}
                                         <!-- show -->
                                         <button type="button" class="btn btn-default">
-                                            <a href="/content/<?php echo $v->id; ?>">show</a>
+                                            <a href="/content/{{ $v['id'] }}">show</a>
                                         </button>
                                         <!-- edit -->
                                         <button type="button" class="btn btn-default">
-                                            <a href="/content/<?php echo $v->id; ?>/edit">edit</a>
+                                            <a href="/content/{{ $v['id'] }}/edit">edit</a>
                                         </button>
                                         <!-- delete -->
                                         <button type="button" class="btn btn-default" id="content_delete">
-                                            {!! Form::open(['url' => '/content/'.$v->id, 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
+                                            {!! Form::open(['url' => '/content/'.$v['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
 
-                                                {!! Form::hidden('id',$v->id) !!}
+                                                {!! Form::hidden('id',$v['id']) !!}
                                                 {!! Form::submit('delete',['class' => 'btn btn-default', 'name' => 'btn']) !!}
 
                                             {!! Form::close() !!}
                                         </button>
                                 </p>
                             </div>
-                            @endif
                         <?php endforeach; ?>
                     </div>
 
