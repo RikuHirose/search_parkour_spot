@@ -30,7 +30,7 @@
                     @endif
 
                     <div class="form-group">
-                        <button id="getcurrentlocation"> get current location</button>
+                        <!-- <button id="getcurrentlocation"> get current location</button> -->
                     </div>
                     <body onload="indexmap()"></body>
                     <div id="map_canvas" style="width:480px; height:300px"></div>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -22,9 +22,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/default.css') }}" rel="stylesheet">
-  </head>
     @yield('css')
-
 
 </head>
 <body>
@@ -104,7 +102,8 @@
     </footer>
     <!-- Scripts（Jquery） -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
-
+    <!-- plugin-->
+    <script src="{{asset('/slick/slick.min.js')}}"></script>
     <!-- Scripts（bootstrapのjavascript） -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <!-- google map api -->
@@ -116,7 +115,7 @@
     <script src="{{asset('js/index.js')}}"></script>
     <script src="{{asset('js/route.js')}}"></script>
     <script src="{{asset('js/edit.js')}}"></script>
-    <!-- <script src="{{asset('js/slide.js')}}"></script> -->
+    <script src="{{asset('js/slide.js')}}"></script>
 
 </body>
 </html>

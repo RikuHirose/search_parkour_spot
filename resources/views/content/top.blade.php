@@ -39,12 +39,12 @@
             </div>
             <div class="form-group clearfix">
                 <h2>#area 現在地周辺のスポット</h2>
+
             </div>
 
         </div>
     </div>
 </div>
-
 
 <?php
 

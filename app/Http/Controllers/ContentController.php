@@ -94,8 +94,21 @@ class ContentController extends Controller
     {
         $content = Content::find($id);
         $content = json_decode(json_encode($content), true);
+
+        $lat = $content['lat'];
+        $lng = $content['lng'];
+        $around = Content::whereBetween('lat',[$lat - 1.5,$lat + 1.5])->whereBetween('lng',[$lng - 1.5,$lng + 1.5])->get();
+        $around = array_map(function($v){
+        return [
+                'img' => self::getPhotos($v['id']),
+                'id' => $v['id'],
+                'spot_name' => $v['spot_name'],
+                'rating' => $v['rating']
+            ];
+        }, $around->toArray());
+
         $img = self::getPhotos($content['id']);
-        return view('content.show' ,['content' => $content, 'img' => $img]);
+        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around]);
     }
 
     /**
@@ -197,7 +210,18 @@ class ContentController extends Controller
         }, $popular->toArray());
 
         // area 現在地から10kn県内
-        // $content = Content::whereBetween('lat',[$lat - 0.1,$lat + 0.1])->whereBetween('lng',[$lng - 0.1,$lng + 0.1])->get();
+        // $lat = $request->lat;
+        // $lng = $request->lng;
+        // var_dump($lng);
+        // $around = Content::whereBetween('lat',[$lat - 0.1,$lat + 0.1])->whereBetween('lng',[$lng - 0.1,$lng + 0.1])->get();
+        // $around = array_map(function($v){
+        // return [
+        //         'img' => self::getPhotos($v['id']),
+        //         'id' => $v['id'],
+        //         'spot_name' => $v['spot_name'],
+        //         'rating' => $v['rating']
+        //     ];
+        // }, $around->toArray());
 
 
         return view('content.top', ['content' => $content, 'popular' => $popular]);

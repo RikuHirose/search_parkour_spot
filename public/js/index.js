@@ -6,7 +6,7 @@ function indexmap() {
   var lat;
   var lng;
 
-  setDefault();
+  // setDefault();
 
   //  defaultの場所を設定
   function setDefault() {
@@ -19,9 +19,7 @@ function indexmap() {
   }
 
   // 現在地取得
-  document.getElementById('getcurrentlocation').onclick = function() {
-    geoLocationInit();
-  }
+  geoLocationInit();
 
   function geoLocationInit() {
       if (navigator.geolocation) {

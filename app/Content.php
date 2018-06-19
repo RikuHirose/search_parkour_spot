@@ -38,4 +38,6 @@ class Content extends Model
                 'between:1,5'
             ],
      );
+
+    
 }

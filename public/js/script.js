@@ -13,9 +13,6 @@ function create() {
     createMap(old_lat,old_lng,zoom);
   }
 
-
-  // setDefault();
-
   //  defaultの場所を設定
   function setDefault() {
     lat = 35.729756;
@@ -25,9 +22,7 @@ function create() {
   }
 
   // 現在地取得
-  document.getElementById('getcurrentlocation').onclick = function() {
-    geoLocationInit();
-  }
+  geoLocationInit();
 
   function geoLocationInit() {
       if (navigator.geolocation) {
