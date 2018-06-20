@@ -95,9 +95,10 @@ class ContentController extends Controller
         $content = Content::find($id);
         $content = json_decode(json_encode($content), true);
 
+        // show/idの周辺スポット
         $lat = $content['lat'];
         $lng = $content['lng'];
-        $around = Content::whereBetween('lat',[$lat - 1.5,$lat + 1.5])->whereBetween('lng',[$lng - 1.5,$lng + 1.5])->get();
+        $around = Content::whereBetween('lat',[$lat - 1.5,$lat + 1.5])->whereBetween('lng',[$lng - 1.5,$lng + 1.5])->whereNotIn('id', [$id])->get();
         $around = array_map(function($v){
         return [
                 'img' => self::getPhotos($v['id']),

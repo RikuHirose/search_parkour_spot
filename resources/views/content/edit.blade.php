@@ -129,3 +129,7 @@
     document.getElementById('address').innerHTML = address;
 </script>
 @endsection
+
+@section('js')
+<script src="{{asset('js/edit.js')}}"></script>
+@endsection

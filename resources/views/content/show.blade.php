@@ -123,3 +123,7 @@ function ContentList($content)
     <?php endforeach;
 } ?>
 @endsection
+
+@section('js')
+<script src="{{asset('js/content.js')}}"></script>
+@endsection
