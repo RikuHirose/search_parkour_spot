@@ -109,12 +109,9 @@
     <!-- google map api -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_rm3M3Ea_44D17eiI3aXuU-vAAACiijQ&libraries=places"></script>
 
-    <script src="{{asset('js/script.js')}}"></script>
-    <script src="{{asset('js/content.js')}}"></script>
+    <!-- 各js読み込み -->
+    @yield('js')
     <script src="{{asset('js/search.js')}}"></script>
-    <script src="{{asset('js/index.js')}}"></script>
-    <script src="{{asset('js/route.js')}}"></script>
-    <script src="{{asset('js/edit.js')}}"></script>
     <script src="{{asset('js/slide.js')}}"></script>
 
 </body>

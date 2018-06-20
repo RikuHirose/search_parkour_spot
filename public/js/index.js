@@ -20,6 +20,9 @@ function indexmap() {
 
   // 現在地取得
   geoLocationInit();
+  // document.getElementById('getcurrentlocation').onclick = function() {
+  //   geoLocationInit();
+  // }
 
   function geoLocationInit() {
       if (navigator.geolocation) {
