@@ -32,7 +32,6 @@
                         </div>
                     @endif
 
-                    <?php var_dump($img); ?>
                     <!-- slide show-->
                     <div class="form-group slick-slider">
                             <?php foreach($img as $v): ?>
