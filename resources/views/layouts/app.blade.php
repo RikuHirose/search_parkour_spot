@@ -18,6 +18,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -27,66 +28,89 @@
 </head>
 <body>
     <div id="app">
+
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Top') }}
-                    </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <div class="top-icon">
+                <a class="" href="{{ url('/') }}">
+                    <p>pkLinks</p>
+                </a>
+            </div>
+        <?php
+        use Jenssegers\Agent\Agent;
+            $agent = new Agent();
+            
+            if ($agent->isMobile()):?>
+                <div id="nav-drawer">
+                    <input id="nav-input" type="checkbox" class="nav-unshown">
+                    <label id="nav-open" for="nav-input"><span></span></label>
+                    <label class="nav-unshown" id="nav-close" for="nav-input"></label>
+                    <div id="nav-content">
+                        <div  class="login-position">
+                            @guest
+                               <a class="auth-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
+                               <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            @else
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        @guest
-                            <li class="nav-item dropdown">
-                                <a href="/content/">map</a>
-                            </li>
-                        @else
-                            <li class="nav-item dropdown">
-                                <a href="/content/">map</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                    <a href="/content/create">upload</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                    <a href="/content/id/editlist">edit</a>
-                            </li>
-                        @endguest
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                            <!-- <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li> -->
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            @endguest
+                        </div>
+
+                        @guest
+                            <a class="sidebar-list" href="/content/">map</a>
+                            <a class="sidebar-list" href="">pklinksとは？</a>
+                        @else
+                            <a class="sidebar-list" href="/content/">map</a>
+                            <a class="sidebar-list" href="/content/create">upload</a>
+                            <a class="sidebar-list" href="/content/id/editlist">edit</a>
                         @endguest
-                    </ul>
+                    </div>
                 </div>
-            </div>
+            <?php else:?>
+
+                @guest
+                    <a class="auth-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
+                @else
+
+                    <a id="" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ Auth::user()->name }} <span class="caret"></span>
+                    </a>
+
+                    <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @endguest
+
+                @guest
+                    <a class="sidebar-list" href="/content/">map</a>
+                    <a class="sidebar-list" href="">pklinksとは？</a>
+                @else
+                    <a class="sidebar-list" href="/content/">map</a>
+                    <a class="sidebar-list" href="/content/create">upload</a>
+                    <a class="sidebar-list" href="/content/id/editlist">edit</a>
+                @endguest
+
+            <?php endif; ?>
+
+
         </nav>
 
         <main class="py-4">
+            <div class="top"></div>
             @yield('content')
         </main>
     </div>
