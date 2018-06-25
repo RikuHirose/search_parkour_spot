@@ -28,11 +28,10 @@
 
             <div class="form-group clearfix">
                 <h2>#new</h2>
-                <?php ContentList($content); ?>
+                <?php App\Helpers\Helper::ContentList($content); ?>
             </div>
             <div class="form-group clearfix">
                 <h2>#popular</h2>
-                <?php ContentList($popular); ?>
             </div>
             <div class="form-group clearfix">
                 <h2>#area</h2>
@@ -46,39 +45,5 @@
     </div>
 </div>
 
-<?php
-
-function ContentList($content)
-{
-    $content = array_reverse($content);
-    foreach($content as $v):
-    ?>
-        <a href="/content/<?php echo $v['id']; ?>">
-            <div class="card_item">
-                <?php
-                    $i = 0;
-                    $num = 1;
-                    foreach ($v['img'] as $img) {
-                        if($i >= $num){
-                            break;
-                        }else{
-                            echo "<img class='card_item_img' src='/item/$img'>";
-                                $i++;
-                            }
-                        }
-                ?>
-                <div class="card_item_detail">
-                    <p class="card_item_name">spot_name: {{ $v['spot_name'] }}</p>
-                    <p class="rating-number">{{ $v['rating'] }}</p>
-                    <span class="star-rating">
-                        <?php for($i = 1; $i <= $v['rating']; $i++): ?>
-                            <i class="star"></i>
-                        <?php endfor; ?>
-                    </span>
-                </div>
-            </div>
-        </a>
-    <?php endforeach;
-} ?>
 
 @endsection

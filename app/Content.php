@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Photo;
+use App\Tag;
 
 
 class Content extends Model
@@ -11,33 +12,31 @@ class Content extends Model
 
     protected $table = 'contents';
 
-    protected $fillable = ['lat', 'lng', 'address', 'spot_name','rating'];
+    protected $fillable = ['lat', 'lng', 'address', 'spot_name', 'comment'];
 
     public function photos()
     {
         return $this->hasMany('App\Photo');
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
+    public function getTagListAttribute()
+    {
+        return $this->tags->pluck('id')->all();
+    }
+
     public static $rules = array(
-            // 'file' => [
-            //     // 必須
-            //     'required',
-            //     // アップロードされたファイルであること
-            //     'file',
-            //     // 最小縦横120px 最大縦横400px
-            //     'dimensions:min_width=120,min_height=120,max_width=2000,max_height=2000',
-            // ],
-            'files.*.photo' => 'required|file|image|mimes:jpeg,bmp,png',
+            'files' => 'required',
+            'files.*.photo' => 'required|file|mimes:jpeg,bmp,png,mp4,qt,x-ms-wmv,mpeg,x-msvideo|max:10000',
             'lat' => 'required',
             'lng' => 'required',
-            'address' => 'required',
-            'spot_name' => 'required',
-            'rating' => [
-                'required',
-                'integer',
-                'between:1,5'
-            ],
+            'address' => 'required|max:255',
+            'spot_name' => 'required|max:255',
+            'comment' => 'required|max:255',
      );
 
-    
 }

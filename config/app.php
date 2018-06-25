@@ -216,6 +216,7 @@ return [
         'Input' => Illuminate\Support\Facades\Input::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Helper' => App\Helpers\Helper::class,
 
     ],
 

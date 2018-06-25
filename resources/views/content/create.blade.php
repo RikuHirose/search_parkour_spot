@@ -38,25 +38,10 @@
 
                     <div class="form-group">
 
-                        <!-- <label for="file" class="control-label">upload img</label>
-                        <input name="file" type="file" id="file"> -->
                         <br>
                         <label for="photo">画像ファイル（複数可）:</label>
-                        <input type="file" class="form-control" name="files[][photo]">
-                        <input type="file" class="form-control" name="files[][photo]">
-                        <input type="file" class="form-control" name="files[][photo]">
-                        <input type="file" class="form-control" name="files[][photo]">
+                        <input type="file" class="form-control" name="files[][photo]" multiple="multiple">
                     </div>
-                    <div class="form-group">
-                        <span class="star-rating">
-                          <input type="radio" name="rating" value="1"><i></i>
-                          <input type="radio" name="rating" value="2"><i></i>
-                          <input type="radio" name="rating" value="3"><i></i>
-                          <input type="radio" name="rating" value="4"><i></i>
-                          <input type="radio" name="rating" value="5"><i></i>
-                        </span>
-                    </div>
-                    <body onload="create()"></body>
                     <div class="form-group">
                         <table style="width:500px;border:0;" >
                             <tr>
@@ -73,23 +58,34 @@
                             </tr>
                         </table>
                         <!-- jsで取得した値をvalueに格納して送信する -->
-                        <input type="hidden" name="file" value="{{ Input::old('file') }}" type="file" id="old_file">
+                        <!-- <input type="hidden" name="file" value="{{ Input::old('file') }}" type="file" id="old_file"> -->
                         <input type="hidden" name="lat" value="{{ Input::old('lat') }}" id="old_lat">
                         <input type="hidden" name="lng" value="{{ Input::old('lng') }}" id="old_lng">
                         <input type="hidden" name="address" value="{{ Input::old('address') }}" id="old_address">
 
-
+                        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
                         <div id="map_canvas" style="width:480px; height:300px"></div>
                     </div>
 
                     <input type="text" name="spot_name" value="{{ Input::old('spot_name') }}" placeholder="spot_name">
+                    <textarea name="comment" rows="4" cols="40" placeholder="キャプションを書く" id="tag_caption">{{ Input::old('comment') }}</textarea>
+
+                    <div class="tag_area">
+                        <span>おすすめのタグ</span>
+                        <?php foreach($tags as $tag): ?>
+                            <a onclick="$('#tag_caption').val($('#tag_caption').val() + '#{{ $tag }} ');" href="javascript: void(0);">
+                                <i class="fa fa-plus"></i>
+                                <span>#{{ $tag }}</span>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
                     <div class="form-group">
                         {!! Form::submit('upload', ['class' => 'btn btn-default']) !!}
                     </div>
                     {!! Form::close() !!}
 
                     <div class="form-group">
-                        <button id="getcurrentlocation"> get current location</button>
+                        <button id="selectcurrentlocation"> select current location</button>
                     </div>
 
                 </div>
@@ -97,6 +93,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @section('js')

@@ -38,7 +38,7 @@
         <?php
         use Jenssegers\Agent\Agent;
             $agent = new Agent();
-            
+
             if ($agent->isMobile()):?>
                 <div id="nav-drawer">
                     <input id="nav-input" type="checkbox" class="nav-unshown">
@@ -135,7 +135,6 @@
 
     <!-- 各js読み込み -->
     @yield('js')
-    <script src="{{asset('js/search.js')}}"></script>
     <script src="{{asset('js/slide.js')}}"></script>
 
 </body>
