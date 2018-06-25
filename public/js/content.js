@@ -1,5 +1,9 @@
-function content() {
+(function() {
+	'use strict';
+
 	var Marker;
+	var myLatLng;
+	var map;
 
 	// 現在地取得
 	geoLocationInit();
@@ -75,4 +79,4 @@ function content() {
     marker.setMap(map);
   }
 
-};
+})();

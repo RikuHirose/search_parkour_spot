@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Content;
 use Illuminate\Support\Facades\Auth;
 use App\Photo;
+use App\Tag;
 
 class ContentController extends Controller
 {
@@ -35,8 +36,10 @@ class ContentController extends Controller
      */
     public function create()
     {
+        $tags = Tag::pluck('tag_name','id');
+        $tags = json_decode(json_encode($tags), true);
 
-        return view('content.create');
+        return view('content.create', ['tags' => $tags]);
     }
 
     /**
@@ -49,10 +52,31 @@ class ContentController extends Controller
     {
         $this->validate($request,Content::$rules);
 
-        // 商品情報の保存
-        $content = Content::create(['lat' => $request->lat,'lng' => $request->lng, 'address' => $request->address, 'spot_name' => $request->spot_name,'rating' => $request->rating]);
+        // 正規表現でtagとcommentを分ける
+        // this #bar spot  is a amaging spot!!このような場合どうするのか？
+        $str = $request->comment;
+        preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
 
-        // 商品画像の保存
+        // tagidの検索and生成して、tagのidを取得
+        $tags = array();
+        foreach($match[1] as $tag) {
+            $found = Tag::firstOrCreate(['tag_name' => $tag]);
+            // var_dump($found->tag_name);
+            array_push($tags, $found);
+        }
+
+        $tagid = array();
+        foreach ($tags as $k) {
+            $found = $k['id'];
+            array_push($tagid, $found);
+        }
+
+        // 情報の保存
+        $content = Content::create(['lat' => $request->lat,'lng' => $request->lng, 'address' => $request->address, 'spot_name' => $request->spot_name, 'comment' => $request->comment]);
+        // tag idの配列を渡し、contentに紐付いたtagを保存
+        $content->tags()->attach($tagid);
+
+        // 画像の保存
         foreach ($request->file('files') as $index=> $e) {
                 $ext = $e['photo']->guessExtension();
                 $filename = "{$request->spot_name}_{$index}.{$ext}";
@@ -62,26 +86,6 @@ class ContentController extends Controller
         }
 
         return redirect('/')->with(['success'=> '保存しました！']);
-
-        // if ($request->file('file')->isValid([])) {
-        //     $filename = $request->file->store('public/avatar');
-
-        //     $content = new Content;
-        //     $content->icon_name = basename($filename);
-        //     $content->lat =  $request->lat;
-        //     $content->lng = $request->lng;
-        //     $content->address =  $request->address;
-        //     $content->spot_name =  $request->spot_name;
-        //     $content->rating =  $request->rating;
-        //     $content->save();
-
-        //     return redirect('/')->with('success', '保存しました。');
-        // } else {
-        //     return redirect()
-        //         ->back()
-        //         ->withErrors(['file' => '画像がアップロードされていないか不正なデータです。'])
-        //         ->withInput();
-        // }
     }
 
     /**
@@ -93,23 +97,26 @@ class ContentController extends Controller
     public function show($id)
     {
         $content = Content::find($id);
+        $tags = $content->tags;
+
         $content = json_decode(json_encode($content), true);
+        $tags = json_decode(json_encode($tags), true);
+
 
         // show/idの周辺スポット
         $lat = $content['lat'];
         $lng = $content['lng'];
-        $around = Content::whereBetween('lat',[$lat - 1.5,$lat + 1.5])->whereBetween('lng',[$lng - 1.5,$lng + 1.5])->whereNotIn('id', [$id])->get();
+        $around = Content::whereBetween('lat',[$lat - 15.5,$lat + 15.5])->whereBetween('lng',[$lng - 15.5,$lng + 15.5])->whereNotIn('id', [$id])->get();
         $around = array_map(function($v){
         return [
                 'img' => self::getPhotos($v['id']),
                 'id' => $v['id'],
-                'spot_name' => $v['spot_name'],
-                'rating' => $v['rating']
+                'spot_name' => $v['spot_name']
             ];
         }, $around->toArray());
 
         $img = self::getPhotos($content['id']);
-        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around]);
+        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around, 'tags' => $tags]);
     }
 
     /**
@@ -140,7 +147,7 @@ class ContentController extends Controller
 
         $content = Content::find($id);
          // 商品情報の保存
-        $content = Content::update(['lat' => $request->lat,'lng' => $request->lng, 'address' => $request->address, 'spot_name' => $request->spot_name,'rating' => $request->rating]);
+        $content = Content::update(['lat' => $request->lat,'lng' => $request->lng, 'address' => $request->address, 'spot_name' => $request->spot_name]);
 
         // 商品画像の保存
         foreach ($request->file('files') as $index=> $e) {
@@ -192,23 +199,21 @@ class ContentController extends Controller
         return [
                 'img' => self::getPhotos($v['id']),
                 'id' => $v['id'],
-                'spot_name' => $v['spot_name'],
-                'rating' => $v['rating']
+                'spot_name' => $v['spot_name']
             ];
         }, $content->toArray());
 
         // popular
         // rating 4~5のみ
-        $popular = Content::whereBetween('rating', [4,5])->get();
+        // $popular = Content::whereBetween('rating', [4,5])->get();
 
-        $popular = array_map(function($v){
-        return [
-                'img' => self::getPhotos($v['id']),
-                'id' => $v['id'],
-                'spot_name' => $v['spot_name'],
-                'rating' => $v['rating']
-            ];
-        }, $popular->toArray());
+        // $popular = array_map(function($v){
+        // return [
+        //         'img' => self::getPhotos($v['id']),
+        //         'id' => $v['id'],
+        //         'spot_name' => $v['spot_name']
+        //     ];
+        // }, $popular->toArray());
 
         // area 現在地から10kn県内
         // $lat = $request->lat;
@@ -225,7 +230,7 @@ class ContentController extends Controller
         // }, $around->toArray());
 
 
-        return view('content.top', ['content' => $content, 'popular' => $popular]);
+        return view('content.top', ['content' => $content]);
     }
 
     public function getEditList()
@@ -236,8 +241,7 @@ class ContentController extends Controller
         return [
                 'img' => self::getPhotos($v['id']),
                 'id' => $v['id'],
-                'spot_name' => $v['spot_name'],
-                'rating' => $v['rating']
+                'spot_name' => $v['spot_name']
             ];
         }, $content->toArray());
         return view('content.editlist', ['content' => $content]);

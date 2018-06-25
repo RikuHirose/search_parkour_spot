@@ -1,11 +1,16 @@
-function create() {
+(function() {
+  'use strict';
+
   var Marker;
   var map;
   var zoom;
+  var lat;
+  var lng;
+
   // 最初に設定したlat lngのマーカーを作成
-    var old_lat = document.getElementById('old_lat').value;
-    var old_lng = document.getElementById('old_lng').value;
-    zoom = 13;
+  var old_lat = document.getElementById('old_lat').value;
+  var old_lng = document.getElementById('old_lng').value;
+  zoom = 13;
 
   if(old_lat === '' ||  old_lat === null && old_lng === '' ||  old_lng === null){
     setDefault();
@@ -17,7 +22,7 @@ function create() {
   function setDefault() {
     lat = 35.729756;
     lng = 139.711069;
-    zoom = 3;
+    zoom = 2;
     createMap(lat,lng,zoom);
   }
 
@@ -35,18 +40,43 @@ function create() {
 
   // success
   function success(position) {
-      var latval = position.coords.latitude;
-      var lngval = position.coords.longitude;
-      zoom = 13;
+    var latval = position.coords.latitude;
+    var lngval = position.coords.longitude;
+    zoom = 13;
 
-      createMap(latval,lngval,zoom);
+    createMap(latval,lngval,zoom);
+    CurrentPositionMarker(latval,lngval);
+
+    // selectcurrentlocationをクリックした場合
+    document.getElementById('selectcurrentlocation').onclick = function() {
+      var latlng = new google.maps.LatLng(latval,lngval);
+      var opts = {
+          zoom: zoom,
+          center: latlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      //id属性に"map_canvas"を指定しdiv要素を対象とするMapsクラスのオブジェクトを作成
+      map = new google.maps.Map(document.getElementById("map_canvas"),opts);
+
+      var default_marker = new google.maps.Marker({
+          position: latlng,
+          map: map
+      });
+
+      infotable(latval,lngval,map.getZoom());
+      geocode2(latval,lngval);
+
+      mapEvent(map,default_marker,latval,lngval);
       CurrentPositionMarker(latval,lngval);
+    }
   }
 
   // fail
   function fail() {
     setDefault();
   }
+
+
 
   // create Map
   function createMap(latval,lngval,zoom) {
@@ -57,6 +87,9 @@ function create() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     //id属性に"map_canvas"を指定しdiv要素を対象とするMapsクラスのオブジェクトを作成
+    // if (!map) {
+    //   map = new google.maps.Map(document.getElementById("map_canvas"),opts);
+    // }
     map = new google.maps.Map(document.getElementById("map_canvas"),opts);
 
     // 最初に設定したlat lngのマーカーを作成
@@ -69,6 +102,9 @@ function create() {
         position: latlng,
         map: map
     });
+
+    // 検索バー
+    // initAutocomplete(latval,lngval);
     mapEvent(map,default_marker);
   }
 
@@ -88,33 +124,33 @@ function create() {
   function mapEvent(map,default_marker){
       //地図上でクリックするとマーカーを表示させ、マーカーは移動可能とするイベント登録
       google.maps.event.addListener(map, 'click',
-        function(event) {
-          // default_markerの削除
-          default_marker.setMap(null);
+          function(event) {
+            // default_markerの削除
+            default_marker.setMap(null);
 
-          if (Marker){Marker.setMap(null)};
-          Marker = new google.maps.Marker({
-           position: event.latLng,
-           draggable: true,
-           map: map
-        });
+            if (Marker){Marker.setMap(null)};
+              Marker = new google.maps.Marker({
+               position: event.latLng,
+               draggable: true,
+               map: map
+            });
         infotable(Marker.getPosition().lat(),
         Marker.getPosition().lng(),map.getZoom());
         geocode();
 
-      //マーカー移動後に座標を取得するイベントの登録
-      google.maps.event.addListener(Marker,'dragend',
-        function(event) {
-          infotable(Marker.getPosition().lat(),
-          Marker.getPosition().lng(),map.getZoom());
-          geocode();
-      })
+        //マーカー移動後に座標を取得するイベントの登録
+        google.maps.event.addListener(Marker,'dragend',
+          function(event) {
+            infotable(Marker.getPosition().lat(),
+            Marker.getPosition().lng(),map.getZoom());
+            geocode();
+        })
 
-      //ズーム変更後に倍率を取得するイベントの登録
-      google.maps.event.addListener(map, 'zoom_changed',
-        function(event) {
-          infotable(Marker.getPosition().lat(),
-          Marker.getPosition().lng(),map.getZoom());
+        //ズーム変更後に倍率を取得するイベントの登録
+        google.maps.event.addListener(map, 'zoom_changed',
+          function(event) {
+            infotable(Marker.getPosition().lat(),
+            Marker.getPosition().lng(),map.getZoom());
         })
       })
   }
@@ -123,7 +159,6 @@ function create() {
   function infotable(lat,lng,level){
       document.getElementById('lat').innerHTML = lat;
       document.getElementById('lng').innerHTML = lng;
-      
 
       document.forms.post.elements.lat.value = lat;
       document.forms.post.elements.lng.value = lng;
@@ -147,5 +182,87 @@ function create() {
       });
   }
 
+  // マーカーの位置を地図座標に変換するジオコーディングの設定
+  function geocode2(lat,lng){
+    var latlng = new google.maps.LatLng(lat,lng);
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'location': latlng},
+      function(results, status) {
+       if (status == google.maps.GeocoderStatus.OK && results[0]){
 
-};
+        document.forms.post.elements.address.value = results[0].formatted_address.replace(/^日本, /, '');
+        document.getElementById('address').innerHTML = results[0].formatted_address.replace(/^日本, /, '');
+
+       }else{
+         document.getElementById('address').innerHTML = "Geocode 取得に失敗しました";
+        alert("Geocode 取得に失敗しました reason: "
+               + status);
+       }
+      });
+  }
+
+
+
+  function initAutocomplete(latval,lngval) {
+    var input = document.getElementById('pac-input');
+    if (!input) { return }
+    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+      center: {lat: latval, lng: lngval},
+      zoom: 13,
+      mapTypeId: 'roadmap'
+    });
+
+    // Create the search box and link it to the UI element.
+    var searchBox = new google.maps.places.SearchBox(input);
+    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function() {
+      searchBox.setBounds(map.getBounds());
+    });
+
+    var markers = [];
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+
+      // Clear out the old markers.
+      markers.forEach(function(marker) {
+        marker.setMap(null);
+      });
+      markers = [];
+
+      // For each place, get the icon, name and location.
+      var bounds = new google.maps.LatLngBounds();
+      places.forEach(function(place) {
+        if (!place.geometry) {
+          console.log("Returned place contains no geometry");
+          return;
+        }
+
+        // Create a marker for each place.
+        markers.push(new google.maps.Marker({
+          map: map,
+          title: place.name,
+          position: place.geometry.location
+        }));
+
+        if (place.geometry.viewport) {
+          // Only geocodes have viewport.
+          bounds.union(place.geometry.viewport);
+        } else {
+          bounds.extend(place.geometry.location);
+        }
+      });
+      map.fitBounds(bounds);
+    });
+  }
+
+
+
+})();
