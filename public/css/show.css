@@ -1,0 +1,15 @@
+.slide_item_img {
+    display: inline-block;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+.slide_item_video {
+    display: inline-block;
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+}
+.slide-backgraound {
+	background-color: black;
+}

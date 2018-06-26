@@ -22,7 +22,7 @@
   function setDefault() {
     lat = 35.729756;
     lng = 139.711069;
-    zoom = 2;
+    zoom = 3;
     createMap(lat,lng,zoom);
   }
 
@@ -104,7 +104,7 @@
     });
 
     // 検索バー
-    // initAutocomplete(latval,lngval);
+    initAutocomplete(map);
     mapEvent(map,default_marker);
   }
 
@@ -203,14 +203,15 @@
 
 
 
-  function initAutocomplete(latval,lngval) {
+  function initAutocomplete(map) {
     var input = document.getElementById('pac-input');
     if (!input) { return }
-    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-      center: {lat: latval, lng: lngval},
-      zoom: 13,
-      mapTypeId: 'roadmap'
-    });
+    // var map = new google.maps.Map(document.getElementById('map_canvas'), {
+    //   center: {lat: latval, lng: lngval},
+    //   zoom: zoom,
+    //   mapTypeId: 'roadmap'
+    // });
+    var map = map;
 
     // Create the search box and link it to the UI element.
     var searchBox = new google.maps.places.SearchBox(input);
@@ -245,9 +246,18 @@
           return;
         }
 
+        var icon = {
+          url: place.icon,
+          size: new google.maps.Size(71, 71),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(17, 34),
+          scaledSize: new google.maps.Size(25, 25)
+        };
+
         // Create a marker for each place.
         markers.push(new google.maps.Marker({
           map: map,
+          icon: icon,
           title: place.name,
           position: place.geometry.location
         }));

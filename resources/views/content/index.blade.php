@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -33,12 +31,10 @@
                         <button id="getcurrentlocation"> get current location</button>
                     </div>
                     <body onload="indexmap()"></body>
-                    <div id="map_canvas" style="width:480px; height:300px"></div>
+                    <div id="map_canvas" class="map_canvas"></div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+
 @endsection
 
 @section('js')

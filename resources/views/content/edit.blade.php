@@ -6,7 +6,6 @@
 @endsection
 
 @section('content')
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -110,7 +109,7 @@
                     <input type="text" size="55" id="search"  placeholder="search park" />
                     <input type="button" size="55" value="検索" onClick="SearchGo()" />
                     <!-- map -->
-                    <div id="map_canvas" style="width:480px; height:300px"></div>
+                    <div id="map_canvas" class="map_canvas"></div>
                     <!-- get current location -->
                     <div class="form-group">
                         <button id="getcurrentlocation"> get current location</button>
@@ -119,7 +118,7 @@
             </div>
         </div>
     </div>
-</div>
+
 <script>
     var lat = document.getElementById('old_lat').value;
     var lng = document.getElementById('old_lng').value;
