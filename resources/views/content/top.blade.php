@@ -1,8 +1,18 @@
 @extends('layouts.app')
 
-@section('content')
+<!-- cssの読み込み -->
+@section('css')
+<link href="{{ asset('css/top.css') }}" rel="stylesheet">
+@endsection
 
-<div class="container">
+@section('content')
+<div class="top-display">
+    <form action="/search" method="get" style="clear: both;">
+        <input type="search" name="q" placeholder="気になるワードを入力">
+        <input type="submit" class="search form-btn btn-green" value="検索">
+    </form>
+</div>
+
 
     <div class="card">
         <div class="card-header">Dashboard</div>
@@ -26,24 +36,21 @@
                 </div>
             @endif
 
-            <div class="form-group clearfix">
-                <h2>#new</h2>
-                <?php App\Helpers\Helper::ContentList($content); ?>
+            <h2>#現在地から近いスポット</h2>
+            <div class="main form-group clearfix">
+                <?php App\Helpers\Helper::TwoColumnContentList($content); ?>
             </div>
+            <h2>#ranking</h2>
             <div class="form-group clearfix">
-                <h2>#popular</h2>
             </div>
+            <h2>#new</h2>
             <div class="form-group clearfix">
-                <h2>#area</h2>
-            </div>
-            <div class="form-group clearfix">
-                <h2>#area 現在地周辺のスポット</h2>
-
+                <?php App\Helpers\Helper::OneColumnContentList($content); ?>
             </div>
 
         </div>
     </div>
-</div>
+
 
 
 @endsection

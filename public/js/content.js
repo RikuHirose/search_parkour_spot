@@ -4,6 +4,18 @@
 	var Marker;
 	var myLatLng;
 	var map;
+	var zoom;
+
+	var lat = document.getElementById('lat_detail');
+	var lng = document.getElementById('lng_detail');
+
+	if(lat === "" || lat === null || lat === undefined && lng === "" || lng === null || lng === undefined){
+	    lat = '';
+	    lng = '';
+	}else{
+	    lat = lat.textContent;
+	    lng = lng.textContent;
+	}
 
 	// 現在地取得
 	geoLocationInit();
@@ -28,37 +40,30 @@
 	    // show action でcurrentpositonを取りたい
 	    // var _token = $('meta[name="csrf-token"]').attr('content');
     	// $.post('http://127.0.0.1:8000/api/getCurrent',{lat:currentLat,lng:currentLng,_token:_token},function(match){});
+  //   	zoom = 13;
+  //   	myLatLng = new google.maps.LatLng(lat, lng);
+		// createContentMap(myLatLng,zoom);
 
 	    CurrentPositionMarker(currentLat, currentLng);
 	}
 
 	// fail
 	function fail() {
-	   alert('fail');
+	   	zoom = 2;
+    	myLatLng = new google.maps.LatLng(lat, lng);
+		createContentMap(myLatLng,zoom);
 	}
 
 
-	var lat = document.getElementById('lat_detail');
-	var lng = document.getElementById('lng_detail');
-
-	if(lat === "" || lat === null || lat === undefined && lng === "" || lng === null || lng === undefined){
-	    lat = '';
-	    lng = '';
-	}else{
-	    lat = lat.textContent;
-	    lng = lng.textContent;
-	}
-
-
-	myLatLng = new google.maps.LatLng(lat, lng);
-	createContentMap(myLatLng);
-
+		zoom = 12;
+    	myLatLng = new google.maps.LatLng(lat, lng);
+		createContentMap(myLatLng,zoom);
 
 	//Create Map
-    function createContentMap(myLatLng) {
+    function createContentMap(myLatLng,zoom) {
         map = new google.maps.Map(document.getElementById('map_canvas'), {
             center: myLatLng,
-            zoom: 4,
+            zoom: zoom,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
         var marker = new google.maps.Marker({

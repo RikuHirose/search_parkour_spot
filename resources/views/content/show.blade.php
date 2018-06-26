@@ -3,12 +3,12 @@
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('/slick/slick.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('/slick/slick-theme.css') }}"/>
+<link href="{{ asset('css/show.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+
+
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -35,13 +35,15 @@
                     <!-- slide show-->
                     <div class="form-group slick-slider">
                             <?php foreach($img as $v):?>
-                                <div>
                                     <?php if(App\Helpers\Helper::judgeImgorVideo($v) == 0): ?>
-                                        <img class="card_item_img" src="/item/{{ $v }}">
+                                        <div>
+                                            <img class="slide_item_img" src="/item/{{ $v }}">
+                                        </div>
                                     <?php elseif(App\Helpers\Helper::judgeImgorVideo($v) == 1): ?>
-                                        <video class="card_item_img" src="/item/{{ $v }}" controls></video>
+                                        <div class="slide-backgraound">
+                                            <video class="slide_item_video" src="/item/{{ $v }}" controls></video>
+                                        </div>
                                     <?php endif; ?>
-                                </div>
                             <?php endforeach; ?>
                     </div>
 
@@ -54,7 +56,7 @@
 
                     </div>
 
-                    <div id="map_canvas" style="width:480px; height:300px"></div>
+                    <div id="map_canvas" class="map_canvas"></div>
 
                     <!-- spot lat lng -->
                     <!-- <body onload="getroute('{{ $content['lat'] }}', '{{ $content['lng'] }}')"></body> -->
@@ -81,13 +83,10 @@
 
                     <div class="form-group clearfix">
                         <h2>#このスポット周辺の投稿</h2>
-                        <?php App\Helpers\Helper::ContentList($around); ?>
+                        <?php App\Helpers\Helper::OneColumnContentList($around); ?>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 @endsection
 
 @section('js')

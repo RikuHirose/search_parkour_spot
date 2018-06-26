@@ -47,7 +47,6 @@ function indexmap() {
 
   // fail
   function fail() {
-    alert('現在地を取得できませんでした');
     setDefault();
   }
 
@@ -118,7 +117,10 @@ function indexmap() {
   function searchSpot(lat,lng) {
     var _token = $('meta[name="csrf-token"]').attr('content');
 
-    $.post('http://127.0.0.1:8000/api/searchSpot',{lat:lat,lng:lng,_token:_token},function(match){
+    // get domain
+    // document.domain
+
+    $.post('/api/searchSpot',{lat:lat,lng:lng,_token:_token},function(match){
 
       $.each(match,function(i,val){
         var glat = val.lat;

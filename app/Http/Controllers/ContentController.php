@@ -108,10 +108,14 @@ class ContentController extends Controller
         $lng = $content['lng'];
         $around = Content::whereBetween('lat',[$lat - 15.5,$lat + 15.5])->whereBetween('lng',[$lng - 15.5,$lng + 15.5])->whereNotIn('id', [$id])->get();
         $around = array_map(function($v){
+            $str = $v['comment'];
+            preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
         return [
                 'img' => self::getPhotos($v['id']),
                 'id' => $v['id'],
-                'spot_name' => $v['spot_name']
+                'spot_name' => $v['spot_name'],
+                'address' => $v['address'],
+                'tags' => $match[1],
             ];
         }, $around->toArray());
 
@@ -196,10 +200,15 @@ class ContentController extends Controller
         // new
         $content = Content::all();
         $content = array_map(function($v){
+
+        $str = $v['comment'];
+        preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
         return [
                 'img' => self::getPhotos($v['id']),
                 'id' => $v['id'],
-                'spot_name' => $v['spot_name']
+                'spot_name' => $v['spot_name'],
+                'address' => $v['address'],
+                'tags' => $match[0],
             ];
         }, $content->toArray());
 

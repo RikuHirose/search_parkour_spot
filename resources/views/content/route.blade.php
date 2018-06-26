@@ -14,7 +14,7 @@
 
 
                     <body onload="route()"></body>
-                    <div id="map_canvas" style="width:480px; height:300px"></div>
+                    <div id="map_canvas" class="map_canvas"></div>
                 </div>
             </div>
         </div>

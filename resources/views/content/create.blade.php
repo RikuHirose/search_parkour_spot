@@ -7,7 +7,6 @@
 
 <!-- contentの読み込み -->
 @section('content')
-<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -64,7 +63,7 @@
                         <input type="hidden" name="address" value="{{ Input::old('address') }}" id="old_address">
 
                         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                        <div id="map_canvas" style="width:480px; height:300px"></div>
+                        <div id="map_canvas" class="map_canvas"></div>
                     </div>
 
                     <input type="text" name="spot_name" value="{{ Input::old('spot_name') }}" placeholder="spot_name">
@@ -92,8 +91,6 @@
             </div>
         </div>
     </div>
-</div>
-
 @endsection
 
 @section('js')
