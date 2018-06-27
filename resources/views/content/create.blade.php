@@ -78,6 +78,7 @@
                             </a>
                         <?php endforeach; ?>
                     </div>
+                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                     <div class="form-group">
                         {!! Form::submit('upload', ['class' => 'btn btn-default']) !!}
                     </div>

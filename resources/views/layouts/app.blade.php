@@ -36,11 +36,8 @@
                     <p>pkLinks</p>
                 </a>
             </div>
-        <?php
-        use Jenssegers\Agent\Agent;
-            $agent = new Agent();
 
-            if ($agent->isMobile()):?>
+            <?php if(App\Helpers\Helper::isMobile() == true): ?>
                 <div id="nav-drawer">
                     <input id="nav-input" type="checkbox" class="nav-unshown">
                     <label id="nav-open" for="nav-input"><span></span></label>
@@ -52,7 +49,7 @@
                                <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
                             @else
 
-                                <a id="" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="" class="nav-link" href="/user/{{ Auth::user()->id }}">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -83,7 +80,7 @@
                     <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
                 @else
 
-                    <a id="" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <a id="" class="nav-link" href="/user/{{ Auth::user()->id }}">
                         {{ Auth::user()->name }} <span class="caret"></span>
                     </a>
 

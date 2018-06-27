@@ -28,6 +28,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    public function contents()
+    {
+        return $this->hasMany('App/Content');
+    }
+
     public function socialProviders()
     {
         return $this->hasMany(SocialProvider::class);

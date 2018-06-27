@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/searchSpot','ContentController@searchSpot');
+Route::post('/postlatlng','ContentController@top');
 
 // Route::post('/current','ContentController@top');
 

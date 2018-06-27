@@ -31,24 +31,18 @@
                     @endif
 
                     <div class="form-group">
-                        <?php var_dump($img);?>
-                            <div>
-                                <!-- slide show にする -->
-                                <p>
-                                    <img class="card_item_img" src="/item/{{ $img[0] }}">
-                                </p>
+                        <div>
+                            <!-- slide show にする -->
+                            <p>
+                                <img class="card_item_img" src="/item/{{ $img[0] }}">
+                            </p>
 
-                                <p id="lat_detail">{{ $content['lat'] }}</p>
-                                <p id="lng_detail">{{ $content['lng'] }}</p>
-                                <p id="lng_detail">{{ $content['address'] }}</p>
-                                <p>spot_name: {{ $content['spot_name'] }}</p>
-                                <p>{{ $content['rating'] }}</p>
-                                <span class="star-rating">
-                                    <?php for($i = 1; $i <= $content['rating']; $i++): ?>
-                                        <i class="star"></i>
-                                    <?php endfor; ?>
-                                </span>
-                            </div>
+                            <p id="lat_detail">{{ $content['lat'] }}</p>
+                            <p id="lng_detail">{{ $content['lng'] }}</p>
+                            <p id="lng_detail">{{ $content['address'] }}</p>
+                            <p>spot_name: {{ $content['spot_name'] }}</p>
+
+                        </div>
                     </div>
                     <body onload="editmap('{{ $content['lat'] }}', '{{ $content['lng'] }}')"></body>
                     <div class="form-group">
