@@ -63,14 +63,7 @@ class SocialLiteController extends Controller
         auth()->login($user);
         return redirect('/');
 
-        // facebook id がない場合
-      //データの挿入
-      // $user = User::Create(
-      // ['email' => $socialUser->getEmail(), 'name' => $socialUser->getName(), 'avatar_name' => $socialUser->getAvatar(), 'remember_token' => $socialUser->token]);
 
-      //ソーシャルプロバイダーのテーブルにレコードを追加
-      // $user->socialProviders()->create(['provider_id' => $socialUser->getId(), 'provider' => 'facebook']);
-      // return redirect('/');
 
     }
 }

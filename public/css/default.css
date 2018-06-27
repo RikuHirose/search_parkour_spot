@@ -1,7 +1,15 @@
 /*default setting*/
-
+li {
+  list-style: none;
+}
 :root {
   --color:red;
+}
+.wrap {
+  width: 1010px;
+  position: relative;
+  margin: auto;
+  box-sizing: border-box;
 }
 
 .my-gray {
@@ -162,12 +170,8 @@
     height: 80px;
     border-radius: 6px 6px 0 0;
     object-fit: cover;
-    position: relative;
-    right: .5rem;
 }
 .card_item {
-
-    font-size: 0;
     border-radius: 6px;
     background-color: #ffffff;
     box-shadow: 0 0 3px #ede0cc;
@@ -210,8 +214,13 @@
 
 
 
+
+
 @media (max-width: 480px){
 
+  .wrap {
+    width: auto;
+  }
   .main-content {
     width: calc(50% - 10px);
     /*margin: 5px;*/

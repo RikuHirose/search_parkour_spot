@@ -13,7 +13,7 @@
     </form>
 </div>
 
-
+<div class="wrap">
     <div class="card">
         <div class="card-header">Dashboard</div>
 
@@ -50,7 +50,10 @@
 
         </div>
     </div>
+</div>
 
+@endsection
 
+@section('js')
 
 @endsection

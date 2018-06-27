@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Helpers;
-
+use Jenssegers\Agent\Agent;
+use Illuminate\Support\Facades\Auth;
 class Helper
 {
     /**
@@ -10,6 +11,29 @@ class Helper
      * @param string $value
      * @return string
      */
+
+    public static function isMobile()
+    {
+
+            $agent = new Agent();
+
+            if ($agent->isMobile()) {
+                return  true;
+            } else {
+                return false;
+            }
+    }
+
+    public function isUser($userid)
+    {
+        $id = Auth::user()->id;
+        if($userid == $id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static function judgeImgorVideo($value)
     {
         $file_info = pathinfo($value);
@@ -32,8 +56,9 @@ class Helper
         ?>
         <?php if($i >= $v): break;?>
         <?php else: ?>
-                <div class="main-content card_item">
+                <div class="main-content">
                     <div>
+
                         <a href="/content/<?php echo $v['id']; ?>" class="">
                         <?php
                             $i = 0;
@@ -45,7 +70,7 @@ class Helper
                                     if(Helper::judgeImgorVideo($img) == 0) {
                                         echo "<img class='card_item_img' src='/item/$img'>";
                                     } elseif(Helper::judgeImgorVideo($img) == 1) {
-                                        echo "<div class='camera-position'><i class='fas fa-video fa-lg my-gray'></i></div><video class='card_item_img' src='/item/$img'></video>";
+                                        echo "<div class='camera-position video-icon'><video class='card_item_img' src='/item/$img'></video></div>";
                                     }
                                     $i++;
                                 }
@@ -63,11 +88,6 @@ class Helper
                         </p>
                     </div>
                 </div>
-<!--                 <?php foreach ($v['img'] as $img): ?>
-                <?php if(Helper::judgeImgorVideo($img) == 1): ?>
-                    <i class='fas fa-video fa-lg my-gray'></i>
-                <?php endif;?>
-            <?php endforeach; ?> -->
         <?php endif; ?>
         <?php endforeach;
     }

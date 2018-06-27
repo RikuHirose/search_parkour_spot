@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Photo;
 use App\Tag;
+use App\User;
 
 
 class Content extends Model
@@ -12,7 +13,7 @@ class Content extends Model
 
     protected $table = 'contents';
 
-    protected $fillable = ['lat', 'lng', 'address', 'spot_name', 'comment'];
+    protected $fillable = ['lat', 'lng', 'address', 'spot_name', 'comment', 'user_id'];
 
     public function photos()
     {
@@ -22,6 +23,11 @@ class Content extends Model
     public function tags()
     {
         return $this->belongsToMany('App\Tag')->withTimestamps();
+    }
+
+    public function users()
+    {
+        return $this->belongsTo('App\User');
     }
 
     public function getTagListAttribute()
@@ -37,6 +43,7 @@ class Content extends Model
             'address' => 'required|max:255',
             'spot_name' => 'required|max:255',
             'comment' => 'required|max:255',
+            'user_id' => 'required',
      );
 
 }

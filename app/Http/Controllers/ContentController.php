@@ -72,7 +72,7 @@ class ContentController extends Controller
         }
 
         // 情報の保存
-        $content = Content::create(['lat' => $request->lat,'lng' => $request->lng, 'address' => $request->address, 'spot_name' => $request->spot_name, 'comment' => $request->comment]);
+        $content = Content::create(['lat' => $request->lat,'lng' => $request->lng, 'address' => $request->address, 'spot_name' => $request->spot_name, 'comment' => $request->comment, 'user_id' => $request->user_id]);
         // tag idの配列を渡し、contentに紐付いたtagを保存
         $content->tags()->attach($tagid);
 
@@ -195,21 +195,21 @@ class ContentController extends Controller
         return $content;
     }
 
-    public function top()
+    public function top(Request $request)
     {
         // new
         $content = Content::all();
-        $content = array_map(function($v){
 
-        $str = $v['comment'];
-        preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
-        return [
-                'img' => self::getPhotos($v['id']),
-                'id' => $v['id'],
-                'spot_name' => $v['spot_name'],
-                'address' => $v['address'],
-                'tags' => $match[0],
-            ];
+        $content = array_map(function($v){
+            $str = $v['comment'];
+            preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
+            return [
+                    'img' => self::getPhotos($v['id']),
+                    'id' => $v['id'],
+                    'spot_name' => $v['spot_name'],
+                    'address' => $v['address'],
+                    'tags' => $match[0],
+                ];
         }, $content->toArray());
 
         // popular
@@ -223,20 +223,6 @@ class ContentController extends Controller
         //         'spot_name' => $v['spot_name']
         //     ];
         // }, $popular->toArray());
-
-        // area 現在地から10kn県内
-        // $lat = $request->lat;
-        // $lng = $request->lng;
-        // var_dump($lng);
-        // $around = Content::whereBetween('lat',[$lat - 0.1,$lat + 0.1])->whereBetween('lng',[$lng - 0.1,$lng + 0.1])->get();
-        // $around = array_map(function($v){
-        // return [
-        //         'img' => self::getPhotos($v['id']),
-        //         'id' => $v['id'],
-        //         'spot_name' => $v['spot_name'],
-        //         'rating' => $v['rating']
-        //     ];
-        // }, $around->toArray());
 
 
         return view('content.top', ['content' => $content]);
@@ -254,6 +240,23 @@ class ContentController extends Controller
             ];
         }, $content->toArray());
         return view('content.editlist', ['content' => $content]);
+    }
+
+    public function ContentsIndex()
+    {
+        $user_id = Auth::user()->id;
+        $content = Content::where('user_id',$user_id);
+        $tags = $content->tags;
+
+
+        $content = json_decode(json_encode($content), true);
+        $tags = json_decode(json_encode($tags), true);
+
+        $img = self::getPhotos($content['id']);
+
+        return view('user.index' ,['content' => $content, 'img' => $img, 'tags' => $tags, 'img' => $img]);
+
+
     }
 
 // functions

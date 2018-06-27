@@ -37,3 +37,5 @@ Route::get('/content/id/editlist','ContentController@getEditList');
 
 Route::get('/login/facebook', 'SocialLiteController@login');
 Route::get('/callback/facebook', 'SocialLiteController@callback');
+
+Route::get('/user/{id}','UserController@ContentsIndex');
