@@ -18,8 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/searchSpot','ContentController@searchSpot');
-Route::post('/postlatlng','ContentController@top');
 
+Route::post('/content/{content}/likes', 'LikesController@store');
+Route::post('/likes/delete', 'LikesController@delete');
+
+// Route::post('/postlatlng','ContentController@top');
 // Route::post('/current','ContentController@top');
 
 // Route::post('/getCurrent','ContentController@show');

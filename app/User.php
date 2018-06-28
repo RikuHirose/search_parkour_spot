@@ -38,4 +38,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(SocialProvider::class);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

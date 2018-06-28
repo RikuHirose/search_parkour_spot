@@ -162,6 +162,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+        kanazaca\CounterCache\CounterCacheServiceProvider::class,
 
     ],
 

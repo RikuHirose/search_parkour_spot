@@ -39,3 +39,6 @@ Route::get('/login/facebook', 'SocialLiteController@login');
 Route::get('/callback/facebook', 'SocialLiteController@callback');
 
 Route::get('/user/{id}','UserController@ContentsIndex');
+
+// Route::post('/content/{content}/likes', 'LikesController@store');
+Route::post('/content/{content}/likes/{likes?}', 'LikesController@destroy');

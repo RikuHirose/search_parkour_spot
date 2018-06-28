@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Photo;
 use App\Tag;
 use App\User;
+use App\Like;
+use Auth;
 
 
 class Content extends Model
@@ -33,6 +35,16 @@ class Content extends Model
     public function getTagListAttribute()
     {
         return $this->tags->pluck('id')->all();
+    }
+
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
+
+    public function like_by($userid)
+    {
+        return Like::where('user_id', $userid)->first();
     }
 
     public static $rules = array(
