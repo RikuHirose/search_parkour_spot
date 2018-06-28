@@ -36,12 +36,10 @@
                 </div>
             @endif
 
-            <h2>#現在地から近いスポット</h2>
-            <div class="main form-group clearfix">
-                <?php App\Helpers\Helper::TwoColumnContentList($content); ?>
-            </div>
+
             <h2>#ranking</h2>
             <div class="form-group clearfix">
+                <?php App\Helpers\Helper::TwoColumnContentList($ranking); ?>
             </div>
             <h2>#new</h2>
             <div class="form-group clearfix">

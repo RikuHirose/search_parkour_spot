@@ -96,9 +96,17 @@ class ContentController extends Controller
      */
     public function show($id)
     {
-        $content = Content::find($id);
-        $tags = $content->tags;
+        // $content = Content::find($id);
+        $content = Content::findOrFail($id); // findOrFail 見つからなかった時の例外処理
+        if(Auth::check()) {
+            $like = $content->likes()->where('user_id', Auth::user()->id)->first();
+        } else {
+            $like = '';
+        }
 
+
+
+        $tags = $content->tags;
         $content = json_decode(json_encode($content), true);
         $tags = json_decode(json_encode($tags), true);
 
@@ -107,10 +115,12 @@ class ContentController extends Controller
         $lat = $content['lat'];
         $lng = $content['lng'];
         $around = Content::whereBetween('lat',[$lat - 15.5,$lat + 15.5])->whereBetween('lng',[$lng - 15.5,$lng + 15.5])->whereNotIn('id', [$id])->get();
+
         $around = array_map(function($v){
             $str = $v['comment'];
             preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
-        return [
+
+            return [
                 'img' => self::getPhotos($v['id']),
                 'id' => $v['id'],
                 'spot_name' => $v['spot_name'],
@@ -120,7 +130,7 @@ class ContentController extends Controller
         }, $around->toArray());
 
         $img = self::getPhotos($content['id']);
-        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around, 'tags' => $tags]);
+        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around, 'tags' => $tags, 'like' =>$like]);
     }
 
     /**
@@ -212,20 +222,24 @@ class ContentController extends Controller
                 ];
         }, $content->toArray());
 
-        // popular
-        // rating 4~5のみ
-        // $popular = Content::whereBetween('rating', [4,5])->get();
+        // ranking
+        //  いいねが多い順
+        $ranking = Content::orderBy('likes_count', 'asc')->get();
 
-        // $popular = array_map(function($v){
-        // return [
-        //         'img' => self::getPhotos($v['id']),
-        //         'id' => $v['id'],
-        //         'spot_name' => $v['spot_name']
-        //     ];
-        // }, $popular->toArray());
+        $ranking = array_map(function($v){
+            $str = $v['comment'];
+            preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
+            return [
+                'img' => self::getPhotos($v['id']),
+                'id' => $v['id'],
+                'spot_name' => $v['spot_name'],
+                'address' => $v['address'],
+                'tags' => $match[0],
+            ];
+        }, $ranking->toArray());
 
 
-        return view('content.top', ['content' => $content]);
+        return view('content.top', ['content' => $content, 'ranking' => $ranking]);
     }
 
     public function getEditList()

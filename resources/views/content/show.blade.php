@@ -34,17 +34,17 @@
 
                     <!-- slide show-->
                     <div class="form-group slick-slider">
-                            <?php foreach($img as $v):?>
-                                    <?php if(App\Helpers\Helper::judgeImgorVideo($v) == 0): ?>
-                                        <div>
-                                            <img class="slide_item_img" src="/item/{{ $v }}">
-                                        </div>
-                                    <?php elseif(App\Helpers\Helper::judgeImgorVideo($v) == 1): ?>
-                                        <div class="slide-backgraound">
-                                            <video class="slide_item_video" src="/item/{{ $v }}" controls></video>
-                                        </div>
-                                    <?php endif; ?>
-                            <?php endforeach; ?>
+                        <?php foreach($img as $v):?>
+                                <?php if(App\Helpers\Helper::judgeImgorVideo($v) == 0): ?>
+                                    <div>
+                                        <img class="slide_item_img" src="/item/{{ $v }}">
+                                    </div>
+                                <?php elseif(App\Helpers\Helper::judgeImgorVideo($v) == 1): ?>
+                                    <div class="slide-backgraound">
+                                        <video class="slide_item_video" src="/item/{{ $v }}" controls></video>
+                                    </div>
+                                <?php endif; ?>
+                        <?php endforeach; ?>
                     </div>
 
                     <div>
@@ -56,6 +56,28 @@
 
                     </div>
 
+
+                    @if (Auth::check())
+
+                        <button type="submit" id="like_delete" style="@if (!$like) display: none; @endif" value="{{$content['id']}}">
+                            <input type="hidden" value="{{ Auth::user()->id }}" id="user_info">
+                          <input type="hidden" value="@if ($like){{ $like->id }}@endif" id="like_info">
+                          <img src="/images/icon_heart.svg">
+                          <p id="likes">{{ $content['likes_count'] }}</p>
+                        </button>
+
+                        <button id="like_store" value="{{$content['id']}}" style="@if ($like) display: none; @endif">
+                            <input type="hidden" value="{{ Auth::user()->id }}" id="user_info">
+                          <img src="/images/icon_heart.svg">
+                          <p id="likes">{{ $content['likes_count'] }}</p>
+                        </button>
+                    @else
+                        <button id="" value="">
+                            <input type="hidden" value="" id="">
+                            <img src="/images/icon_heart.svg">
+                            <p id="likes">{{ $content['likes_count'] }}</p>
+                        </button>
+                    @endif
                     <div id="map_canvas" class="map_canvas"></div>
 
                     <!-- spot lat lng -->
@@ -91,4 +113,5 @@
 
 @section('js')
 <script src="{{asset('js/content.js')}}"></script>
+<script src="{{asset('js/_like.js')}}"></script>
 @endsection
