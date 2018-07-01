@@ -24,7 +24,7 @@ class Helper
             }
     }
 
-    public function isUser($userid)
+    public static function isUser($userid)
     {
         $id = Auth::user()->id;
         if($userid == $id) {
@@ -45,6 +45,20 @@ class Helper
             $value = 1;
         }
         return $value;
+    }
+
+    public static function isFB($value)
+    {
+
+        $heystack = $value; // 捜査対象となる文字列
+        $needle   = 'https://graph.facebook.com/v3.0/'; // 見つけたい文字列
+
+        // 文字列が含まれるかどうかチェック
+        if ( strpos( $heystack, $needle ) === false ) {
+          return false;
+        } else {
+           return true;
+        }
     }
 
     public static function TwoColumnContentList($content)
@@ -126,7 +140,53 @@ class Helper
                         </div>
                         <div class="content-list-text">
                             <p class="card_item_text"><?php echo $v['address']; ?></p>
-                            <p class="card_item_text">このスポットから~km</p>
+                            <p class="card_item_text">このスポットから<?php echo $v['diastance']; ?>km</p>
+                            <p class="card_item_text">
+                                <?php foreach($v['tags'] as $tag): ?>
+                                    <?php echo $tag; ?>
+                                <?php endforeach; ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach;
+    }
+
+    public static function TopOneColumnContentList($content)
+    {
+        $content = array_reverse($content);
+        foreach($content as $v):
+        ?>
+                <div class="bottom-content-list">
+                    <a href="/content/<?php echo $v['id']; ?>" class="main-content card_item">
+                        <h3 class="content-title">
+                            <?php echo $v['spot_name']; ?>
+                        </h3>
+                    </a>
+                    <div class="content-list">
+                        <div>
+                            <a href="/content/<?php echo $v['id']; ?>" class="main-content card_item">
+                            <?php
+                                $i = 0;
+                                $num = 1;
+                                foreach ($v['img'] as $img) {
+                                    if($i >= $num){
+                                        break;
+                                    }else{
+                                        if(Helper::judgeImgorVideo($img) == 0) {
+                                            echo "<img class='card_item_img2' src='/item/$img'>";
+                                        } elseif(Helper::judgeImgorVideo($img) == 1) {
+                                            echo "<video class='card_item_img2' src='/item/$img'></video>";
+                                        }
+                                        $i++;
+                                    }
+                                }
+                            ?>
+                            </a>
+                        </div>
+                        <div class="content-list-text">
+                            <p class="card_item_text"><?php echo $v['address']; ?></p>
                             <p class="card_item_text">
                                 <?php foreach($v['tags'] as $tag): ?>
                                     <?php echo $tag; ?>

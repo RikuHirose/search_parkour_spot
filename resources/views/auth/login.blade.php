@@ -4,7 +4,10 @@
 
     
             <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">
+                    {{ __('Login') }}
+                    <a href="/register">registar</a>
+                </div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

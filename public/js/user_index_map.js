@@ -1,10 +1,15 @@
-function indexmap() {
+(function() {
+  'use strict';
+
+
   var map;
   var marker;
   var infoWindow;
   var zoom;
   var lat;
   var lng;
+  var user_id = document.getElementById("user_id").value;
+
 
   // setDefault();
 
@@ -15,7 +20,7 @@ function indexmap() {
     zoom = 3;
 
     createMap(lat,lng,zoom);
-    searchSpot(lat,lng);
+    UserSearchMap(user_id)
   }
 
   // 現在地取得
@@ -42,7 +47,7 @@ function indexmap() {
 
       createMap(lat,lng,zoom);
       CurrentPositionMarker(lat,lng);
-      searchSpot(lat,lng);
+      UserSearchMap(user_id)
   }
 
   // fail
@@ -114,13 +119,10 @@ function indexmap() {
   }
 
 
-  function searchSpot(lat,lng) {
+  function UserSearchMap(user_id) {
     var _token = $('meta[name="csrf-token"]').attr('content');
 
-    // get domain
-    // document.domain
-
-    $.post('/api/searchSpot',{lat:lat,lng:lng,_token:_token},function(match){
+    $.post('/api/UserSearchMap',{user_id:user_id,_token:_token},function(match){
 
       $.each(match,function(i,val){
         var glat = val.lat;
@@ -135,4 +137,4 @@ function indexmap() {
   }
 
 
-};
+})();

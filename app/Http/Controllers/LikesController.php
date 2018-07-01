@@ -23,14 +23,12 @@ class LikesController extends Controller
 
     public function delete(Request $request)
     {
-
-		$content = Content::findOrFail($request->contentid);
+		  $content = Content::findOrFail($request->contentid);
 	    $content->like_by($request->userid)->findOrFail($request->likeid)->delete();
 
-		$likes_count = $content['likes_count'];
+		  $likes_count = $content['likes_count'];
 
-
-       	return $likes_count;
+      return $likes_count;
 
     }
 }

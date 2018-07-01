@@ -39,6 +39,12 @@ Route::get('/login/facebook', 'SocialLiteController@login');
 Route::get('/callback/facebook', 'SocialLiteController@callback');
 
 Route::get('/user/{id}','UserController@ContentsIndex');
+Route::get('/user/{id}/map','UserController@ContentsIndexMap');
 
+Route::get('/user/{id}/edit','UserController@edit');
+Route::post('/user/{id}/edit/update','UserController@update');
+Route::post('/user/{id}/edit/updateimg ','UserController@updateimg');
+
+Route::post('/user/{id}/delete/deleteimg','UserController@deleteimg');
 // Route::post('/content/{content}/likes', 'LikesController@store');
-Route::post('/content/{content}/likes/{likes?}', 'LikesController@destroy');
+// Route::post('/content/{content}/likes/{likes?}', 'LikesController@destroy');
