@@ -67,35 +67,35 @@
                         {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'put', 'files' => true, 'name' => 'post']) !!}
                         {{ csrf_field() }}
 
-                        <br>
-                        <label for="photo">画像ファイル（複数可）:</label>
-                        <input type="file" class="form-control" name="files[][photo]">
-                        <input type="file" class="form-control" name="files[][photo]">
-                        <input type="file" class="form-control" name="files[][photo]">
-                        <input type="file" class="form-control" name="files[][photo]">
+                            <br>
+                            <label for="photo">画像ファイル（複数可）:</label>
+                            <input type="file" class="form-control" name="files[][photo]">
+                            <input type="file" class="form-control" name="files[][photo]">
+                            <input type="file" class="form-control" name="files[][photo]">
+                            <input type="file" class="form-control" name="files[][photo]">
 
-                        <input type="text" name="spot_name" value="{{ $content['spot_name'] }}">
-                        <div class="form-group">
-                            <span class="star-rating">
-                              <input type="radio" name="rating" value="1"><i></i>
-                              <input type="radio" name="rating" value="2"><i></i>
-                              <input type="radio" name="rating" value="3"><i></i>
-                              <input type="radio" name="rating" value="4"><i></i>
-                              <input type="radio" name="rating" value="5"><i></i>
-                            </span>
-                        </div>
-                        
+                            <input type="text" name="spot_name" value="{{ $content['spot_name'] }}">
+                            <div class="form-group">
+                                <span class="star-rating">
+                                  <input type="radio" name="rating" value="1"><i></i>
+                                  <input type="radio" name="rating" value="2"><i></i>
+                                  <input type="radio" name="rating" value="3"><i></i>
+                                  <input type="radio" name="rating" value="4"><i></i>
+                                  <input type="radio" name="rating" value="5"><i></i>
+                                </span>
+                            </div>
+                            
 
-                        <input type="hidden" name="lat" value="{{ Input::old('lat') }}" id="old_lat">
-                        <input type="hidden" name="lng" value="{{ Input::old('lng') }}" id="old_lng">
-                        <input type="hidden" name="address" value="{{ Input::old('address') }}" id="old_address">
+                            <input type="hidden" name="lat" value="{{ Input::old('lat') }}" id="old_lat">
+                            <input type="hidden" name="lng" value="{{ Input::old('lng') }}" id="old_lng">
+                            <input type="hidden" name="address" value="{{ Input::old('address') }}" id="old_address">
 
-                        <input type="hidden" name="lat" value="{{ $content['lat'] }}" id="">
-                        <input type="hidden" name="lng" value="{{ $content['lng'] }}" id="">
-                        <input type="hidden" name="address" value="{{ $content['address'] }}" id="">
-                        <div class="form-group">
-                            {!! Form::submit('edit', ['class' => 'btn btn-default']) !!}
-                        </div>
+                            <input type="hidden" name="lat" value="{{ $content['lat'] }}" id="">
+                            <input type="hidden" name="lng" value="{{ $content['lng'] }}" id="">
+                            <input type="hidden" name="address" value="{{ $content['address'] }}" id="">
+                            <div class="form-group">
+                                {!! Form::submit('edit', ['class' => 'btn btn-default']) !!}
+                            </div>
                         {!! Form::close() !!}
                     </div>
 

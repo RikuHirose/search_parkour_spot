@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('ContentsIndex', 'UserSearchMap');
     }
 
     /**
@@ -27,15 +27,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function ContentsIndex()
+    public function ContentsIndex(Request $request)
     {
-        $user = Auth::user();
-        $user_id = $user->id;
-        $content = Content::where('user_id',$user_id)->get();
+        $user_id = $request->id;
 
+        $user = User::find($request->id);
         $user = json_decode(json_encode($user), true);
+
+        $content = Content::where('user_id',$user_id)->get();
         $content = json_decode(json_encode($content), true);
-        
+
 
         $content = array_map(function($v){
         return [
@@ -47,8 +48,81 @@ class UserController extends Controller
         }, $content);
 
         return view('user.index' ,['content' => $content,'user' => $user]);
+    }
+
+    public function ContentsIndexMap(Request $request)
+    {
+        $user_id = $request->id;
+        $user = User::find($user_id);
+        $user = json_decode(json_encode($user), true);
+
+        $content = Content::where('user_id',$user_id)->get();
+        $content = json_decode(json_encode($content), true);
 
 
+        $content = array_map(function($v){
+            return [
+                'img' => self::getPhotos($v['id']),
+                'id' => $v['id'],
+                'lat' => $v['lat'],
+                'lng' => $v['lng'],
+            ];
+        }, $content);
+
+        return view('user.indexmap', ['content' => $content, 'user' => $user]);
+    }
+
+    public function UserSearchMap(Request $request)
+    {
+        $user_id = $request->user_id;
+        $content = Content::where('user_id', $user_id)->get();
+
+
+        return $content;
+    }
+
+    public function edit(Request $request)
+    {
+        $user_id = $request->id;
+
+        $user = User::find($user_id);
+        $user = json_decode(json_encode($user), true);
+        return view('user.edit', ['user' => $user]);
+    }
+
+    public function update(Request $request)
+    {
+        $this->validate($request,User::$rules);
+        $user_id = $request->id;
+
+        User::find($user_id)->fill(['name' => $request->name, 'email' => $request->email ,'comment' => $request->comment])->save();
+
+        return redirect('/user/'.$user_id.'/edit');
+    }
+
+    public function updateimg(Request $request)
+    {
+        $this->validate($request,User::$rule_img);
+
+        $user_id = $request->id;
+
+        if ($request->file('avatar_name')->isValid([])) {
+            $filename = $request->file('avatar_name')->store('/user');
+
+            $user = User::find(auth()->id());
+            $user->avatar_name = basename($filename);
+            $user->save();
+
+            return redirect('/user/'.$user_id.'/edit')->with('success', '保存しました。');
+        } else {
+            return redirect()->back()->withInput()->withErrors(['file' => '画像がアップロードされていないか不正なデータです。']);
+        }
+
+    }
+
+    public function deleteimg(Request $request)
+    {
+        var_dump($request->toArray());die;
     }
 
     // functions

@@ -4,16 +4,45 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('/slick/slick.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('/slick/slick-theme.css') }}"/>
 <link href="{{ asset('css/show.css') }}" rel="stylesheet">
+<link href="{{ asset('css/user.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
 
 
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">
+                    @foreach ($user as $v)
+                        <a href="/user/{{ $v['id'] }}">
+                            @if($v['avatar_name'] == '')
+                                <img src="/item/default-icon.png" class="avatar_name">
+                            @else
+                                @if (App\Helpers\Helper::isFB($v['avatar_name']) == true)
+                                    <img src="{{ $v['avatar_name'] }}" class="avatar_name">
+                                @else
+                                    <img src="/item/user/{{ $v['avatar_name'] }}" class="avatar_name">
+                                @endif
+                            @endif
+                            {{ $v['name'] }}
+                        </a>
+                        @if (Auth::check())
+                            @if (App\Helpers\Helper::isUser($v['id']) == true)
+                                <!-- delete -->
+                                <button type="button" class="btn btn-default" id="content_delete">
+                                    {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
 
+                                        {!! Form::hidden('id',$content['id']) !!}
+                                        {!! Form::submit('delete',['class' => 'btn btn-default', 'name' => 'btn']) !!}
+
+                                    {!! Form::close() !!}
+                                </button>
+                            @else
+                                <p>not you</p>
+                            @endif
+                        @endif
+                    @endforeach
+                </div>
                 <div class="card-body">
-
                     <!-- success message -->
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -50,7 +79,7 @@
                     <div>
                         <p id="lat_detail">{{ $content['lat'] }}</p>
                         <p id="lng_detail">{{ $content['lng'] }}</p>
-                        <p id="lng_detail">{{ $content['address'] }}</p>
+                        <p id="address_detail">{{ $content['address'] }}</p>
                         <p>spot_name: {{ $content['spot_name'] }}</p>
                         <p>comment: {{ $content['comment'] }}</p>
 
@@ -66,17 +95,19 @@
                           <p id="likes">{{ $content['likes_count'] }}</p>
                         </button>
 
-                        <button id="like_store" value="{{$content['id']}}" style="@if ($like) display: none; @endif">
+                        <button type="submit" id="like_store" value="{{$content['id']}}" style="@if ($like) display: none; @endif">
                             <input type="hidden" value="{{ Auth::user()->id }}" id="user_info">
                           <img src="/images/icon_heart.svg">
-                          <p id="likes">{{ $content['likes_count'] }}</p>
+                          <p id="likes0">{{ $content['likes_count'] }}</p>
                         </button>
                     @else
+                    <a href="/login">
                         <button id="" value="">
                             <input type="hidden" value="" id="">
                             <img src="/images/icon_heart.svg">
                             <p id="likes">{{ $content['likes_count'] }}</p>
                         </button>
+                    </a>
                     @endif
                     <div id="map_canvas" class="map_canvas"></div>
 
@@ -109,6 +140,20 @@
                     </div>
                 </div>
             </div>
+<script>
+
+function check(){
+
+if(window.confirm('削除しますか？')){
+        return true;
+    }
+    else{
+        window.alert('キャンセルされました');
+        return false;
+    }
+}
+
+</script>
 @endsection
 
 @section('js')

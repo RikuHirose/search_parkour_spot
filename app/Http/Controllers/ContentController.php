@@ -7,6 +7,7 @@ use App\Content;
 use Illuminate\Support\Facades\Auth;
 use App\Photo;
 use App\Tag;
+use App\User;
 
 class ContentController extends Controller
 {
@@ -20,11 +21,12 @@ class ContentController extends Controller
     {
         $this->middleware('auth')->except('index','show', 'getroute', 'searchSpot', 'top');
     }
+
+
     public function index()
     {
         $user = Auth::user();
 
-        // new  popular area
         $content = Content::all();
         return view('content.index',compact('content','user'));
     }
@@ -104,19 +106,21 @@ class ContentController extends Controller
             $like = '';
         }
 
-
-
         $tags = $content->tags;
+
         $content = json_decode(json_encode($content), true);
         $tags = json_decode(json_encode($tags), true);
+        $img = self::getPhotos($content['id']);
+        $user = self::getUserInfo($content['user_id']);
 
 
         // show/idの周辺スポット
         $lat = $content['lat'];
         $lng = $content['lng'];
+
         $around = Content::whereBetween('lat',[$lat - 15.5,$lat + 15.5])->whereBetween('lng',[$lng - 15.5,$lng + 15.5])->whereNotIn('id', [$id])->get();
 
-        $around = array_map(function($v){
+        $around = array_map(function($v) use ($lat, $lng){
             $str = $v['comment'];
             preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
 
@@ -125,12 +129,19 @@ class ContentController extends Controller
                 'id' => $v['id'],
                 'spot_name' => $v['spot_name'],
                 'address' => $v['address'],
-                'tags' => $match[1],
+                'tags' => $match[0],
+                'diastance' => self::getDistance($lat, $lng, $v['lat'], $v['lng']),
             ];
         }, $around->toArray());
 
-        $img = self::getPhotos($content['id']);
-        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around, 'tags' => $tags, 'like' =>$like]);
+        // ソート用の配列を用意
+        foreach ($around as $key => $value) {
+          $sort[$key] = $value['diastance'];
+        }
+        array_multisort($sort, SORT_DESC, $around);
+
+
+        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around, 'tags' => $tags, 'like' =>$like, 'user' => $user]);
     }
 
     /**
@@ -186,7 +197,7 @@ class ContentController extends Controller
     {
 
         Content::find($id)->delete();
-        return redirect('/content/id/editlist');
+        return redirect('/');
     }
 
     public function getroute($id)
@@ -281,6 +292,28 @@ class ContentController extends Controller
 
         return $path;
     }
+
+    public function getUserInfo($userid)
+    {
+        $user = User::all()->where('id', $userid);
+        $user = $user->toArray();
+
+        return $user;
+    }
+
+   public function getDistance($lat1, $lon1, $lat2, $lon2)
+   {
+
+        $theta = $lon1 - $lon2;
+        $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $distance = $dist * 60 * 1.1515 * 1.609344;
+        $distance = round($distance, 2);
+
+        return $distance;
+    }
+
 
 
 

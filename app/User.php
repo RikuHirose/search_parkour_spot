@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'avatar_name', 'remember_token',
+        'name', 'email', 'password', 'avatar_name', 'remember_token', 'comment'
     ];
 
     /**
@@ -43,4 +43,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class);
     }
+
+    public static $rules = array(
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255',
+        'comment' => '|present|max:255',
+    );
+
+    public static $rule_img =array(
+        'avatar_name' => 'required|file|mimes:jpeg,bmp,png|max:1000',
+    );
 }

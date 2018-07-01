@@ -43,7 +43,7 @@
             </div>
             <h2>#new</h2>
             <div class="form-group clearfix">
-                <?php App\Helpers\Helper::OneColumnContentList($content); ?>
+                <?php App\Helpers\Helper::TopOneColumnContentList($content); ?>
             </div>
 
         </div>

@@ -17,10 +17,11 @@
 .avatar_name {
 	border-radius: 50%;
 	overflow: hidden;
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
 }
-.user-info {
 
-}
 .user-bottom {
 	padding: 1rem;
 }

@@ -37,7 +37,6 @@
 
                     <div class="form-group">
 
-                        <br>
                         <label for="photo">画像ファイル（複数可）:</label>
                         <input type="file" class="form-control" name="files[][photo]" multiple="multiple">
                     </div>
