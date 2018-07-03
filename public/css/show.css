@@ -13,3 +13,27 @@
 .slide-backgraound {
 	background-color: black;
 }
+.content-list-text .card_item_text {
+    font-size: 10px;
+    word-wrap: break-word;
+    width: 100%;
+    padding-left: 3rem;
+}
+.spot_name {
+    font-size: 2rem;
+}
+
+.map-direction {
+    margin: 0 auto;
+    width: 60%;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid;
+    vertical-align: middle;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: bolder;
+}
+.slick-next {
+    right: 2px;
+}

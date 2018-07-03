@@ -11,7 +11,7 @@
   var user_id = document.getElementById("user_id").value;
 
 
-  // setDefault();
+  setDefault();
 
   //  defaultの場所を設定
   function setDefault() {
@@ -24,10 +24,10 @@
   }
 
   // 現在地取得
-  geoLocationInit();
-  // document.getElementById('getcurrentlocation').onclick = function() {
-  //   geoLocationInit();
-  // }
+  // sgeoLocationInit();
+  document.getElementById('getcurrentlocation').onclick = function() {
+    geoLocationInit();
+  }
 
   function geoLocationInit() {
       if (navigator.geolocation) {

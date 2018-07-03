@@ -10,7 +10,7 @@
         <div class="user-top clearfix">
             <div class="user-img">
                 <?php if($user['avatar_name'] == ''): ?>
-                    <img src="/item/default-icon.png" class="avatar_name">
+                    <img src="/item/user-default.png" class="avatar_name">
                 <?php else: ?>
                     @if (App\Helpers\Helper::isFB($user['avatar_name']) == true)
                         <img src="{{ $user['avatar_name'] }}" class="avatar_name">
@@ -22,14 +22,14 @@
             <div class="user-info">
                 <p><span>{{ count($content) }}</span>posts</p>
                 <div class="user-btn">
-                    <a href="">
                         <!-- ログインしているuserか判定する -->
-                        @guest
-                            <p>aa</p>
-                        @else
-                            <a href="/user/{{ $user['id'] }}/edit">edit profile</a>
-                        @endguest
-                    </a>
+                        @auth
+                            <?php if (Auth::user()->id != $user['id']): ?>
+                                <p>aa</p>
+                            <?php elseif(Auth::user()->id == $user['id']): ?>
+                                <a href="/user/{{ $user['id'] }}/edit">edit profile</a>
+                            <?php endif; ?>
+                        @endauth
                 </div>
             </div>
         </div>
@@ -55,6 +55,7 @@
                         <?php if(App\Helpers\Helper::judgeImgorVideo($img) == 0) {
                             echo "<img class='card_item_list2' src='/item/$img'>";
                         } elseif(App\Helpers\Helper::judgeImgorVideo($img) == 1) {
+                            echo "<span class='video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
                             echo "<video class='card_item_list2 video-back' src='/item/$img'></video>";
                         }
                         $i++;
@@ -76,6 +77,7 @@
                         <?php if(App\Helpers\Helper::judgeImgorVideo($img) == 0) {
                             echo "<img class='content-size2' src='/item/$img'>";
                         } elseif(App\Helpers\Helper::judgeImgorVideo($img) == 1) {
+                            echo "<span class='video-icon'><i class='fas fa-video fa-3x fa-color'></i></span>";
                             echo "<video class='content-size2 video-back' src='/item/$img'></video>";
                         }
                         $i++;

@@ -47,6 +47,38 @@ class Content extends Model
         return Like::where('user_id', $userid)->first();
     }
 
+    public function scopeTagFilter($query, ?string $tag)
+    {
+
+        if(strpos($tag,'#') !== false){
+          //'tag'のなかに'#'が含まれている場合
+            $tag = $tag;
+        } elseif(strpos($tag,'#') == false) {
+            $tag = '#'.$tag;
+        }
+
+        if (!is_null($tag)) {
+            return $query->where('comment', 'like', '%' . $tag . '%');
+        }
+        return $query;
+    }
+
+    public function scopeSearchAddress($query, ?string $word)
+    {
+        if (!is_null($word)) {
+            return $query->where('address', 'like', '%' . $word . '%');
+        }
+        return $query;
+    }
+
+    public function scopeSearchSpotName($query, ?string $word)
+    {
+        if (!is_null($word)) {
+            return $query->where('spot_name', 'like', '%' . $word . '%');
+        }
+        return $query;
+    }
+
     public static $rules = array(
             'files' => 'required',
             'files.*.photo' => 'required|file|mimes:jpeg,bmp,png,mp4,qt,x-ms-wmv,mpeg,x-msvideo|max:10000',

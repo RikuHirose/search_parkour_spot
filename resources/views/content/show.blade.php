@@ -15,7 +15,7 @@
                     @foreach ($user as $v)
                         <a href="/user/{{ $v['id'] }}">
                             @if($v['avatar_name'] == '')
-                                <img src="/item/default-icon.png" class="avatar_name">
+                                <img src="/item/user-default.png" class="avatar_name">
                             @else
                                 @if (App\Helpers\Helper::isFB($v['avatar_name']) == true)
                                     <img src="{{ $v['avatar_name'] }}" class="avatar_name">
@@ -77,11 +77,15 @@
                     </div>
 
                     <div>
-                        <p id="lat_detail">{{ $content['lat'] }}</p>
-                        <p id="lng_detail">{{ $content['lng'] }}</p>
+                        <p class="spot_name">{{ $content['spot_name'] }}</p>
+                        <input type="hidden" id="lat_detail" value="{{ $content['lat'] }}">
+                        <input type="hidden" id="lng_detail" value="{{ $content['lng'] }}">
                         <p id="address_detail">{{ $content['address'] }}</p>
-                        <p>spot_name: {{ $content['spot_name'] }}</p>
-                        <p>comment: {{ $content['comment'] }}</p>
+                        <p id="js-access-map" class="map-direction">
+                            <a href="http://maps.google.com/maps?saddr=&daddr={{ $content['lat'] }},{{ $content['lng'] }}&z=16" target="_blank">Direction<img src="/item/place-icon.png" class=""></a>
+                        </p>
+
+                        <p>{{ $content['comment'] }}</p>
 
                     </div>
 
@@ -91,34 +95,27 @@
                         <button type="submit" id="like_delete" style="@if (!$like) display: none; @endif" value="{{$content['id']}}">
                             <input type="hidden" value="{{ Auth::user()->id }}" id="user_info">
                           <input type="hidden" value="@if ($like){{ $like->id }}@endif" id="like_info">
-                          <img src="/images/icon_heart.svg">
+                          <img src="/item/like.png">
                           <p id="likes">{{ $content['likes_count'] }}</p>
                         </button>
 
                         <button type="submit" id="like_store" value="{{$content['id']}}" style="@if ($like) display: none; @endif">
                             <input type="hidden" value="{{ Auth::user()->id }}" id="user_info">
-                          <img src="/images/icon_heart.svg">
+                          <img src="/item/dislike.png">
                           <p id="likes0">{{ $content['likes_count'] }}</p>
                         </button>
                     @else
                     <a href="/login">
                         <button id="" value="">
                             <input type="hidden" value="" id="">
-                            <img src="/images/icon_heart.svg">
+                            <img src="/item/like.png">
                             <p id="likes">{{ $content['likes_count'] }}</p>
                         </button>
                     </a>
                     @endif
                     <div id="map_canvas" class="map_canvas"></div>
 
-                    <!-- spot lat lng -->
-                    <!-- <body onload="getroute('{{ $content['lat'] }}', '{{ $content['lng'] }}')"></body> -->
-                    <input type="hidden" value="" id="currentLat">
-                    <input type="hidden" value="" id="currentLng">
 
-                    <p id="js-access-map">
-                        <a href="http://maps.google.com/maps?saddr=&daddr={{ $content['lat'] }},{{ $content['lng'] }}&z=16" target="_blank"><i class="fa fa-map-marker fa-fw"></i>地図アプリで道順を見る</a>
-                    </p>
                     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
                     <a class="twitter-share-button"
                           href="https://twitter.com/share"

@@ -6,15 +6,15 @@
 	var map;
 	var zoom;
 
-	var lat = document.getElementById('lat_detail');
-	var lng = document.getElementById('lng_detail');
+	var lat = document.getElementById('lat_detail').value;
+	var lng = document.getElementById('lng_detail').value;
 
 	if(lat === "" || lat === null || lat === undefined && lng === "" || lng === null || lng === undefined){
 	    lat = '';
 	    lng = '';
 	}else{
-	    lat = lat.textContent;
-	    lng = lng.textContent;
+	    lat = lat;
+	    lng = lng;
 	}
 
 	// 現在地取得

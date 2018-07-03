@@ -7,42 +7,33 @@
 
 @section('content')
 <div class="top-display">
-    <form action="/search" method="get" style="clear: both;">
-        <input type="search" name="q" placeholder="気になるワードを入力">
-        <input type="submit" class="search form-btn btn-green" value="検索">
+    <!--↓↓ 検索フォーム ↓↓-->
+    <form class="top-form" action="/search" method="get">
+      <div class="">
+      <input type="text" name="tag" class="top-form-input" placeholder="気になるTagから検索する">
+      <input type="submit" value="検索" class="btn btn-info">
+      </div>
     </form>
+    <form class="top-form" action="/place" method="get">
+      <div class="">
+      <!-- <input type="text" name="tag" class="top-form-input" placeholder="気になる地名から検索する"> -->
+      <input id="pac-input" class="top-form-input" type="text"  name="place" placeholder="気になる地名から検索する">
+      <input type="submit" value="検索" class="btn btn-info">
+      </div>
+    </form>
+
 </div>
 
 <div class="wrap">
     <div class="card">
-        <div class="card-header">Dashboard</div>
-
         <div class="card-body">
-            <!-- success message -->
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
 
-            <!-- error message -->
-            @if($errors->any())
-                div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-
-            <h2>#ranking</h2>
-            <div class="form-group clearfix">
-                <?php App\Helpers\Helper::TwoColumnContentList($ranking); ?>
+            <h2 class="content-header">#ranking</h2>
+            <div class="content-group clearfix">
+                <?php App\Helpers\Helper::RankingContentList($ranking); ?>
             </div>
-            <h2>#new</h2>
-            <div class="form-group clearfix">
+            <h2 class="content-header">#new</h2>
+            <div class=" clearfix">
                 <?php App\Helpers\Helper::TopOneColumnContentList($content); ?>
             </div>
 
@@ -53,5 +44,73 @@
 @endsection
 
 @section('js')
+<script type="text/javascript">
+  initAutocomplete();
 
+
+  function initAutocomplete() {
+    var input = document.getElementById('pac-input');
+    if (!input) { return }
+
+
+    // Create the search box and link it to the UI element.
+    var searchBox = new google.maps.places.SearchBox(input);
+    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    // map.addListener('bounds_changed', function() {
+    //   searchBox.setBounds(map.getBounds());
+    // });
+
+    // var markers = [];
+    // Listen for the event fired when the user selects a prediction and retrieve
+    // more details for that place.
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+
+      // // Clear out the old markers.
+      // markers.forEach(function(marker) {
+      //   marker.setMap(null);
+      // });
+      // markers = [];
+
+      // For each place, get the icon, name and location.
+      // var bounds = new google.maps.LatLngBounds();
+      // places.forEach(function(place) {
+      //   if (!place.geometry) {
+      //     console.log("Returned place contains no geometry");
+      //     return;
+      //   }
+
+      //   var icon = {
+      //     url: place.icon,
+      //     size: new google.maps.Size(71, 71),
+      //     origin: new google.maps.Point(0, 0),
+      //     anchor: new google.maps.Point(17, 34),
+      //     scaledSize: new google.maps.Size(25, 25)
+      //   };
+
+      //   // Create a marker for each place.
+      //   markers.push(new google.maps.Marker({
+      //     map: map,
+      //     icon: icon,
+      //     title: place.name,
+      //     position: place.geometry.location
+      //   }));
+
+      //   if (place.geometry.viewport) {
+      //     // Only geocodes have viewport.
+      //     bounds.union(place.geometry.viewport);
+      //   } else {
+      //     bounds.extend(place.geometry.location);
+      //   }
+      // });
+      // map.fitBounds(bounds);
+    });
+  }
+</script>
 @endsection
