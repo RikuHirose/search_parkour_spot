@@ -7,8 +7,7 @@
 
 <!-- contentの読み込み -->
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="wrap">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -41,7 +40,7 @@
                         <input type="file" class="form-control" name="files[][photo]" multiple="multiple">
                     </div>
                     <div class="form-group">
-                        <table style="width:500px;border:0;" >
+                        <table>
                             <tr>
                                 <td width="50px">緯度</td>
                                 <td id="lat">{{ Input::old('lat') }}</td>
@@ -89,7 +88,7 @@
 
                 </div>
             </div>
-        </div>
+
     </div>
 @endsection
 

@@ -17,8 +17,8 @@
 .avatar_name {
 	border-radius: 50%;
 	overflow: hidden;
-	width: 100px;
-	height: 100px;
+	width: 50px;
+	height: 50px;
 	object-fit: cover;
 }
 
@@ -54,21 +54,42 @@
 .content-size {
 	width: 32%;
 	height: 150px;
-	margin: .5rem;
+	margin: .1rem;
+	position: relative;
 }
 .content-size2 {
 	width: 100%;
 	height: 100%;
+	position: absolute;
+    top: 0;
+    left: 0;
 }
+
+.video-icon {
+    position: relative;
+    top: 1rem;
+    z-index: 100;
+    right: -28rem;
+ }
 
 @media (max-width: 480px){
 	.card_item_list {
 	    width: 33%;
 	    height: 100px;
 	    margin: 0.05rem;
+	    position: relative;
 	}
 	.card_item_list2 {
 		width: 100%;
 		height: 100%;
+		position: absolute;
+    	top: 0;
+    	left: 0;
 	}
+	.video-icon {
+	    position: relative;
+	    top: 0;
+	    z-index: 100;
+	    right: -9.5rem;
+ }
 }

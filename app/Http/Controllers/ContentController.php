@@ -19,7 +19,7 @@ class ContentController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('index','show', 'getroute', 'searchSpot', 'top');
+        $this->middleware('auth')->except('index','show', 'getroute', 'searchSpot', 'top', 'searchPlace', 'searchTag');
     }
 
 
@@ -63,7 +63,7 @@ class ContentController extends Controller
         $tags = array();
         foreach($match[1] as $tag) {
             $found = Tag::firstOrCreate(['tag_name' => $tag]);
-            // var_dump($found->tag_name);
+
             array_push($tags, $found);
         }
 
@@ -216,6 +216,80 @@ class ContentController extends Controller
         return $content;
     }
 
+    public function searchTag(Request $request)
+    {
+        $q  = \Request::get('tag');
+
+        // $content = Content::tagFilter($q)->SearchAddress($q)->SearchSpotName($q)->get();
+        $content = Content::tagFilter($q)->get();
+
+        $content = array_map(function($v){
+            $str = $v['comment'];
+            preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
+            return [
+                'img' => self::getPhotos($v['id']),
+                'id' => $v['id'],
+                'spot_name' => $v['spot_name'],
+                'address' => $v['address'],
+                'tags' => $match[0],
+                'user' => self::getUserInfo($v['user_id']),
+                'likes_count' => $v['likes_count'],
+                'lat' => $v['lat'],
+                'lng' => $v['lng'],
+            ];
+        }, $content->toArray());
+
+        $content_location = array_map(function($v){
+            return [
+                'id' => $v['id'],
+                'lat' => $v['lat'],
+                'lng' => $v['lng'],
+            ];
+        }, $content);
+
+
+        return view('content.searchresult', ['content' => $content, 'query' => $q, 'content_location' => $content_location]);
+    }
+
+    public function searchPlace(Request $request)
+    {
+
+        // $requestで緯度経度を撮りたい
+        $q  = \Request::get('place');
+        var_dump($request);die;
+
+        // $content = Content::tagFilter($q)->SearchAddress($q)->SearchSpotName($q)->get();
+        $content = Content::tagFilter($q)->get();
+
+        $content = array_map(function($v){
+            $str = $v['comment'];
+            preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
+            return [
+                'img' => self::getPhotos($v['id']),
+                'id' => $v['id'],
+                'spot_name' => $v['spot_name'],
+                'address' => $v['address'],
+                'tags' => $match[0],
+                'user' => self::getUserInfo($v['user_id']),
+                'likes_count' => $v['likes_count'],
+                'lat' => $v['lat'],
+                'lng' => $v['lng'],
+            ];
+        }, $content->toArray());
+
+        $content_location = array_map(function($v){
+            return [
+                'id' => $v['id'],
+                'lat' => $v['lat'],
+                'lng' => $v['lng'],
+            ];
+        }, $content);
+
+
+        return view('content.searchresult', ['content' => $content, 'query' => $q, 'content_location' => $content_location]);
+    }
+
+
     public function top(Request $request)
     {
         // new
@@ -223,6 +297,7 @@ class ContentController extends Controller
 
         $content = array_map(function($v){
             $str = $v['comment'];
+
             preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
             return [
                     'img' => self::getPhotos($v['id']),
@@ -230,12 +305,14 @@ class ContentController extends Controller
                     'spot_name' => $v['spot_name'],
                     'address' => $v['address'],
                     'tags' => $match[0],
+                    'user' => self::getUserInfo($v['user_id']),
                 ];
         }, $content->toArray());
 
+
         // ranking
         //  いいねが多い順
-        $ranking = Content::orderBy('likes_count', 'asc')->get();
+        $ranking = Content::orderBy('likes_count', 'desc')->get();
 
         $ranking = array_map(function($v){
             $str = $v['comment'];
@@ -246,9 +323,12 @@ class ContentController extends Controller
                 'spot_name' => $v['spot_name'],
                 'address' => $v['address'],
                 'tags' => $match[0],
+                'user' => self::getUserInfo($v['user_id']),
+                'likes_count' => $v['likes_count'],
             ];
         }, $ranking->toArray());
 
+        $ranking = array_slice($ranking, 0, 6);
 
         return view('content.top', ['content' => $content, 'ranking' => $ranking]);
     }

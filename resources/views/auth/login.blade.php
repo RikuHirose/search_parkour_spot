@@ -2,7 +2,7 @@
 
 @section('content')
 
-    
+    <div class="wrap">
             <div class="card">
                 <div class="card-header">
                     {{ __('Login') }}
@@ -66,4 +66,5 @@
                 </div>
                 <a href="/login/facebook">facebook login</a>
             </div>
+    </div>
 @endsection

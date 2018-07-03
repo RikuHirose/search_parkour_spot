@@ -10,7 +10,7 @@
         {{ csrf_field() }}
 
         <?php if($user['avatar_name'] == ''): ?>
-                <img src="/item/default-icon.png" class="avatar_name">
+                <img src="/item/user-default.png" class="avatar_name">
         <?php else: ?>
                 @if (App\Helpers\Helper::isFB($user['avatar_name']) == true)
                     <img src="{{ $user['avatar_name'] }}" class="avatar_name">

@@ -46,6 +46,7 @@ class UserController extends Controller
                 'lng' => $v['lng'],
             ];
         }, $content);
+        $content = array_reverse($content);
 
         return view('user.index' ,['content' => $content,'user' => $user]);
     }

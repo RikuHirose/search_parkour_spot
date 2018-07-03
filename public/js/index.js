@@ -1,4 +1,7 @@
-function indexmap() {
+(function() {
+  'use strict';
+
+
   var map;
   var marker;
   var infoWindow;
@@ -6,23 +9,23 @@ function indexmap() {
   var lat;
   var lng;
 
-  // setDefault();
+  setDefault();
 
   //  defaultの場所を設定
   function setDefault() {
     lat = 35.729756;
     lng = 139.711069;
-    zoom = 3;
+    zoom = 2;
 
     createMap(lat,lng,zoom);
     searchSpot(lat,lng);
   }
 
   // 現在地取得
-  geoLocationInit();
-  // document.getElementById('getcurrentlocation').onclick = function() {
-  //   geoLocationInit();
-  // }
+  // geoLocationInit();
+  document.getElementById('getcurrentlocation').onclick = function() {
+    geoLocationInit();
+  }
 
   function geoLocationInit() {
       if (navigator.geolocation) {
@@ -134,5 +137,4 @@ function indexmap() {
     });
   }
 
-
-};
+})();

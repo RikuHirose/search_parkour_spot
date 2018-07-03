@@ -18,7 +18,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
-    
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     <!-- Styles -->
@@ -28,8 +28,7 @@
 
 </head>
 <body>
-    <div id="app">
-
+    <div id="app" class="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="top-icon">
                 <a class="" href="{{ url('/') }}">
@@ -107,7 +106,7 @@
 
         </nav>
 
-        <main class="py-4">
+        <main class="">
             <div class="top"></div>
             @yield('content')
         </main>

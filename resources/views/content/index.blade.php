@@ -7,8 +7,6 @@
 
                 <div class="card-body">
 
-                    <!-- {!! Form::open(['url' => '/upload', 'method' => 'post', 'files' => true]) !!} -->
-
                     <!-- success message -->
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -26,12 +24,8 @@
                             </ul>
                         </div>
                     @endif
-
-                    <div class="form-group">
-                        <button id="getcurrentlocation"> get current location</button>
-                    </div>
-                    <body onload="indexmap()"></body>
                     <div id="map_canvas" class="map_canvas"></div>
+                    <button id="getcurrentlocation">getcurrentlocation</button>
                 </div>
             </div>
 

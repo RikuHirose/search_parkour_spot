@@ -46,5 +46,7 @@ Route::post('/user/{id}/edit/update','UserController@update');
 Route::post('/user/{id}/edit/updateimg ','UserController@updateimg');
 
 Route::post('/user/{id}/delete/deleteimg','UserController@deleteimg');
-// Route::post('/content/{content}/likes', 'LikesController@store');
-// Route::post('/content/{content}/likes/{likes?}', 'LikesController@destroy');
+
+Route::get('/search', 'ContentController@searchTag');
+Route::get('/place', 'ContentController@searchPlace');
+

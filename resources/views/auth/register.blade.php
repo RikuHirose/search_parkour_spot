@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="wrap">
             <div class="card">
                 <div class="card-header">
                     <a href="/login">login</a>
@@ -72,4 +73,5 @@
                 </div>
                 <a href="/login/facebook">facebook login</a>
             </div>
+</div>
 @endsection
