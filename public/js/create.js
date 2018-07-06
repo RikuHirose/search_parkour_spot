@@ -18,6 +18,7 @@
     createMap(old_lat,old_lng,zoom);
   }
 
+setDefault();
   //  defaultの場所を設定
   function setDefault() {
     lat = 35.729756;
@@ -27,7 +28,9 @@
   }
 
   // 現在地取得
-  geoLocationInit();
+  document.getElementById('selectcurrentlocation').onclick = function() {
+    geoLocationInit();
+  }
 
   function geoLocationInit() {
       if (navigator.geolocation) {
@@ -47,28 +50,27 @@
     createMap(latval,lngval,zoom);
     CurrentPositionMarker(latval,lngval);
 
-    // selectcurrentlocationをクリックした場合
-    document.getElementById('selectcurrentlocation').onclick = function() {
-      var latlng = new google.maps.LatLng(latval,lngval);
-      var opts = {
-          zoom: zoom,
-          center: latlng,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-      }
-      //id属性に"map_canvas"を指定しdiv要素を対象とするMapsクラスのオブジェクトを作成
-      map = new google.maps.Map(document.getElementById("map_canvas"),opts);
 
-      var default_marker = new google.maps.Marker({
-          position: latlng,
-          map: map
-      });
-
-      infotable(latval,lngval,map.getZoom());
-      geocode2(latval,lngval);
-
-      mapEvent(map,default_marker,latval,lngval);
-      CurrentPositionMarker(latval,lngval);
+    var latlng = new google.maps.LatLng(latval,lngval);
+    var opts = {
+        zoom: zoom,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
     }
+    //id属性に"map_canvas"を指定しdiv要素を対象とするMapsクラスのオブジェクトを作成
+    map = new google.maps.Map(document.getElementById("map_canvas"),opts);
+
+    var default_marker = new google.maps.Marker({
+        position: latlng,
+        map: map
+    });
+
+    infotable(latval,lngval,map.getZoom());
+    geocode2(latval,lngval);
+
+    mapEvent(map,default_marker,latval,lngval);
+    CurrentPositionMarker(latval,lngval);
+
   }
 
   // fail

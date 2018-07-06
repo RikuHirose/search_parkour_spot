@@ -9,15 +9,7 @@
     <div class="user">
         <div class="user-top clearfix">
             <div class="user-img">
-                <?php if($user['avatar_name'] == ''): ?>
-                    <img src="/item/user-default.png" class="avatar_name">
-                <?php else: ?>
-                    @if (App\Helpers\Helper::isFB($user['avatar_name']) == true)
-                        <img src="{{ $user['avatar_name'] }}" class="avatar_name">
-                    @else
-                        <img src="/item/user/{{ $user['avatar_name'] }}" class="avatar_name">
-                    @endif
-                <?php endif; ?>
+                <?php App\Helpers\Helper::avatarLogic($user['avatar_name']) ?>
             </div>
             <div class="user-info">
                 <p><span>{{ count($content) }}</span>posts</p>
@@ -37,10 +29,11 @@
             <p>{{ $user['name'] }}</p>
             <p>{{ $user['comment'] }}</p>
         </div>
-        <div>
-            <a href="/user/{{ $user['id'] }}">index</a>
-            <a href="/user/{{ $user['id'] }}/map">map</a>
+        <div class="card-header result-icons">
+            <a href="/user/{{ $user['id'] }}" id="result-index" class="switch-left switch-bottom"><i class="fa fa-list-ul fa-3x"></i></a>
+            <a href="/user/{{ $user['id'] }}/map" id="result-map"><i class="fa fa-map-marker-alt fa-3x"></i></a>
         </div>
+
     </div>
     <div class="content">
         <?php if(App\Helpers\Helper::isMobile() == true): ?>

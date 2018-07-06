@@ -21,6 +21,7 @@
 }
 .spot_name {
     font-size: 2rem;
+    margin-bottom: 2rem;
 }
 
 .map-direction {
@@ -33,7 +34,135 @@
     border-radius: 10px;
     font-size: 13px;
     font-weight: bolder;
+    margin: 3rem 0;
 }
 .slick-next {
     right: 2px;
+}
+.top_avatar_name2 {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    margin-left: auto;
+    position: relative;
+    right: -22rem;
+}
+.direction-map {
+    display: inline;
+}
+.address_detail {
+    color: #808080;
+}
+.comment-section {
+    border-top: 1px dotted #e7e7e7;
+    border-bottom: 1px dotted #e7e7e7;
+    max-height: 200px;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+
+}
+.comment-fas {
+    margin-right: 1rem;
+    float: left;
+}
+.comment-h3 {
+    margin: 1rem 0;
+}
+.comment-title {
+    font-size: 1.6rem;
+    margin-bottom: 0;
+    position: relative;
+    top: .5rem;
+}
+.current-p {
+    color: #fff;
+    background-color: blue;
+
+}
+.around-section {
+    margin: 2rem 0;
+}
+.result-icons {
+    text-align: right;
+}
+
+.switch-left {
+    margin-right: 1rem;
+}
+.switch-bottom {
+    border-bottom: 1px solid black;
+    padding-bottom: .5rem;
+}
+
+/*mobile*/
+@media (max-width: 480px){
+    .top_avatar_name2 {
+        right: 0;
+        width: 25px;
+        height: 25px;
+    }
+    .content-new-title {
+        float: left;
+        display: block;
+        font-weight: 700;
+        font-size: 1.8rem;
+        padding-top: 10px;
+        margin-bottom: 0;
+        padding-bottom: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 90%;
+    }
+    .user-block {
+        text-align: right;
+        margin-top: .5rem;
+    }
+    .map-direction {
+        width: 100%;
+    }
+    .direction-map {
+        font-size: 1.4rem;
+        position: relative;
+        top: -0.5rem;
+        letter-spacing: 1px;
+    }
+    .history-back {
+        /*position: relative;
+        right: -22rem;*/
+        position: absolute;
+        right: 2rem;
+        top: 2rem;
+    }
+    .comment-h3 {
+        margin: 1rem 0;
+    }
+
+    .likes_count {
+        position: relative;
+        top: -1.8rem;
+        right: -2rem;
+    }
+    .likes-btn {
+        height: 2.5rem;
+        padding: 0;
+        position: relative;
+        top: -1.5rem;
+    }
+    .get-current {
+        width: 100%;
+        padding: 0;
+        border: 1px solid;
+    }
+    .current-p {
+        text-align: center;
+        margin-bottom: 0;
+        padding: 1rem 3rem;
+    }
+    .slick-dots li {
+        width: 10px;
+        height: 10px;
+    }
 }

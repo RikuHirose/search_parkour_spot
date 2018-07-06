@@ -30,13 +30,9 @@
 <body>
     <div id="app" class="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="top-icon">
-                <a class="" href="{{ url('/') }}">
-                    <p>pkLinks</p>
-                </a>
-            </div>
 
             <?php if(App\Helpers\Helper::isMobile() == true): ?>
+            
                 <div id="nav-drawer">
                     <input id="nav-input" type="checkbox" class="nav-unshown">
                     <label id="nav-open" for="nav-input"><span></span></label>
@@ -48,7 +44,7 @@
                                <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
                             @else
 
-                                <a id="" class="nav-link" href="/user/{{ Auth::user()->id }}">
+                                <a id="" class="nav-link auth-btn" href="/user/{{ Auth::user()->id }}">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -63,16 +59,88 @@
                         </div>
 
                         @guest
-                            <a class="sidebar-list" href="/content/">map</a>
-                            <a class="sidebar-list" href="">pklinksとは？</a>
+                            <a class="sidebar-list" href="">
+                                <i class="far fa-question-circle fa-3x"></i>
+                                pklinksとは？
+                            </a>
+                            <a class="sidebar-list" href="/content/">
+                                <i class="fas fa-globe fa-3x"></i>
+                                map
+                            </a>
+                            <a class="sidebar-list sidebar-list-last" href="/contact">
+                                <i class="far fa-envelope-open fa-3x"></i>
+                                contact
+                            </a>
                         @else
-                            <a class="sidebar-list" href="/content/">map</a>
-                            <a class="sidebar-list" href="/content/create">upload</a>
-                            <a class="sidebar-list" href="/content/id/editlist">edit</a>
+                            <a class="sidebar-list" href="/content/">
+                                <i class="fas fa-globe fa-3x"></i>
+                                map
+                            </a>
+                            <a class="sidebar-list" href="/content/create">
+                                <i class="fas fa-camera fa-3x"></i>
+                                upload
+                            </a>
+                            <a class="sidebar-list sidebar-list-last" href="/contact">
+                                <i class="far fa-envelope-open fa-3x"></i>
+                                contact
+                            </a>
+                            <!-- <a class="sidebar-list" href="/content/id/editlist">edit</a> -->
                         @endguest
                     </div>
                 </div>
+                <div class="top-icon">
+                    <a class="" href="{{ url('/') }}">
+                        <p>pkLinks</p>
+                    </a>
+                </div>
+                <div class="search-icon">
+                    <i id="search-icon" class="fas fa-search fa-2x"></i>
+                </div>
+                <div id="search-content" class="search-content">
+                    <header class="m-search-header">
+                        <h1 class="m-search-header-title js-search-tabs-title-article is-active">検索</h1>
+                        <i class="fas fa-times fa-2x close-icon" id="close-icon"></i>
+                    </header>
+                    <div class="">
+                        <!--↓↓ 検索フォーム ↓↓-->
+                        <ul class="topsearch-tab">
+                            <li id="tab" class="tab -active">
+                                <span class="item">タグから検索する</span>
+                            </li>
+                            <li id="tab-right" class="tab">
+                                <span class="item">地名から検索する</span>
+                            </li>
+                        </ul>
+
+                        <div id="form-content" class="form-content">
+                            <form class="" action="/search" method="get">
+                                <input type="text" name="tag" class="topbar-form-input" placeholder="気になるタグから検索する" value="">
+                                <!-- <input type="submit" value="検索" class="btn btn-info"> -->
+                            </form>
+                            <i class="fas fa-search fa-2x input-search-icon"></i>
+                        </div>
+
+                        <div id="form-content2" class="form-content2">
+                            <form class="" action="/place" method="get" id="form_id">
+                                <input id="pac-input" class="topbar-form-input" type="text"  name="place" placeholder="気になる地名から検索する" value="">
+                                <input id="lat-input" type="hidden" name="lat" value="">
+                                <input id="lng-input" type="hidden" name="lng" value="">
+                                <!-- <input type="submit" value="検索" class="btn btn-info"> -->
+                            </form>
+                            <i class="fas fa-search fa-2x input-search-icon"></i>
+                        </div>
+
+                    </div>
+                </div>
             <?php else:?>
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="top-icon">
+                    <a class="" href="{{ url('/') }}">
+                        <p>pkLinks</p>
+                    </a>
+                </div>
 
                 @guest
                     <a class="auth-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -95,10 +163,12 @@
                 @guest
                     <a class="sidebar-list" href="/content/">map</a>
                     <a class="sidebar-list" href="">pklinksとは？</a>
+                    <a class="sidebar-list" href="/contact">contact</a>
                 @else
                     <a class="sidebar-list" href="/content/">map</a>
                     <a class="sidebar-list" href="/content/create">upload</a>
                     <a class="sidebar-list" href="/content/id/editlist">edit</a>
+                    <a class="sidebar-list" href="/contact">contact</a>
                 @endguest
 
             <?php endif; ?>
@@ -133,6 +203,7 @@
     <!-- 各js読み込み -->
     @yield('js')
     <script src="{{asset('js/slide.js')}}"></script>
+    <script src="{{asset('js/topbar_search.js')}}"></script>
 
 </body>
 </html>

@@ -1,16 +1,22 @@
 @extends('layouts.app')
 
-@section('content')
+<!-- cssの読み込み -->
+@section('css')
+<link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+@endsection
 
+@section('content')
     <div class="wrap">
             <div class="card">
-                <div class="card-header">
-                    {{ __('Login') }}
-                    <a href="/register">registar</a>
-                </div>
+                <ul class="navigation-tab">
+                    <li class="tab"><a href="/register" class="item">registar</a></li>
+                    <li class="tab -active">
+                        <span class="item">{{ __('Login') }}</span>
+                    </li>
+                </ul>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" class="form-style">
                         @csrf
 
                         <div class="form-group row">
@@ -51,20 +57,23 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                        <div class="form-group row mb-0 auth-btn-positon">
+                                <button type="submit" class="btn btn-primary btn-auth">
                                     {{ __('Login') }}
                                 </button>
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
-                            </div>
                         </div>
                     </form>
+                    <div class="form-group row mb-0 auth-btn-positon btn-fb">
+                        <a class="btn-sns" href="/login/facebook">
+                            <img class="sns-icon" src="/item/fb-icon.png" alt="Light 100">
+                            <p class="sign-sns-name">Facebookでログイン</p>
+                        </a>
+                    </div>
                 </div>
-                <a href="/login/facebook">facebook login</a>
             </div>
     </div>
 @endsection

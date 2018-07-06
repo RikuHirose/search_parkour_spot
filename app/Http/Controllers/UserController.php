@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('ContentsIndex', 'UserSearchMap');
+        $this->middleware('auth')->except('ContentsIndex', 'UserSearchMap', 'ContentsIndexMap');
     }
 
     /**
@@ -123,7 +123,9 @@ class UserController extends Controller
 
     public function deleteimg(Request $request)
     {
-        var_dump($request->toArray());die;
+        User::find($request->id)->fill(['avatar_name' => ''])->save();
+
+        return redirect('/user/'.$request->id.'/edit');
     }
 
     // functions

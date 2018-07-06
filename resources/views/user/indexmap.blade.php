@@ -38,15 +38,17 @@
             <p>{{ $user['name'] }}</p>
             <p>{{ $user['comment'] }}</p>
         </div>
-        <div>
-            <a href="/user/{{ $user['id'] }}">index</a>
-            <a href="/user/{{ $user['id'] }}/map">map</a>
+        <div class="card-header result-icons">
+            <a href="/user/{{ $user['id'] }}" id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
+            <a href="/user/{{ $user['id'] }}/map" id="result-map" class="switch-bottom"><i class="fa fa-map-marker-alt fa-3x"></i></a>
         </div>
     </div>
     <div class="content">
-        <button id="getcurrentlocation">get</button>
         <input type="hidden" value="{{ $user['id'] }}" id="user_id">
         <div id="map_canvas" class="map_canvas"></div>
+        <div id="getcurrentlocation" class="get-current">
+                <p class="current-p">現在地を取得する</p>
+        </div>
     </div>
 </div>
 
