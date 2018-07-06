@@ -9,13 +9,7 @@
 @section('content')
     <div class="wrap">
             <div class="card">
-                <div class="card-header">Dashboard</div>
-
                 <div class="card-body">
-
-                    {!! Form::open(['url' => '/content/store', 'method' => 'post', 'files' => true, 'name' => 'post']) !!}
-                    {{ csrf_field() }}
-
                     <!-- success message -->
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -34,13 +28,40 @@
                         </div>
                     @endif
 
-                    <div class="form-group">
+                    {!! Form::open(['url' => '/content/store', 'method' => 'post', 'files' => true, 'name' => 'post']) !!}
+                    {{ csrf_field() }}
 
-                        <label for="photo">画像ファイル（複数可）:</label>
-                        <input type="file" class="form-control" name="files[][photo]" multiple="multiple">
+                    <div class="form-group">
+                        <div class="l-post-form__top__image" id="form-image">
+                            <div class="upload-wrapper">
+                                <p class="preview">
+                                    <span class="preview-delete"></span>
+                                </p>
+                                <p class="image-upload">
+                                    <button class="image-upload-button c-button" type="button">ファイルを選択</button>
+                                    <!-- <input accept="image/jpeg,image/png" class="img-upload-input" name="cam_post[image]" type="file"> -->
+                                    <input type="file" class="img-upload-input" name="files[][photo]" multiple="multiple">
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- <label for="photo">画像ファイル（複数可）:</label>
+                        <input type="file" class="form-control" name="files[][photo]" multiple="multiple"> -->
                     </div>
                     <div class="form-group">
-                        <table>
+                        <input type="text" name="spot_name" class="spot_name" value="{{ Input::old('spot_name') }}" placeholder="spot_name">
+                        <textarea class="comment-area" name="comment" rows="4" cols="40" placeholder="キャプションを書く" id="tag_caption">{{ Input::old('comment') }}</textarea>
+
+                        <div class="tag_area">
+                            <span>おすすめのタグ</span>
+                            <?php foreach($tags as $tag): ?>
+                                <a onclick="$('#tag_caption').val($('#tag_caption').val() + '#{{ $tag }} ');" href="javascript: void(0);">
+                                    <i class="fa fa-plus"></i>
+                                    <span>#{{ $tag }}</span>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                        <table class="info-latlng">
                             <tr>
                                 <td width="50px">緯度</td>
                                 <td id="lat">{{ Input::old('lat') }}</td>
@@ -60,31 +81,19 @@
                         <input type="hidden" name="lng" value="{{ Input::old('lng') }}" id="old_lng">
                         <input type="hidden" name="address" value="{{ Input::old('address') }}" id="old_address">
 
-                        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                        <p>地名などから検索する</p>
+                        <input id="pac-input" class="controls search-box" type="text" placeholder="(例):渋谷">
                         <div id="map_canvas" class="map_canvas"></div>
+                        <div id="selectcurrentlocation" class="get-current">
+                            <p class="current-p">現在地を取得する</p>
+                        </div>
                     </div>
 
-                    <input type="text" name="spot_name" value="{{ Input::old('spot_name') }}" placeholder="spot_name">
-                    <textarea name="comment" rows="4" cols="40" placeholder="キャプションを書く" id="tag_caption">{{ Input::old('comment') }}</textarea>
-
-                    <div class="tag_area">
-                        <span>おすすめのタグ</span>
-                        <?php foreach($tags as $tag): ?>
-                            <a onclick="$('#tag_caption').val($('#tag_caption').val() + '#{{ $tag }} ');" href="javascript: void(0);">
-                                <i class="fa fa-plus"></i>
-                                <span>#{{ $tag }}</span>
-                            </a>
-                        <?php endforeach; ?>
-                    </div>
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                     <div class="form-group">
-                        {!! Form::submit('upload', ['class' => 'btn btn-default']) !!}
+                        <input class="upload-btn" type="submit" value="upload">
                     </div>
                     {!! Form::close() !!}
-
-                    <div class="form-group">
-                        <button id="selectcurrentlocation"> select current location</button>
-                    </div>
 
                 </div>
             </div>
@@ -93,5 +102,5 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/script.js')}}"></script>
+<script src="{{asset('js/create.js')}}"></script>
 @endsection

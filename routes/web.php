@@ -50,3 +50,7 @@ Route::post('/user/{id}/delete/deleteimg','UserController@deleteimg');
 Route::get('/search', 'ContentController@searchTag');
 Route::get('/place', 'ContentController@searchPlace');
 
+Route::get('/contact', 'ContactsController@index');
+Route::post('/contact/confirm', 'ContactsController@confirm');
+Route::post('/contact/complete', 'ContactsController@complete');
+

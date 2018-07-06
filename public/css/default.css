@@ -2,17 +2,26 @@
 li {
   list-style: none;
 }
-:root {
-  --color:red;
-}
 a ,span{
   text-decoration: none;
 }
+a:hover {text-decoration:none;}
 .wrap {
   width: 1010px;
   position: relative;
   margin: auto;
   box-sizing: border-box;
+}
+a ,a:hover{
+  color: inherit;
+}
+a, a:visited {
+    color: #003569;
+    text-decoration: none;
+}
+
+p {
+  font-size: 1.3rem;
 }
 
 .my-gray {
@@ -168,9 +177,9 @@ a ,span{
 
 .card_item_img2 {
     display: inline-block;
-    width: 80px;
-    height: 80px;
-    border-radius: 6px 6px 0 0;
+    width: 90px;
+    height: 100px;
+    border-radius: 2px;
     object-fit: cover;
 }
 .card_item {
@@ -181,16 +190,16 @@ a ,span{
 }
 .bottom-content-list {
   margin-left: .75rem;
-    padding: 1rem 0;
-    border-bottom: 1px dotted #e7e7e7;
+  padding: 1rem 0;
+  border-top: 1px dotted #e7e7e7;
 }
 
-.bottom-content-list .content-title {
+/*.bottom-content-list .content-title {
   display: block;
     font-weight: 700;
     font-size: 1.8rem;
     padding-top: 10px;
-}
+}*/
 .content-list {
   display: table;
     table-layout: fixed;
@@ -211,7 +220,21 @@ a ,span{
 .fa-color {
   color: #fff;
 }
+.content-header {
+    position: relative;
+    /*background: #effaf8;*/
+    padding: 10px 0 10px 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border-left: #229863 2px solid;
+    margin: 20px 0;
+}
 
+.card_item_tag {
+  font-size: 1.2rem;
+  word-wrap: break-word;
+  padding-left: 3rem;
+}
 
 
 
@@ -287,15 +310,15 @@ a ,span{
     overflow: auto;
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
     z-index: 9999;/*最前面に*/
     width: 80%;/*右側に隙間を作る（閉じるカバーを表示）*/
     max-width: 330px;/*最大幅（調整してください）*/
     height: 100%;
     background: #fff;/*背景色*/
     transition: .3s ease-in-out;/*滑らかに表示*/
-    -webkit-transform: translateX(115%);
-    transform: translateX(115%);/*左に隠しておく*/
+    -webkit-transform: translateX(-115%);
+    transform: translateX(-115%);/*左に隠しておく*/
   }
 
   /*チェックが入ったらもろもろ表示*/
@@ -310,21 +333,111 @@ a ,span{
     box-shadow: 6px 0 25px rgba(0,0,0,.15);
   }
 
+  .search-content {
+    display: none;
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    width: 100%;
+    height: 100%;
+    transition: .3s ease-in-out;
+    background-color: #e0e0e0;
+  }
+
+  .m-search-header-title {
+    font-size: 16px;
+    letter-spacing: .1em;
+    padding-top: 14px;
+    text-align: center;
+  }
+
+  .close-icon {
+    top: -45px;
+    position: relative;
+    left: 5px;
+  }
+  .m-search-header {
+    height: 45px;
+    background-color: #fff;
+  }
+
+  .topsearch-tab {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+
+  .topsearch-tab>.tab {
+    display: table-cell;
+    width: 50%;
+    text-align: center;
+  }
+
+.topsearch-tab>.tab>.item {
+    display: block;
+    height: 50px;
+    line-height: 13px;
+    padding-top: 19px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #eceef0;
+    font-size: .8125rem;
+    color: #929496;
+    text-decoration: none;
+}
+.topsearch-tab>.tab.-active>.item {
+    border-bottom: 2px solid #007bff;
+    color: #007bff;
+}
+.form-content2 {
+  display: none;
+}
+.topbar-form-input {
+  width: 100%;
+  margin: 0 auto;
+  /*height: 20px;*/
+  padding: 10px 10px 10px 34px;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.form-content , .form-content2{
+  margin: 0 auto;
+  width: 80%;
+}
+
+.input-search-icon {
+  position: relative;
+  top: -5rem;
+  right: -1rem;
+  color: #e0e0e0;
+}
+
   .login-position {
     text-align: center;
   }
   .auth-btn {
     display: block;
-    border: 1px solid red;
-    background-color: red;
+    border: 1px solid #e0e0e0;
+    background-color: #fff;
     margin: 1rem 3rem;
   }
 
   .sidebar-list {
     display: block;
     margin: 0 3rem;
-    border-top: 1px solid red;
-    border-bottom: 1px solid red;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .sidebar-list-last {
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .spot-diastance {
+    font-size: 1.6rem;
+    font-weight: bolder;
+    color: red;
   }
 
 }

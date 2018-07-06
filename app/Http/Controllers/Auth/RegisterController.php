@@ -63,6 +63,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        // 送信メール
+        // \Mail::send(new \App\Mail\Contact([
+        //     'to' => $data['email'],
+        //     'to_name' => $data['name'],
+        //     'from' => $data['email'],
+        //     'from_name' => 'pk.links',
+        //     'subject' => 'Thank you joining pk.links!',
+        //     'body' => 'welcome'
+        // ]));
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

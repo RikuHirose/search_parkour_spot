@@ -1,15 +1,25 @@
 @extends('layouts.app')
 
+
+<!-- cssの読み込み -->
+@section('css')
+<link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="wrap">
             <div class="card">
-                <div class="card-header">
-                    <a href="/login">login</a>
-                    {{ __('Register') }}
-                </div>
+                <ul class="navigation-tab">
+                    <li class="tab -active"><span class="item">{{ __('Register') }}</span></li>
+                    <li class="tab">
+                        <a href="/login" class="item">login</a>
+                    </li>
+                </ul>
+
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <p class="text-area">会員登録をすると、ができるようになります。</p>
+                    <form method="POST" action="{{ route('register') }}" class="form-style">
                         @csrf
 
                         <div class="form-group row">
@@ -62,16 +72,22 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                        <div class="form-group row mb-0 auth-btn-positon">
+                                <button type="submit" class="btn btn-primary btn-auth">
                                     {{ __('Register') }}
                                 </button>
-                            </div>
                         </div>
                     </form>
+                    <div class="or">
+                        <p>or</p>
+                    </div>
+                     <div class="form-group row mb-0 auth-btn-positon btn-fb">
+                        <a class="btn-sns" href="/login/facebook">
+                            <img class="sns-icon" src="/item/fb-icon.png" alt="Light 100">
+                            <p class="sign-sns-name">Facebookでログイン</p>
+                        </a>
+                    </div>
                 </div>
-                <a href="/login/facebook">facebook login</a>
             </div>
 </div>
 @endsection

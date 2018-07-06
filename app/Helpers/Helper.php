@@ -12,6 +12,21 @@ class Helper
      * @return string
      */
 
+
+    public static function get_gps_from_address($address){
+        $res = array();
+        $req = 'http://maps.google.com/maps/api/geocode/xml';
+        $req .= '?address='.urlencode($address);
+        $req .= '&sensor=false';
+        $xml = simplexml_load_file($req) or die('XML parsing error');
+        if ($xml->status == 'OK') {
+            $location = $xml->result->geometry->location;
+            $res['lat'] = (string)$location->lat[0];
+            $res['lng'] = (string)$location->lng[0];
+        }
+        return $res;
+    }
+
     public static function isMobile()
     {
 
@@ -47,6 +62,26 @@ class Helper
         return $value;
     }
 
+    public static function regexTag($str)
+    {
+        preg_match_all('/[＃＃]([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
+
+        return $match;
+    }
+
+    public static function avatarLogic($avatar_name)
+    {
+        if($avatar_name == ''): ?>
+            <img src="/item/user-default.png" class="avatar_name">
+        <?php else:
+            if (Helper::isFB($avatar_name) == true): ?>
+                <img src="<?php echo $avatar_name; ?>" class="avatar_name">
+            <?php else: ?>
+                <img src="/item/user/<?php echo $avatar_name; ?>" class="avatar_name">
+            <?php endif; ?>
+        <?php endif;
+    }
+
     public static function isFB($value)
     {
 
@@ -74,7 +109,7 @@ class Helper
         $count = 0;
         foreach($content as $v): $count++; ?>
                 <div class="main-content">
-                    <div>
+                    <div class="content-wrap">
                         <a href="/content/<?php echo $v['id']; ?>" class="">
                         <?php
                             $i = 0;
@@ -88,8 +123,8 @@ class Helper
                                         echo "<img class='ranking_img' src='/item/$img'>";
                                     } elseif(Helper::judgeImgorVideo($img) == 1) {
                                         echo "<span class='ranking-num'>".$count."</span>";
-                                        echo "<span class='ranking-video-icon'><i class='fas fa-video fa-3x fa-color'></i></span>";
-                                        echo "<div class='camera-position'><video class='ranking_video' src='/item/$img'></video></div>";
+                                        echo "<span class='ranking-video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
+                                        echo "<video class='ranking_video' src='/item/$img'></video>";
                                     }
                                     $i++;
                                 }
@@ -98,18 +133,9 @@ class Helper
                         </a>
                     </div>
                     <div class="card_item_detail">
-                        <p class="ranking_item_name"><?php echo $v['spot_name']; ?></p>
-                        <p class="ranking_address"><?php echo $v['address']; ?></p>
-                        <p class="ranking_tag">
-                            <?php foreach($v['tags'] as $tag): ?>
-                                <?php Helper::tagLogic($tag); ?>
-                            <?php endforeach; ?>
-                        </p>
                         <div class="ranking_bottom clearfix">
-                            <p><img src="/item/like.png"></p>
-                            <p class="likes_count"><?php echo $v['likes_count']; ?></p>
-                                <?php foreach($v['user'] as $user): ?>
-
+                            <?php foreach($v['user'] as $user): ?>
+                                <div>
                                     <!-- profile img -->
                                     <?php if($user['avatar_name'] == ''): ?>
                                         <img src="/item/user-default.png" class="top_avatar_name">
@@ -122,9 +148,29 @@ class Helper
                                         <?php endif; ?>
 
                                     <?php endif; ?>
-                                    <!-- <p class="user_name"><?php echo $user['name']; ?></p> -->
-                                <?php endforeach; ?>
+                                    <p class="user_name"><?php echo $user['name']; ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="likes">
+                                <img src="/item/like.png">
+                                <p class="likes_count"><?php echo $v['likes_count']; ?></p>
+                            </div>
                         </div>
+                        <p class="ranking_item_name"><?php echo $v['spot_name']; ?></p>
+                        <p class="ranking_address"><?php echo $v['address']; ?></p>
+                        <p class="ranking_tag">
+                        <?php
+                            $i = 0;
+                            $num = 6;
+                            foreach($v['tags'] as $tag):
+                                if($i >= $num):
+                                    break;
+                                else:
+                                ?>
+                                    <?php Helper::tagLogic($tag); $i++;?>
+                                <?php endif; ?>
+                            <?php endforeach;?>
+                        </p>
                     </div>
                 </div>
         <?php endforeach;
@@ -132,14 +178,29 @@ class Helper
 
     public static function OneColumnContentList($content)
     {
-        $content = array_reverse($content);
+
         foreach($content as $v):
         ?>
-                <div class="bottom-content-list">
-                    <a href="/content/<?php echo $v['id']; ?>" class="main-content card_item">
-                        <h3 class="content-title">
+                <div class="bottom-content-list clearfix">
+                    <a href="/content/<?php echo $v['id']; ?>" class="card_item">
+                        <h3 class="content-title content-new-title">
                             <?php echo $v['spot_name']; ?>
                         </h3>
+                        <div class="user-block">
+                            <?php foreach($v['user'] as $user): ?>
+                                    <?php if($user['avatar_name'] == ''): ?>
+                                        <img src="/item/user-default.png" class="top_avatar_name2">
+                                    <?php else: ?>
+
+                                        <?php if (Helper::isFB($user['avatar_name']) == true): ?>
+                                            <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                        <?php else: ?>
+                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                        <?php endif; ?>
+
+                                    <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </a>
                     <div class="content-list">
                             <a href="/content/<?php echo $v['id']; ?>" class="main-content card_item">
@@ -162,11 +223,87 @@ class Helper
                             </a>
                         <div class="content-list-text">
                             <p class="card_item_text"><?php echo $v['address']; ?></p>
-                            <p class="card_item_text">このスポットから<?php echo $v['diastance']; ?>km</p>
-                            <p class="card_item_text">
-                                <?php foreach($v['tags'] as $tag): ?>
-                                    <?php Helper::tagLogic($tag); ?>
-                                <?php endforeach; ?>
+                            <p class="card_item_tag">このスポットから<span class="spot-diastance"><?php echo $v['diastance']; ?>km<span></p>
+                            <p class="card_item_tag">
+                                <?php
+                                $i = 0;
+                                $num = 4;
+                                foreach($v['tags'] as $tag):
+                                    if($i >= $num):
+                                        break;
+                                    else:
+                                    ?>
+                                        <?php Helper::tagLogic($tag); $i++;?>
+                                    <?php endif; ?>
+                                <?php endforeach;?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach;
+    }
+
+    public static function SearchPlaceContentList($content, $query)
+    {
+
+        foreach($content as $v):
+        ?>
+                <div class="bottom-content-list clearfix">
+                    <a href="/content/<?php echo $v['id']; ?>" class="card_item">
+                        <h3 class="content-title content-new-title">
+                            <?php echo $v['spot_name']; ?>
+                        </h3>
+                        <div class="user-block">
+                            <?php foreach($v['user'] as $user): ?>
+                                    <?php if($user['avatar_name'] == ''): ?>
+                                        <img src="/item/user-default.png" class="top_avatar_name2">
+                                    <?php else: ?>
+
+                                        <?php if (Helper::isFB($user['avatar_name']) == true): ?>
+                                            <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                        <?php else: ?>
+                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                        <?php endif; ?>
+
+                                    <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </a>
+                    <div class="content-list">
+                            <a href="/content/<?php echo $v['id']; ?>" class="main-content card_item">
+                            <?php
+                                $i = 0;
+                                $num = 1;
+                                foreach ($v['img'] as $img) {
+                                    if($i >= $num){
+                                        break;
+                                    }else{
+                                        if(Helper::judgeImgorVideo($img) == 0) {
+                                            echo "<img class='card_item_img2' src='/item/$img'>";
+                                        } elseif(Helper::judgeImgorVideo($img) == 1) {
+                                            echo "<video class='card_item_img2' src='/item/$img'></video>";
+                                        }
+                                        $i++;
+                                    }
+                                }
+                            ?>
+                            </a>
+                        <div class="content-list-text">
+                            <p class="card_item_text"><?php echo $v['address']; ?></p>
+                            <p class="card_item_tag">「<?php echo $query; ?>」から<?php echo $v['diastance']; ?>km</p>
+                            <p class="card_item_tag">
+                                <?php
+                                $i = 0;
+                                $num = 4;
+                                foreach($v['tags'] as $tag):
+                                    if($i >= $num):
+                                        break;
+                                    else:
+                                    ?>
+                                        <?php Helper::tagLogic($tag); $i++;?>
+                                    <?php endif; ?>
+                                <?php endforeach;?>
                             </p>
                         </div>
                     </div>
@@ -181,11 +318,26 @@ class Helper
         $content = array_slice($content, 0, 6);
         foreach($content as $v):
         ?>
-                <div class="bottom-content-list">
+                <div class="bottom-content-list clearfix">
                     <a href="/content/<?php echo $v['id']; ?>" class="card_item">
-                        <h3 class="content-title">
+                        <h3 class="content-title content-new-title">
                             <?php echo $v['spot_name']; ?>
                         </h3>
+                        <div class="user-block">
+                            <?php foreach($v['user'] as $user): ?>
+                                    <?php if($user['avatar_name'] == ''): ?>
+                                        <img src="/item/user-default.png" class="top_avatar_name2">
+                                    <?php else: ?>
+
+                                        <?php if (Helper::isFB($user['avatar_name']) == true): ?>
+                                            <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                        <?php else: ?>
+                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                        <?php endif; ?>
+
+                                    <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </a>
                     <div class="content-list">
                         <div>
@@ -210,10 +362,10 @@ class Helper
                         </div>
                         <div class="content-list-text">
                             <p class="card_item_text"><?php echo $v['address']; ?></p>
-                            <p class="card_item_text clearfix">
+                            <p class="card_item_tag clearfix">
                                 <?php
                                 $i = 0;
-                                $num = 5;
+                                $num = 4;
                                 foreach($v['tags'] as $tag):
                                     if($i >= $num):
                                         break;
@@ -223,7 +375,47 @@ class Helper
                                     <?php endif; ?>
                                 <?php endforeach;?>
 
-                                <?php foreach($v['user'] as $user): ?>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach;
+    }
+
+    public static function ResultContentList($content)
+    {
+        // $content = array_reverse($content);
+        $count = 0;
+        foreach($content as $v): $count++; ?>
+                <div class="main-content">
+
+                        <a href="/content/<?php echo $v['id']; ?>" class="">
+                        <?php
+                            $i = 0;
+                            $num = 1;
+                            foreach ($v['img'] as $img) {
+                                if($i >= $num){
+                                    break;
+                                }else{
+                                    if(Helper::judgeImgorVideo($img) == 0) {
+                                        echo "<span class='ranking-num'>".$count."</span>";
+                                        echo "<img class='ranking_img' src='/item/$img'>";
+                                    } elseif(Helper::judgeImgorVideo($img) == 1) {
+                                        echo "<span class='ranking-num'>".$count."</span>";
+                                        echo "<span class='ranking-video-icon'><i class='fas fa-video fa-3x fa-color'></i></span>";
+                                        echo "<div class='camera-position'><video class='ranking_video' src='/item/$img'></video></div>";
+                                    }
+                                    $i++;
+                                }
+                            }
+                        ?>
+                        </a>
+                    <div class="card_item_detail">
+                        <div class="ranking_bottom clearfix">
+                            <?php foreach($v['user'] as $user): ?>
+                                <div>
+                                    <!-- profile img -->
                                     <?php if($user['avatar_name'] == ''): ?>
                                         <img src="/item/user-default.png" class="top_avatar_name">
                                     <?php else: ?>
@@ -235,12 +427,31 @@ class Helper
                                         <?php endif; ?>
 
                                     <?php endif; ?>
-                                <?php endforeach; ?>
-                            </p>
+                                    <p class="user_name"><?php echo $user['name']; ?></p>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="likes">
+                                <img src="/item/like.png">
+                                <p class="likes_count"><?php echo $v['likes_count']; ?></p>
+                            </div>
                         </div>
+                        <p class="ranking_item_name"><?php echo $v['spot_name']; ?></p>
+                        <p class="ranking_address"><?php echo $v['address']; ?></p>
+                        <p class="ranking_tag">
+                        <?php
+                            $i = 0;
+                            $num = 6;
+                            foreach($v['tags'] as $tag):
+                                if($i >= $num):
+                                    break;
+                                else:
+                                ?>
+                                    <?php Helper::tagLogic($tag); $i++;?>
+                                <?php endif; ?>
+                            <?php endforeach;?>
+                        </p>
                     </div>
                 </div>
-            </a>
         <?php endforeach;
     }
 }

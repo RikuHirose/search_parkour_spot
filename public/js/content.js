@@ -18,7 +18,10 @@
 	}
 
 	// 現在地取得
-	geoLocationInit();
+	// geoLocationInit();
+	document.getElementById('getcurrentlocation').onclick = function() {
+    	geoLocationInit();
+  	}
 
 	function geoLocationInit() {
 	    if (navigator.geolocation) {

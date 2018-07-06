@@ -71,6 +71,21 @@
     z-index: 100;
     right: -28rem;
  }
+ .current-p {
+    color: #fff;
+    background-color: blue;
+
+}
+.switch-bottom {
+    border-bottom: 1px solid black;
+    padding-bottom: .5rem;
+}
+.result-icons {
+	text-align: right;
+}
+.switch-left {
+	margin-right: 1rem;
+}
 
 @media (max-width: 480px){
 	.card_item_list {
@@ -91,5 +106,15 @@
 	    top: 0;
 	    z-index: 100;
 	    right: -9.5rem;
- }
+ 	}
+ 	.get-current {
+        width: 100%;
+        padding: 0;
+        border: 1px solid;
+    }
+    .current-p {
+        text-align: center;
+        margin-bottom: 0;
+        padding: 1rem 3rem;
+    }
 }

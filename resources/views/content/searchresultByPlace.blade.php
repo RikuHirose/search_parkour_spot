@@ -2,37 +2,50 @@
 
 <!-- cssの読み込み -->
 @section('css')
-<link href="{{ asset('css/top.css') }}" rel="stylesheet">
+<!-- <link href="{{ asset('css/top.css') }}" rel="stylesheet"> -->
+<link href="{{ asset('css/show.css') }}" rel="stylesheet">
+<link href="{{ asset('css/user.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
 <div class="">
     <p class="search-result-word">「  {{$query}}  」の検索結果 {{ count($content) }}件</p>
     <!--↓↓ 検索フォーム ↓↓-->
-    <form class="" action="/search" method="get">
-      <div class="">
-      <input type="text" name="tag" class="form-control" placeholder="気になるTagから検索する" value="{{ $query }}">
+    <!-- <form class="" action="/search" method="get">
+      <div class="form-position">
+        <input type="text" name="tag" class="top-form-input" placeholder="気になるTagから検索する" value="">
+        <input type="submit" value="検索" class="btn btn-info">
       </div>
-      <input type="submit" value="検索" class="btn">
     </form>
+
+    <form class="" action="/place" method="get">
+      <div class="form-position">
+        <input id="pac-input" class="top-form-input" type="text"  name="place" placeholder="気になる地名から検索する" value="">
+        <input id="lat-input" type="hidden" name="lat" value="">
+        <input id="lng-input" type="hidden" name="lng" value="">
+        <input type="submit" value="検索" class="btn btn-info">
+      </div>
+    </form> -->
 
 </div>
 
 <div class="wrap">
     <div class="card">
-        <div class="card-header">
-            <a id="result-index"><i class="fa fa-list-ul"></i></a>
-            <a id="result-map"><i class="fa fa-map-marker"></i></a>
+        <div class="card-header result-icons">
+            <a id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
+            <a id="result-map"><i class="fa fa-map-marker-alt fa-3x"></i></a>
         </div>
 
         <div class="card-body">
             <div  id="content-block" class="form-group clearfix">
-                <?php App\Helpers\Helper::RankingContentList($content); ?>
+                <?php App\Helpers\Helper::SearchPlaceContentList($content,$query); ?>
             </div>
         </div>
         <div id="map-block">
-            <button id="getcurrentlocation">get</button>
             <div id="map_canvas" class="map_canvas"></div>
+            <div id="getcurrentlocation" class="get-current">
+                <p class="current-p">現在地を取得する</p>
+            </div>
         </div>
     </div>
 </div>
@@ -43,7 +56,61 @@
 <!-- <script src="{{asset('js/result_index_map.js')}}"></script> -->
 <script src="{{asset('js/result_switch.js')}}"></script>
 <script type="text/javascript">
+    // initAutocomplete();
+
+    // function initAutocomplete() {
+    //     var input = document.getElementById('pac-input');
+    //     if (!input) { return }
+
+    //     var searchBox = new google.maps.places.SearchBox(input);
+
+    //     searchBox.addListener('places_changed', function() {
+    //           var places = searchBox.getPlaces();
+    //           if (places.length == 0) {
+    //             return;
+    //           }
+    //           // console.log(places[0].geometry.location.lat(), places[0].geometry.location.lng())
+    //           $('#lat-input').val(places[0].geometry.location.lat())
+    //           $('#lng-input').val(places[0].geometry.location.lng())
+    //         });
+    // }
+    initAutocomplete();
+
+      function initAutocomplete() {
+        var input = document.getElementById('pac-input');
+        if (!input) { return }
+
+
+        // Create the search box and link it to the UI element.
+        var searchBox = new google.maps.places.SearchBox(input);
+
+        $('#form_id').on('submit', function(e) {
+          const form = this
+          e.preventDefault()
+          setTimeout(() => {
+            form.submit()
+          }, 300)
+          return false
+        });
+
+
+        searchBox.addListener('places_changed', function() {
+            // console.log('places_changed!!')
+            var places = searchBox.getPlaces();
+            if (places.length == 0) {
+              return;
+            }
+            // console.log(places[0].geometry.location.lat(), places[0].geometry.location.lng())
+            $('#lat-input').val(places[0].geometry.location.lat())
+            $('#lng-input').val(places[0].geometry.location.lng())
+
+        });
+      }
+
+
+
     var content_location = @json($content_location);
+    var search_location = @json($searchLocation);
 
     var map;
     var marker;
@@ -52,14 +119,17 @@
     var lat;
     var lng;
 
+    var searchlat = search_location.lat;
+    var searchlng = search_location.lng;
 
-    setDefault();
+
+    setDefault(searchlat, searchlng);
 
     //  defaultの場所を設定
-    function setDefault() {
-        lat = 35.729756;
-        lng = 139.711069;
-        zoom = 3;
+    function setDefault(searchlat,searchlng) {
+        lat = searchlat;
+        lng = searchlng;
+        zoom = 12;
 
         createMap(lat,lng,zoom);
         SearchResultMap(content_location);

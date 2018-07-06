@@ -15,13 +15,16 @@
 	width: calc(50% - 10px);
 	margin: 5px;
   float: left;
+  height: 380px;
+  position: relative;
+  border: 1px solid #e0e0e0;
 }
 
 .card_item_img2 {
     display: inline-block;
-    width: 80px;
-    height: 80px;
-    border-radius: 6px 6px 0 0;
+    width: 90px;
+    height: 100px;
+    border-radius: 2px;
     object-fit: cover;
     position: relative;
     right: .5rem;
@@ -40,9 +43,9 @@
 
 .bottom-content-list .content-title {
 	display: block;
-    font-weight: 700;
-    font-size: 1.8rem;
-    padding-top: 10px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  padding-top: 10px;
 }
 .content-list {
 	display: table;
@@ -59,8 +62,11 @@
 }
 .camera-position {
     display: block;
-    position: relative;
+    /*position: relative;*/
     height: 200px;
+    /*position: absolute;
+    top: 0;
+    left: 0;*/
 }
 .video-icon:after {
   position: absolute;
@@ -83,20 +89,29 @@
   object-fit: cover;
   margin-left: auto;
   position: relative;
-  top: -.6rem;
+  top: -3rem;
+  background-color: #fff;
 }
 .user_name {
-  /*margin-left: auto;*/
-  /*position: relative;
-  right: -4rem;*/
+  position: relative;
+  top: -2rem;
+  font-size: 1.3rem;
+  text-align: center;
 }
 .card_item_detail {
-  border: 1px solid #e0e0e0;
+  /*border: 1px solid #e0e0e0;*/
+  position: relative;
+  top: 17rem;
 }
 .ranking_item_name {
-  height: 20px;
-  font-size: 16px;
+  height: 17px;
+  font-size: 1.6rem;
   font-weight: bold;
+  line-height: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 90%;
 }
 .ranking_address {
   line-height: 10px;
@@ -116,20 +131,27 @@
   display: -webkit-flex;
   justify-content: flex-start;
   -webkit-justify-content: -webkit-flex-start;
+  margin-bottom: 1rem;
+  height: 30px;
+  position: relative;
 }
 .ranking_img {
     display: inline-block;
     width: 100%;
     height: 200px;
-    border-radius: 6px 6px 0 0;
     object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   .ranking_video {
     display: inline-block;
     width: 100%;
     height: 200px;
-    border-radius: 6px 6px 0 0;
-    object-fit: cover;
+    object-fit: fill;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .likes_count {
@@ -137,9 +159,10 @@
     position: relative;
     right: -.5rem;
     top: -.5rem;
+    height: 35px
   }
   .content-list-text .card_item_text {
-    font-size: 10px;
+    /*font-size: 10px;*/
     word-wrap: break-word;
     width: 100%;
     padding-left: 3rem;
@@ -150,7 +173,7 @@
     font-size: 20px;
     border: 1px solid #007bff;
     position: relative;
-    top: 3rem;
+    top: -.2rem;
     z-index: 100;
     background-color: #fff;
   }
@@ -158,15 +181,6 @@
   .content-group {
     padding-bottom: 3rem;
     /*border-bottom: 1px solid #e0e0e0;*/
-  }
-  .content-header {
-    position: relative;
-    background: #effaf8;
-    padding: 10px 0 10px 10px;
-    font-size: 1.2rem;
-    font-weight: 700;
-    border-left: #229863 15px solid;
-    margin-top: 20px;
   }
 
   .top-form {
@@ -185,7 +199,7 @@
   }
   .ranking-video-icon {
     position: relative;
-    top: 4rem;
+    top: 0rem;
     z-index: 100;
     right: -41rem;
   }
@@ -195,6 +209,39 @@
     padding-bottom: .5rem;
   }
 
+  .content-top {
+    border-top: 1px dotted #e7e7e7;
+  }
+
+  .likes {
+    display: -webkit-inline-box;
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+  }
+  .top_avatar_name2 {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    margin-left: auto;
+    position: relative;
+    right: -22rem;
+  }
+
+  .result-icons {
+    text-align: right;
+  }
+
+  .switch-left {
+    margin-right: 1rem;
+  }
+  .current-p {
+    color: #fff;
+    background-color: blue;
+  }
+
 /*mobile*/
 @media (max-width: 480px){
   .search-result-word {
@@ -202,33 +249,47 @@
     margin: 0;
     text-align: center;
     font-size: 1.5rem;
+    border-bottom: 1px solid;
   }
 	.main-content {
-		width: calc(50% - 10px);
-		/*margin: 5px;*/
+    width: calc(50% - 10px);
+    height: 280px;
+    position: relative;
+    border: 1px solid #e0e0e0;
 	}
 
   .ranking_img {
-    display: inline-block;
+    /*display: inline-block;
     width: 100%;
     height: 100px;
     border-radius: 6px 6px 0 0;
+    object-fit: cover;*/
+    display: inline-block;
+    height: 100px;
     object-fit: cover;
+    top: 0;
+    left: 0;
+    position: absolute;
   }
   .ranking_video {
     display: inline-block;
     width: 100%;
     height: 100px;
-    border-radius: 6px 6px 0 0;
-    object-fit: cover;
+    object-fit: fill;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   .ranking-video-icon {
-    right: -10rem;
+    right: -11rem;
   }
   .camera-position {
-    display: block;
+    /*display: block;
     position: relative;
-    height: 100px;
+    height: 100px;*/
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   .top_avatar_name {
     border-radius: 50%;
@@ -238,10 +299,69 @@
     object-fit: cover;
     margin-left: auto;
     position: relative;
-    top: -.6rem;
-    float: right;
+    top: -2.6rem;
+    /*float: right;*/
   }
+
+  .top_avatar_name2 {
+    right: .5rem;
+    width: 25px;
+    height: 25px;
+    margin-top: .5rem;
+  }
+
   .content-list-text .card_item_text {
     width: 80%;
+  }
+  .bottom-content-list .content-title {
+    display: block;
+    font-weight: 700;
+    font-size: 1.8rem;
+    padding-top: 10px;
+    margin-bottom: 0;
+    padding-bottom: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 90%;
+  }
+  .form-position {
+    /*width: 70%;*/
+    padding: 2rem 0;
+    margin: 0 auto;
+  }
+  .likes {
+    right: 1rem
+  }
+  .content-new-title {
+    float: left;
+  }
+  .user-block {
+    text-align: right;
+  }
+  .content-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+  }
+  .ranking_tag {
+    height: 32px;
+  }
+  .card_item_detail {
+      /* border: 1px solid #e0e0e0; */
+      position: relative;
+      top: 9.6rem;
+  }
+    .get-current {
+        width: 100%;
+        padding: 0;
+        border: 1px solid;
+  }
+  .current-p {
+        text-align: center;
+        margin-bottom: 0;
+        padding: 1rem 3rem;
   }
 }
