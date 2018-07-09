@@ -38,7 +38,7 @@
                                     <span class="preview-delete"></span>
                                 </p>
                                 <p class="image-upload">
-                                    <button class="image-upload-button c-button" type="button">ファイルを選択</button>
+                                    <label for="photo" class="image-upload-button c-button" type="button">ファイルを選択</label>
                                     <!-- <input accept="image/jpeg,image/png" class="img-upload-input" name="cam_post[image]" type="file"> -->
                                     <input type="file" class="img-upload-input" name="files[][photo]" multiple="multiple">
                                 </p>

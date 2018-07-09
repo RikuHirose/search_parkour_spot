@@ -260,8 +260,6 @@ class ContentController extends Controller
         // $requestで緯度経度を撮りたい
         $q  = \Request::get('place');
         $content = $request->toArray();
-        // var_dump($content);die;
-
 
         $lat = $content['lat'];
         $lng = $content['lng'];
@@ -402,7 +400,30 @@ class ContentController extends Controller
 
         $ranking = array_slice($ranking, 0, 6);
 
-        return view('content.top', ['content' => $content, 'ranking' => $ranking]);
+        // popular user
+        $user = User::get();
+        $popular_user = array_map(function($v){
+            $contents = Content::where('user_id', $v['id'])->get();
+            $num = count($contents);
+            return [
+                'id' => $v['id'],
+                'name' => $v['name'],
+                'comment' => $v['comment'],
+                'avatar_name' => $v['avatar_name'],
+                'content_count' => $num,
+            ];
+
+        },$user->toArray());
+        // 投稿が多い順にソート
+        foreach ((array) $popular_user as $key => $value) {
+            $sort[$key] = $value['content_count'];
+        }
+
+        array_multisort($sort, SORT_DESC, $popular_user);
+        $popular_user = array_slice($popular_user, 0, 5);
+
+
+        return view('content.top', ['content' => $content, 'ranking' => $ranking, 'popular_user' => $popular_user]);
     }
 
     public function getEditList()

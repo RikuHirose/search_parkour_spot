@@ -6,21 +6,21 @@
 .user-top {
 	padding: 1rem;
 	width: 100%;
-
 }
 
 .user-img {
 	/*width: 30%;*/
 	margin: 0 auto;
+	float: left;
 
 }
-.avatar_name {
+/*.avatar_name {
 	border-radius: 50%;
 	overflow: hidden;
 	width: 50px;
 	height: 50px;
 	object-fit: cover;
-}
+}*/
 
 .user-bottom {
 	padding: 1rem;
@@ -52,7 +52,7 @@
 	background-color: black;
 }
 .content-size {
-	width: 32%;
+	width: 33%;
 	height: 150px;
 	margin: .1rem;
 	position: relative;
@@ -73,7 +73,7 @@
  }
  .current-p {
     color: #fff;
-    background-color: blue;
+    background-color: #03a9f4;
 
 }
 .switch-bottom {
@@ -86,8 +86,59 @@
 .switch-left {
 	margin-right: 1rem;
 }
+/* メッセージ */
+.alert {
+    width: 300px;
+    display:block;
+    /*margin:0 auto;*/
+    /*margin: 0 auto;*/
+    position: absolute;
+    top: 0;
+    left: 10%;
+}
+.account-avatar {
+	border-radius: 50%;
+	overflow: hidden;
+	width: 120px;
+	height: 120px;
+	object-fit: cover;
+}
+.user-btn {
+	position: absolute;
+    top: 8rem;
+    right: 6rem;
+}
+.user-posts {
+	position: absolute;
+    top: 4rem;
+    right: 13rem;
+}
+.user-posts span {
+	position: relative;
+    top: -2rem;
+    right: -2rem;
+}
+.edit-user-info {
+	border-top: 1px solid #e0e0e0;
+}
+.img-section {
+	float: left;
+}
+.img-modal {
+	position: absolute;
+	top: 1rem;
+	right: 9rem;
+}
+
+.form-item {
+	margin-bottom: 1rem;
+}
 
 @media (max-width: 480px){
+	.account-avatar {
+	width: 90px;
+	height: 90px;
+	}
 	.card_item_list {
 	    width: 33%;
 	    height: 100px;
@@ -102,19 +153,26 @@
     	left: 0;
 	}
 	.video-icon {
-	    position: relative;
+	    /*position: relative;
 	    top: 0;
+	    right: -9.5rem;*/
 	    z-index: 100;
-	    right: -9.5rem;
+	    position: absolute;
+    	right: .5rem;
+    	top: .1rem
  	}
  	.get-current {
         width: 100%;
         padding: 0;
-        border: 1px solid;
+        /*border: 1px solid;*/
     }
     .current-p {
         text-align: center;
         margin-bottom: 0;
         padding: 1rem 3rem;
+    }
+    .user-btn .action-wrap {
+    	border: 1px solid #e0e0e0;
+    	padding: .7rem 5rem;
     }
 }

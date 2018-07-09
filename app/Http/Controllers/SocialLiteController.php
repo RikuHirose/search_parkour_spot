@@ -33,7 +33,7 @@ class SocialLiteController extends Controller
         }
         catch(Exception $e)
         {
-          return redirect('/');
+          return redirect('/')->with(['success'=> 'Loginしました！']);
         }
 
         //すでに登録済みかチェック
@@ -42,7 +42,7 @@ class SocialLiteController extends Controller
         if($socialProvider){
           $user = $socialProvider->user;
           auth()->login($user);
-          return redirect('/');
+          return redirect('/')->with(['success'=> ' Loginしました！']);
         }
 
         //すでにemailがあるかチェック
@@ -61,7 +61,7 @@ class SocialLiteController extends Controller
         $user->socialProviders()->create(['provider_id' => $socialUser->getId(), 'provider' => 'facebook']);
 
         auth()->login($user);
-        return redirect('/');
+        return redirect('/')->with(['success'=> 'Loginしました！']);
 
 
 

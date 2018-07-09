@@ -132,6 +132,8 @@
 
                     </div>
                 </div>
+
+            <!-- pc -->
             <?php else:?>
                 <div class="search-icon">
                     <i class="fas fa-search"></i>
@@ -143,32 +145,52 @@
                 </div>
 
                 @guest
+                    <div class="dropdown">
+                      <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        menu
+                      </div>
+                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                            <li><a class="sidebar-list" href="/content/">map</a></li>
+                            <li><a class="sidebar-list" href="">pklinksとは？</a></li>
+                            <li><a class="sidebar-list" href="/contact">contact</a></li>
+                      </ul>
+                    </div>
+
                     <a class="auth-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
                     <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
                 @else
 
-                    <a id="" class="nav-link" href="/user/{{ Auth::user()->id }}">
-                        {{ Auth::user()->name }} <span class="caret"></span>
-                    </a>
+
+                    <div class="dropdown">
+                        <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <?php \App\Helpers\Helper::topbar_avatarLogic(Auth::user()->avatar_name) ?>
+                        </div>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li>
+                                <a id="" href="/user/{{ Auth::user()->id }}">
+                                    {{ Auth::user()->name }}
+                                </a>
+                            </li>
+                           <!-- @guest
+                                <li><a class="sidebar-list" href="/content/">map</a></li>
+                                <li><a class="sidebar-list" href="">pklinksとは？</a></li>
+                                <li><a class="sidebar-list" href="/contact">contact</a></li>
+                            @else -->
+                                <li><a class="sidebar-list" href="/content/">map</a></li>
+                                <li><a class="sidebar-list" href="/content/create">upload</a></li>
+                                <!-- <a class="sidebar-list" href="/content/id/editlist">edit</a> -->
+                            <!-- @endguest -->
+                        </ul>
+                    </div>
 
                     <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
+                        {{ __('Logout') }}
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>
-                @endguest
-
-                @guest
-                    <a class="sidebar-list" href="/content/">map</a>
-                    <a class="sidebar-list" href="">pklinksとは？</a>
-                    <a class="sidebar-list" href="/contact">contact</a>
-                @else
-                    <a class="sidebar-list" href="/content/">map</a>
-                    <a class="sidebar-list" href="/content/create">upload</a>
-                    <a class="sidebar-list" href="/content/id/editlist">edit</a>
-                    <a class="sidebar-list" href="/contact">contact</a>
                 @endguest
 
             <?php endif; ?>
@@ -203,6 +225,9 @@
     <!-- 各js読み込み -->
     @yield('js')
     <script src="{{asset('js/slide.js')}}"></script>
+    <script src="{{asset('js/searchBox.js')}}"></script>
+    <script src="{{asset('js/message.js')}}"></script>
+    <script src="{{asset('js/modal.js')}}"></script>
     <script src="{{asset('js/topbar_search.js')}}"></script>
 
 </body>
