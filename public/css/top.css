@@ -1,7 +1,7 @@
 .top-display {
 	width: 100%;
-	/*background: linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.7)),url() no-repeat center center;*/
-    background-size: cover;
+	background: linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.7)),url('/item/test.png') no-repeat center center;
+  background-size: cover;
     padding: 1px;
     /*margin-bottom: 2rem;*/
     height: 250px;
@@ -97,6 +97,7 @@
   top: -2rem;
   font-size: 1.3rem;
   text-align: center;
+  /*right: .3rem;*/
 }
 .card_item_detail {
   /*border: 1px solid #e0e0e0;*/
@@ -239,11 +240,40 @@
   }
   .current-p {
     color: #fff;
-    background-color: blue;
+    background-color: #03a9f4;
   }
+  .user-thumb {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+
+/* メッセージ */
+.alert {
+    width: 300px;
+    display:block;
+    /*margin:0 auto;*/
+    /*margin: 0 auto;*/
+    position: absolute;
+    top: 7%;
+    left: 10%;
+}
 
 /*mobile*/
 @media (max-width: 480px){
+  /* メッセージ */
+.alert {
+    width: 300px;
+    display:block;
+    /*margin:0 auto;*/
+    /*margin: 0 auto;*/
+    position: absolute;
+    top: 7%;
+    left: 10%;
+}
+
   .search-result-word {
     height: 30px;
     margin: 0;
@@ -363,5 +393,39 @@
         text-align: center;
         margin-bottom: 0;
         padding: 1rem 3rem;
+  }
+  .user-thumb {
+    float: left;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 8px 0 8px 6px;
+  }
+  .user-profile {
+    float: left;
+    padding: 10px 8px 10px 12px;
+    height: 60px;
+    position: relative;
+    width: calc(100% - 80px);
+  }
+  .user-name {
+    font-size: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0;
+  }
+  .user-info {
+    position: absolute;
+    left: 12px;
+    bottom: -3px;
+    font-size: 10px;
+    color: #988D8D;
+  }
+  .popular-wrap {
+    border-bottom: 1px dotted #e7e7e7;
+    display: block;
+    height: 6rem;
   }
 }

@@ -16,6 +16,7 @@
                 </ul>
 
                 <div class="card-body">
+                    <p class="text-area">Loginすると、ができるようになります。</p>
                     <form method="POST" action="{{ route('login') }}" class="form-style">
                         @csrf
 

@@ -72,6 +72,18 @@ class Helper
     public static function avatarLogic($avatar_name)
     {
         if($avatar_name == ''): ?>
+            <img src="/item/user-default.png" class="account-avatar">
+        <?php else:
+            if (Helper::isFB($avatar_name) == true): ?>
+                <img src="<?php echo $avatar_name; ?>" class="account-avatar">
+            <?php else: ?>
+                <img src="/item/user/<?php echo $avatar_name; ?>" class="account-avatar">
+            <?php endif; ?>
+        <?php endif;
+    }
+    public static function topbar_avatarLogic($avatar_name)
+    {
+        if($avatar_name == ''): ?>
             <img src="/item/user-default.png" class="avatar_name">
         <?php else:
             if (Helper::isFB($avatar_name) == true): ?>
@@ -454,4 +466,5 @@ class Helper
                 </div>
         <?php endforeach;
     }
+
 }

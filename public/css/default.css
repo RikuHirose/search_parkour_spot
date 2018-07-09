@@ -6,11 +6,16 @@ a ,span{
   text-decoration: none;
 }
 a:hover {text-decoration:none;}
+/*body {
+  min-height: 600px;
+}*/
+
 .wrap {
   width: 1010px;
   position: relative;
   margin: auto;
   box-sizing: border-box;
+  min-height: 550px;
 }
 a ,a:hover{
   color: inherit;
@@ -236,7 +241,24 @@ p {
   padding-left: 3rem;
 }
 
+/* メッセージ */
+.alert {
+    width: 300px;
+    display:block;
+    /*margin:0 auto;*/
+    /*margin: 0 auto;*/
+    position: absolute;
+    top: 0;
+    left: 10%;
+}
 
+.avatar_name {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+}
 
 
 @media (max-width: 480px){
@@ -246,8 +268,12 @@ p {
     -moz-box-sizing: border-box;
      box-sizing: border-box;
   }
+  /*body {
+  min-height: 600px;
+  }*/
   .wrap {
     width: auto;
+    min-height: 500px;
   }
   .main-content {
     width: calc(50% - 10px);

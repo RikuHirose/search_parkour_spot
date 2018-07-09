@@ -36,7 +36,7 @@
         $('#like_delete').hide()
         match = match - 1;
         document.getElementById('likes0').innerHTML = match;
-        console.log(match);
+        // console.log(match);
     });
   }
 

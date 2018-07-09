@@ -98,7 +98,7 @@ class UserController extends Controller
 
         User::find($user_id)->fill(['name' => $request->name, 'email' => $request->email ,'comment' => $request->comment])->save();
 
-        return redirect('/user/'.$user_id.'/edit');
+        return redirect('/user/'.$user_id.'/edit')->with('success', '更新しました。');
     }
 
     public function updateimg(Request $request)
@@ -114,9 +114,10 @@ class UserController extends Controller
             $user->avatar_name = basename($filename);
             $user->save();
 
-            return redirect('/user/'.$user_id.'/edit')->with('success', '保存しました。');
+            return redirect('/user/'.$user_id.'/edit')->with('success', '更新しました。');
         } else {
-            return redirect()->back()->withInput()->withErrors(['file' => '画像がアップロードされていないか不正なデータです。']);
+            // return redirect()->back()->withInput()->withErrors(['file' => '画像がアップロードされていないか不正なデータです。'])->with('success', '保存しました。');
+            return redirect()->back()->withInput()->with('fail', '画像がアップロードされていないか不正なデータです。');
         }
 
     }
@@ -125,7 +126,7 @@ class UserController extends Controller
     {
         User::find($request->id)->fill(['avatar_name' => ''])->save();
 
-        return redirect('/user/'.$request->id.'/edit');
+        return redirect('/user/'.$request->id.'/edit')->with('success', '更新しました。');
     }
 
     // functions
