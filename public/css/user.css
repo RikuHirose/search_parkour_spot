@@ -99,25 +99,58 @@
 .account-avatar {
 	border-radius: 50%;
 	overflow: hidden;
-	width: 120px;
-	height: 120px;
+	width: 90px;
+	height: 90px;
 	object-fit: cover;
 }
-.user-btn {
+.search-result-word {
+	text-align: center;
+}
+/*.user-btn {
 	position: absolute;
-    top: 8rem;
-    right: 6rem;
+    top: 7rem;
+    right: 5.5rem;
 }
 .user-posts {
 	position: absolute;
     top: 4rem;
-    right: 13rem;
+    right: 18rem;
+    font-size: 1.1rem;
 }
 .user-posts span {
 	position: relative;
     top: -2rem;
     right: -2rem;
+    font-size: 1.3rem;
 }
+
+.user-follows {
+	position: absolute;
+    top: 4rem;
+    right: 6rem;
+    font-size: 1.1rem;
+}
+.user-follows span {
+	position: relative;
+    top: -2rem;
+    right: -2rem;
+    font-size: 1.3rem;
+}
+
+.user-followers {
+	position: absolute;
+    top: 4rem;
+    right: 11.5rem;
+    font-size: 1.1rem;
+}
+.user-followers span {
+	position: relative;
+    top: -2rem;
+    right: -2.5rem;
+    font-size: 1.3rem;
+}
+*/
+
 .edit-user-info {
 	border-top: 1px solid #e0e0e0;
 }
@@ -136,8 +169,8 @@
 
 @media (max-width: 480px){
 	.account-avatar {
-	width: 90px;
-	height: 90px;
+	width: 80px;
+	height: 80px;
 	}
 	.card_item_list {
 	    width: 33%;
@@ -173,6 +206,52 @@
     }
     .user-btn .action-wrap {
     	border: 1px solid #e0e0e0;
-    	padding: .7rem 5rem;
+    	/*padding: .7rem 6.5rem;*/
+    	width: 160px;
+    	height: 30px;
     }
+    .user-btn {
+	position: absolute;
+    top: 6rem;
+    right: 5.5rem;
+	}
+	.user-posts {
+		position: absolute;
+	    top: 3rem;
+	    right: 18rem;
+	    font-size: 1.1rem;
+	}
+	.user-posts span {
+		position: relative;
+	    top: -2rem;
+	    right: -1.5rem;
+	    font-size: 1.3rem;
+	}
+
+	.user-follows {
+		position: absolute;
+	    top: 3rem;
+	    right: 6rem;
+	    font-size: 1.1rem;
+	}
+	.user-follows span {
+		position: relative;
+	    top: -2rem;
+	    right: -2rem;
+	    font-size: 1.3rem;
+	}
+
+	.user-followers {
+		position: absolute;
+	    top: 3rem;
+	    right: 11.5rem;
+	    font-size: 1.1rem;
+	}
+	.user-followers span {
+		position: relative;
+	    top: -2rem;
+	    right: -2.5rem;
+	    font-size: 1.3rem;
+	}
+
 }

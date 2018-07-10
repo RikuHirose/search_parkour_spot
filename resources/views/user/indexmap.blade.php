@@ -7,21 +7,43 @@
 
 @section('content')
 <div class="wrap">
-     <div class="user">
+    <div class="user">
             <div class="user-top clearfix">
                 <div class="user-img">
                     <?php \App\Helpers\Helper::avatarLogic($user['avatar_name']) ?>
                 </div>
                 <div class="user-info">
                     <p class="user-posts"><span><?php echo count($content); ?></span>posts</p>
+                    <p class="user-followers"><span><?php echo count($followers); ?></span>followers</p>
+                    <p class="user-follows"><span><?php echo count($follows); ?></span>follows</p>
                     <div class="user-btn">
                             <!-- ログインしているuserか判定する -->
                             @auth
                                 <?php if (Auth::user()->id != $user['id']): ?>
-                                    <p class="action-wrap">aa</p>
+                                        @if (auth()->user()->isFollowing($user['id']))
+                                                <form action="{{route('unfollow', ['id' => $user['id'] ]) }}" method="POST" class="action-wrap">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('DELETE') }}
+
+                                                    <button type="submit" id="delete-follow-{{ $user['id'] }}" class="">
+                                                        Unfollow
+                                                    </button>
+                                                </form>
+                                        @else
+                                                <form action="{{route('follow', ['id' => $user['id'] ]) }}" method="POST" class="action-wrap">
+                                                    {{ csrf_field() }}
+
+                                                    <button type="submit" id="follow-user-{{ $user['id'] }}" class="">
+                                                        Follow
+                                                    </button>
+                                                </form>
+                                        @endif
                                 <?php elseif(Auth::user()->id == $user['id']): ?>
-                                    <a class="action-wrap" href="/user/<?php echo $user['id']; ?>/edit">edit profile</a>
+                                    <a class="action-wrap" href="/user/<?php echo $user['id']; ?>/edit">
+                                        <button>edit profile</button>
+                                    </a>
                                 <?php endif; ?>
+
                             @endauth
                     </div>
                 </div>

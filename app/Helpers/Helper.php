@@ -115,6 +115,35 @@ class Helper
 <?php
     }
 
+    public static function UserList($popular_user)
+    { ?>
+            <?php foreach($popular_user as $user): ?>
+
+                <div class="popular-wrap">
+                    <a href="/user/<?php echo $user['id']; ?>">
+                        <?php if($user['avatar_name'] == ''): ?>
+                            <img src="/item/user-default.png" class="user-thumb">
+                        <?php else: ?>
+
+                            <?php if (\App\Helpers\Helper::isFB($user['avatar_name']) == true): ?>
+                                <img src="<?php echo $user['avatar_name']; ?>" class="user-thumb">
+                            <?php else: ?>
+                                <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="user-thumb">
+                            <?php endif; ?>
+                        <?php endif; ?>
+                            <div class="user-profile">
+                                <p class="user-name"><?php echo $user['name']; ?></p>
+                                <div class="user-info">
+                                    <p><?php echo $user['comment']; ?></p>
+                                </div>
+                                <!-- <p>{{ $user['content_count'] }}</p> -->
+                            </div>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+    <?php
+    }
+
     public static function RankingContentList($content)
     {
         // $content = array_reverse($content);
