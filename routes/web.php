@@ -54,3 +54,12 @@ Route::get('/contact', 'ContactsController@index');
 Route::post('/contact/confirm', 'ContactsController@confirm');
 Route::post('/contact/complete', 'ContactsController@complete');
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/user', 'UserController@index')->name('user');
+    Route::post('/user/{id}/follow', 'UserController@follow')->name('follow');
+    Route::delete('/user/{id}/unfollow', 'UserController@unfollow')->name('unfollow');
+
+    Route::get('/user/{id}/followlist', 'UserController@followlist');
+    Route::get('/user/{id}/followerlist', 'UserController@followerlist');
+});
+

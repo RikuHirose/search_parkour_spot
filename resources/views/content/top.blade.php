@@ -48,29 +48,7 @@
 
             <h2 class="content-header">人気のユーザー</h2>
             <div class="clearfix content-top">
-                    <?php foreach($popular_user as $user): ?>
-                      <div class="popular-wrap">
-                        <a href="/user/<?php echo $user['id']; ?>">
-                            <?php if($user['avatar_name'] == ''): ?>
-                              <img src="/item/user-default.png" class="user-thumb">
-                            <?php else: ?>
-
-                              <?php if (\App\Helpers\Helper::isFB($user['avatar_name']) == true): ?>
-                                <img src="<?php echo $user['avatar_name']; ?>" class="user-thumb">
-                              <?php else: ?>
-                                <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="user-thumb">
-                              <?php endif; ?>
-                            <?php endif; ?>
-                            <div class="user-profile">
-                              <p class="user-name">{{ $user['name'] }}</p>
-                              <div class="user-info">
-                                <p>{{ $user['comment'] }}</p>
-                              </div>
-                              <p>{{ $user['content_count'] }}</p>
-                            </div>
-                        </a>
-                      </div>
-                    <?php endforeach; ?>
+              <?php App\Helpers\Helper::UserList($popular_user); ?>
             </div>
         </div>
     </div>
@@ -79,6 +57,7 @@
 @endsection
 
 @section('js')
+<script src="{{asset('js/searchBox.js')}}"></script>
 <script type="text/javascript">
   initAutocomplete();
 

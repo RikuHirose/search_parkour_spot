@@ -32,7 +32,11 @@ class UserController extends Controller
         $user_id = $request->id;
 
         $user = User::find($request->id);
+        $follows = $user->getFollows($user_id);
+        $followers = $user->getFollowers($user_id);
+
         $user = json_decode(json_encode($user), true);
+
 
         $content = Content::where('user_id',$user_id)->get();
         $content = json_decode(json_encode($content), true);
@@ -48,13 +52,17 @@ class UserController extends Controller
         }, $content);
         $content = array_reverse($content);
 
-        return view('user.index' ,['content' => $content,'user' => $user]);
+        return view('user.index' ,['content' => $content,'user' => $user, 'follows'=> $follows, 'followers' => $followers]);
     }
 
     public function ContentsIndexMap(Request $request)
     {
         $user_id = $request->id;
         $user = User::find($user_id);
+
+        $follows = $user->getFollows($user_id);
+        $followers = $user->getFollowers($user_id);
+
         $user = json_decode(json_encode($user), true);
 
         $content = Content::where('user_id',$user_id)->get();
@@ -70,7 +78,7 @@ class UserController extends Controller
             ];
         }, $content);
 
-        return view('user.indexmap', ['content' => $content, 'user' => $user]);
+        return view('user.indexmap' ,['content' => $content,'user' => $user, 'follows'=> $follows, 'followers' => $followers]);
     }
 
     public function UserSearchMap(Request $request)
@@ -129,11 +137,101 @@ class UserController extends Controller
         return redirect('/user/'.$request->id.'/edit')->with('success', '更新しました。');
     }
 
+
+    public function follow(Request $request)
+    {
+        $follower = auth()->user();
+        $user_id = $request->id;
+
+        if ($follower->id == $user_id) {
+            return back();
+        }
+        if(!$follower->isFollowing($user_id)) {
+            $follower->follow($user_id);
+
+            // // sending a notification
+            // $user->notify(new UserFollowed($follower));
+
+            return back();
+        }
+        return back();
+    }
+
+    public function unfollow(Request $request)
+    {
+        $follower = auth()->user();
+        $user_id = $request->id;
+
+        if($follower->isFollowing($user_id)) {
+            $follower->unfollow($user_id);
+            return back();
+        }
+        return back();
+    }
+
+    public function followlist(Request $request)
+    {
+        $user_id = $request->id;
+        $user = User::find($request->id);
+        // 自分がフォローしている人
+        $follows = $user->getFollows($user_id);
+        // var_dump($follows->toArray());
+
+        $follows = array_map(function($v){
+            return [
+                'id' => $v['follows_id'],
+                'name' => self::getUserName($v['follows_id']),
+                'comment' => self::getUserComment($v['follows_id']),
+                'avatar_name' => self::getUserAvatar($v['follows_id']),
+            ];
+
+        },$follows->toArray());
+
+        // var_dump($follows);
+        return view('user.followlist' ,['follow'=> $follows]);
+    }
+
+    public function followerlist(Request $request)
+    {
+        $user_id = $request->id;
+        $user = User::find($user_id);
+
+        $followers = $user->getFollowers($user_id);
+
+        return view('user.followlist' ,['follow'=> $followers]);
+    }
+
+
+
     // functions
     public function getPhotos($contentid)
     {
         $photo = Photo::all()->where('content_id',$contentid);
         $path = $photo->pluck('path')->toArray();
+
+        return $path;
+    }
+
+    public function getUserName($userId)
+    {
+        $photo = User::where('id',$userId);
+        $path = $photo->pluck('name');
+
+        return $path;
+    }
+
+    public function getUserComment($userId)
+    {
+        $photo = User::where('id',$userId);
+        $path = $photo->pluck('comment');
+
+        return $path;
+    }
+
+    public function getUserAvatar($userId)
+    {
+        $photo = User::where('id',$userId);
+        $path = $photo->pluck('avatar_name');
 
         return $path;
     }

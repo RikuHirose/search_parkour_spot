@@ -12,31 +12,33 @@
         </div>
         <div class="img-modal">
             <p>{{ $user['name'] }}</p>
-            <a href="" id="edit-user-img">プロフィール写真を編集する</a>
+            <p  class="modal-open">プロフィール写真を編集する</p>
         </div>
     </div>
-    <!-- modal -->
+    <div id="modal">
+        <div class="iziModal-content">
+            <a data-izimodal-close="">×</a>
+            <!-- modal -->
+            <div class="select-modal">
+                <form method="post" action="/user/{{ $user['id'] }}/edit/updateimg" files="true" enctype="multipart/form-data">
+                    {{ csrf_field() }}
 
-    <!-- <div class="select-modal">
-        <form method="post" action="/user/{{ $user['id'] }}/edit/updateimg" files="true" enctype="multipart/form-data">
-            {{ csrf_field() }}
+                    edit profile img
+                    <input type="file" class="" name="avatar_name">
+                    <input type="submit" value="updateimg">
 
-            edit profile img
-            <input type="file" class="" name="avatar_name">
-            <input type="submit" value="updateimg">
-
-        </form>
-            <form method="POST" action="/user/{{ $user['id'] }}/delete/deleteimg" files="true" enctype="multipart/form-data">
-                {{ csrf_field() }}
+                </form>
+                <form method="POST" action="/user/{{ $user['id'] }}/delete/deleteimg" files="true" enctype="multipart/form-data">
+                    {{ csrf_field() }}
 
                     {!! Form::hidden('id',$user['id']) !!}
                     <input type="hidden" name="avatar_name" value="">
                     <input type="submit" value="deleteimg">
 
-            </form>
-    </div> -->
-    
-    
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="edit-user-info">
         <div class="card-body">
@@ -76,6 +78,7 @@
 @endsection
 
 @section('js')
-
+<script src="{{asset('js/modal.js')}}"></script>
+<script src="{{asset('js/iziModal.min.js')}}"></script>
 
 @endsection

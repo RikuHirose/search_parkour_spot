@@ -16,7 +16,7 @@
         <input type="text" name="tag" class="top-form-input" placeholder="気になるTagから検索する" value="">
         <input type="submit" value="検索" class="btn btn-info">
       </div>
-    </form>
+    </form> -->
 
     <form class="" action="/place" method="get">
       <div class="form-position">
@@ -25,7 +25,7 @@
         <input id="lng-input" type="hidden" name="lng" value="">
         <input type="submit" value="検索" class="btn btn-info">
       </div>
-    </form> -->
+    </form>
 
 </div>
 
@@ -53,7 +53,7 @@
 @endsection
 
 @section('js')
-<!-- <script src="{{asset('js/result_index_map.js')}}"></script> -->
+<script src="{{asset('js/searchBox.js')}}"></script>
 <script src="{{asset('js/result_switch.js')}}"></script>
 <script type="text/javascript">
     // initAutocomplete();

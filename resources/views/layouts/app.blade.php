@@ -24,6 +24,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/default.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/iziModal.min.css') }}" rel="stylesheet">
     @yield('css')
 
 </head>
@@ -225,9 +226,7 @@
     <!-- 各js読み込み -->
     @yield('js')
     <script src="{{asset('js/slide.js')}}"></script>
-    <script src="{{asset('js/searchBox.js')}}"></script>
     <script src="{{asset('js/message.js')}}"></script>
-    <script src="{{asset('js/modal.js')}}"></script>
     <script src="{{asset('js/topbar_search.js')}}"></script>
 
 </body>
