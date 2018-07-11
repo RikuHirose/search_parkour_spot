@@ -24,6 +24,8 @@ Route::post('/likes/delete', 'LikesController@delete');
 
 Route::post('/UserSearchMap','UserController@UserSearchMap');
 
+
+
 // Route::post('/SearchResultMap','ContentController@SearchResultMap');
 
 // Route::post('/postlatlng','ContentController@top');

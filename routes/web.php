@@ -58,8 +58,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user', 'UserController@index')->name('user');
     Route::post('/user/{id}/follow', 'UserController@follow')->name('follow');
     Route::delete('/user/{id}/unfollow', 'UserController@unfollow')->name('unfollow');
+    Route::get('/notifications', 'UsersController@notifications');
 
     Route::get('/user/{id}/followlist', 'UserController@followlist');
     Route::get('/user/{id}/followerlist', 'UserController@followerlist');
+});
+
+Route::get('/markAsRead', function(){
+	auth()->user()->unreadNotifications->markAsRead();
 });
 

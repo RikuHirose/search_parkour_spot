@@ -78,7 +78,7 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/modal.js')}}"></script>
+
 <script src="{{asset('js/iziModal.min.js')}}"></script>
 
 @endsection

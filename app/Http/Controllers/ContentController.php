@@ -53,6 +53,10 @@ class ContentController extends Controller
      */
     public function store(Request $request)
     {
+
+        // if(count($request->file('files')) >= 5){
+        //     return redirect('')
+        // }
         $this->validate($request,Content::$rules);
 
         // 正規表現でtagとcommentを分ける

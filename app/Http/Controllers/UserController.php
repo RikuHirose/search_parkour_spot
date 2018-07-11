@@ -8,10 +8,13 @@ use App\Content;
 use Illuminate\Support\Facades\Auth;
 use App\Photo;
 use App\Tag;
+use App\Notifications\UserFollowed;
+
 
 
 class UserController extends Controller
 {
+
     /**
      * Create a new controller instance.
      *
@@ -142,6 +145,8 @@ class UserController extends Controller
     {
         $follower = auth()->user();
         $user_id = $request->id;
+        $user = User::where('id', $user_id)->get();
+        $user = $user[0];
 
         if ($follower->id == $user_id) {
             return back();
@@ -149,8 +154,9 @@ class UserController extends Controller
         if(!$follower->isFollowing($user_id)) {
             $follower->follow($user_id);
 
-            // // sending a notification
-            // $user->notify(new UserFollowed($follower));
+            // sending a notification
+            $user->notify(new UserFollowed($follower));
+            // $follower->notify(new UserFollowed($follower));
 
             return back();
         }
@@ -187,7 +193,6 @@ class UserController extends Controller
 
         },$follows->toArray());
 
-        // var_dump($follows);
         return view('user.followlist' ,['follow'=> $follows]);
     }
 
@@ -198,10 +203,18 @@ class UserController extends Controller
 
         $followers = $user->getFollowers($user_id);
 
+        $followers = array_map(function($v){
+            return [
+                'id' => $v['user_id'],
+                'name' => self::getUserName($v['user_id']),
+                'comment' => self::getUserComment($v['user_id']),
+                'avatar_name' => self::getUserAvatar($v['user_id']),
+            ];
+
+        },$followers->toArray());
+
         return view('user.followlist' ,['follow'=> $followers]);
     }
-
-
 
     // functions
     public function getPhotos($contentid)
@@ -215,7 +228,8 @@ class UserController extends Controller
     public function getUserName($userId)
     {
         $photo = User::where('id',$userId);
-        $path = $photo->pluck('name');
+        $path = $photo->pluck('name')->toArray();
+        $path = $path[0];
 
         return $path;
     }
@@ -223,7 +237,8 @@ class UserController extends Controller
     public function getUserComment($userId)
     {
         $photo = User::where('id',$userId);
-        $path = $photo->pluck('comment');
+        $path = $photo->pluck('comment')->toArray();
+        $path = $path[0];
 
         return $path;
     }
@@ -231,7 +246,8 @@ class UserController extends Controller
     public function getUserAvatar($userId)
     {
         $photo = User::where('id',$userId);
-        $path = $photo->pluck('avatar_name');
+        $path = $photo->pluck('avatar_name')->toArray();
+        $path = $path[0];
 
         return $path;
     }

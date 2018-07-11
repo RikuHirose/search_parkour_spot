@@ -27,6 +27,20 @@
     <link href="{{ asset('css/iziModal.min.css') }}" rel="stylesheet">
     @yield('css')
 
+    <!-- Scripts -->
+    <script>
+        window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
+
+    <!-- This makes the current user's id available in javascript -->
+    @if(!auth()->guest())
+        <script>
+            window.Laravel.userId = <?php echo auth()->user()->id; ?>
+        </script>
+    @endif
+
 </head>
 <body>
     <div id="app" class="app">
@@ -56,6 +70,7 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
+
                             @endguest
                         </div>
 
@@ -163,6 +178,22 @@
                 @else
 
 
+                    <div class="dropdown" id="markasread">
+                        <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            notification<span class="badge" id="badge">{{ count(auth()->user()->unreadNotifications) }}</span>
+                        </div>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li class="">
+                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                    @include('layouts.partials.notification.'.snake_case(class_basename($notification->type)))
+                                    @empty
+                                    <a href="#">No notifications</a>
+                                @endforelse
+                            </li>
+
+                        </ul>
+                    </div>
+
                     <div class="dropdown">
                         <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <?php \App\Helpers\Helper::topbar_avatarLogic(Auth::user()->avatar_name) ?>
@@ -182,8 +213,18 @@
                                 <li><a class="sidebar-list" href="/content/create">upload</a></li>
                                 <!-- <a class="sidebar-list" href="/content/id/editlist">edit</a> -->
                             <!-- @endguest -->
+                            <!-- <li class="dropdown">
+                                <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="notificationsMenu" id="notificationsMenu">
+                                    <li class="dropdown-header">No notifications</li>
+                                </ul>
+                            </li>
+ -->
                         </ul>
                     </div>
+
 
                     <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
@@ -228,6 +269,7 @@
     <script src="{{asset('js/slide.js')}}"></script>
     <script src="{{asset('js/message.js')}}"></script>
     <script src="{{asset('js/topbar_search.js')}}"></script>
+    <script src="{{asset('js/notification.js')}}"></script>
 
 </body>
 </html>
