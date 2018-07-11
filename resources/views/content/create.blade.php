@@ -28,7 +28,7 @@
                         </div>
                     @endif
 
-                    {!! Form::open(['url' => '/content/store', 'method' => 'post', 'files' => true, 'name' => 'post']) !!}
+                    {!! Form::open(['url' => '/content/store', 'method' => 'post', 'files' => true, 'name' => 'post', 'id' => 'fileupload']) !!}
                     {{ csrf_field() }}
 
                     <div class="form-group">
@@ -40,7 +40,7 @@
                                 <p class="image-upload">
                                     <label for="photo" class="image-upload-button c-button" type="button">ファイルを選択</label>
                                     <!-- <input accept="image/jpeg,image/png" class="img-upload-input" name="cam_post[image]" type="file"> -->
-                                    <input type="file" class="img-upload-input" name="files[][photo]" multiple="multiple">
+                                    <input  id="image" type="file" class="img-upload-input" name="files[][photo]" multiple="multiple">
                                 </p>
                             </div>
                         </div>
@@ -103,4 +103,5 @@
 
 @section('js')
 <script src="{{asset('js/create.js')}}"></script>
+<script src="{{asset('js/validate_file.js')}}"></script>
 @endsection

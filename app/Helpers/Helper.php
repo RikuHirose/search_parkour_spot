@@ -222,7 +222,7 @@ class Helper
 
         foreach($content as $v):
         ?>
-                <div class="bottom-content-list clearfix">
+                <li id="content_list" class="bottom-content-list clearfix">
                     <a href="/content/<?php echo $v['id']; ?>" class="card_item">
                         <h3 class="content-title content-new-title">
                             <?php echo $v['spot_name']; ?>
@@ -280,7 +280,7 @@ class Helper
                             </p>
                         </div>
                     </div>
-                </div>
+                </li>
             </a>
         <?php endforeach;
     }
@@ -290,7 +290,7 @@ class Helper
 
         foreach($content as $v):
         ?>
-                <div class="bottom-content-list clearfix">
+                <li id="content_list" class="bottom-content-list clearfix">
                     <a href="/content/<?php echo $v['id']; ?>" class="card_item">
                         <h3 class="content-title content-new-title">
                             <?php echo $v['spot_name']; ?>
@@ -348,8 +348,8 @@ class Helper
                             </p>
                         </div>
                     </div>
-                </div>
-            </a>
+                </li>
+            
         <?php endforeach;
     }
 
@@ -420,6 +420,77 @@ class Helper
                         </div>
                     </div>
                 </div>
+            </a>
+        <?php endforeach;
+    }
+
+    public static function SearchTagContentList($content)
+    {
+        // $content = array_reverse($content);
+        // $content = array_slice($content, 0, 6);
+        foreach($content as $v):
+        ?>
+                <li id="content_list" class="bottom-content-list clearfix">
+                    <a href="/content/<?php echo $v['id']; ?>" class="card_item">
+                        <h3 class="content-title content-new-title">
+                            <?php echo $v['spot_name']; ?>
+                        </h3>
+                        <div class="user-block">
+                            <?php foreach($v['user'] as $user): ?>
+                                    <?php if($user['avatar_name'] == ''): ?>
+                                        <img src="/item/user-default.png" class="top_avatar_name2">
+                                    <?php else: ?>
+
+                                        <?php if (Helper::isFB($user['avatar_name']) == true): ?>
+                                            <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                        <?php else: ?>
+                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                        <?php endif; ?>
+
+                                    <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </a>
+                    <div class="content-list">
+                        <div>
+                            <a href="/content/<?php echo $v['id']; ?>" class="card_item">
+                            <?php
+                                $i = 0;
+                                $num = 1;
+                                foreach ($v['img'] as $img) {
+                                    if($i >= $num){
+                                        break;
+                                    }else{
+                                        if(Helper::judgeImgorVideo($img) == 0) {
+                                            echo "<img class='card_item_img2' src='/item/$img'>";
+                                        } elseif(Helper::judgeImgorVideo($img) == 1) {
+                                            echo "<video class='card_item_img2' src='/item/$img'></video>";
+                                        }
+                                        $i++;
+                                    }
+                                }
+                            ?>
+                            </a>
+                        </div>
+                        <div class="content-list-text">
+                            <p class="card_item_text"><?php echo $v['address']; ?></p>
+                            <p class="card_item_tag clearfix">
+                                <?php
+                                $i = 0;
+                                $num = 4;
+                                foreach($v['tags'] as $tag):
+                                    if($i >= $num):
+                                        break;
+                                    else:
+                                    ?>
+                                        <?php Helper::tagLogic($tag); $i++;?>
+                                    <?php endif; ?>
+                                <?php endforeach;?>
+
+                            </p>
+                        </div>
+                    </div>
+                </li>
             </a>
         <?php endforeach;
     }

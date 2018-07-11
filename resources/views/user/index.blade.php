@@ -43,9 +43,18 @@
 
                             @endauth
                             @guest
-                            <a  href="/login">
+                            <span class="modal-open">
                                 <button class="action-wrap">フォローする</button>
-                            </a>
+                            </span>
+                             <div id="modal">
+                                <div class="iziModal-content">
+                                    <a data-izimodal-close="">×</a>
+                                    <!-- modal -->
+                                    <div class="select-modal">
+                                       <a href="/login">you need login</a>
+                                    </div>
+                                </div>
+                            </div>
                             @endguest
                     </div>
                 </div>
@@ -120,5 +129,7 @@
 @endsection
 
 @section('js')
-
+    @guest
+        <script src="{{asset('js/iziModal.min.js')}}"></script>
+    @endguest
 @endsection

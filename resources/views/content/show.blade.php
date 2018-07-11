@@ -68,17 +68,28 @@
 
                             <button class="likes-btn" type="submit" id="like_store" value="{{$content['id']}}" style="@if ($like) display: none; @endif">
                                 <input type="hidden" value="{{ Auth::user()->id }}" id="user_info">
+                                <input type="hidden" value="{{ $content['user_id'] }}" id="content_user_id">
                               <img src="/item/dislike.png">
                               <p id="likes0" class="likes_count">{{ $content['likes_count'] }}</p>
                             </button>
                     @else
-                        <a href="/login">
+                        <span class="modal-open">
                             <button class="likes-btn" id="" value="">
                                 <input type="hidden" value="" id="">
                                 <img src="/item/like.png">
                                 <p id="likes" class="likes_count">{{ $content['likes_count'] }}</p>
                             </button>
-                        </a>
+                        </span>
+
+                        <div id="modal">
+                            <div class="iziModal-content">
+                                <a data-izimodal-close="">×</a>
+                                <!-- modal -->
+                                <div class="select-modal">
+                                    <a href="/login">you need login</a>
+                                </div>
+                            </div>
+                        </div>
                     @endif
 
                     <div>
@@ -120,10 +131,12 @@
                         
                     </div>
 
-                    <div class="form-group clearfix around-section">
+                    <ul class="form-group clearfix around-section content_list">
                         <h2 class="content-header">このスポット周辺の投稿</h2>
                         <?php App\Helpers\Helper::OneColumnContentList($around); ?>
-                    </div>
+                        <div id="more_btn">もっと見る <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                        <div id="close_btn">表示数を戻す <i class="fa fa-chevron-up" aria-hidden="true"></i></div>
+                    </ul>
                 </div>
             </div>
 </div>
@@ -146,4 +159,8 @@ if(window.confirm('この投稿を削除しますか？')){
 @section('js')
 <script src="{{asset('js/content.js')}}"></script>
 <script src="{{asset('js/_like.js')}}"></script>
+<script src="{{asset('js/more.js')}}"></script>
+@guest
+        <script src="{{asset('js/iziModal.min.js')}}"></script>
+@endguest
 @endsection

@@ -37,9 +37,11 @@
         </div>
 
         <div class="card-body">
-            <div  id="content-block" class="form-group clearfix">
+            <ul id="content-block" class="form-group clearfix content_list">
                 <?php App\Helpers\Helper::SearchPlaceContentList($content,$query); ?>
-            </div>
+                <div id="more_btn">もっと見る <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                <div id="close_btn">表示数を戻す <i class="fa fa-chevron-up" aria-hidden="true"></i></div>
+            </ul>
         </div>
         <div id="map-block">
             <div id="map_canvas" class="map_canvas"></div>
@@ -55,6 +57,7 @@
 @section('js')
 <script src="{{asset('js/searchBox.js')}}"></script>
 <script src="{{asset('js/result_switch.js')}}"></script>
+<script src="{{asset('js/more.js')}}"></script>
 <script type="text/javascript">
     // initAutocomplete();
 
