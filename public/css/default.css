@@ -58,6 +58,7 @@ p {
 
 .top-icon {
   margin: 0 auto;
+  width: 110px;
 }
 .humbarger-menu {
   display: none;
@@ -219,8 +220,6 @@ p {
     text-align: left;
     vertical-align: top;
     position: relative;
-    /*left: 25px;*/
-    /*padding: .5rem;*/
 }
 
 .fa-color {
@@ -260,6 +259,86 @@ p {
   height: 35px;
   object-fit: cover;
 }
+.search-icon {
+    position: absolute;
+    top: 2px;
+    left: 160px;
+    
+}
+.pac-input {
+  display: inline-block;
+    position: relative;
+    margin: 0;
+    border: 1px solid #ddd;
+    color: #333;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    vertical-align: middle;
+    position: relative;
+    width: 250px;
+    height: 30px;
+    padding: 0 8px 0 50px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+    font-size: 12px;
+}
+.m-header-inner {
+    /*position: relative;*/
+    width: 1010px;
+    margin: 0 auto;
+    height: 50px;
+    /*padding-top: 20px;*/
+}
+.m-header-search-button {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 50px;
+    height: 30px;
+}
+/*.m-header-search-button:before{
+  content: 'f002';
+  font-family: FontAwesome;
+}*/
+
+.nav-search-poosition {
+    position: absolute;
+    top: 20px;
+    left: 180px;
+    font-size: 1.5rem;
+    color: #ddd;
+}
+
+.m-header-navi {
+  display: inline-block;
+    position: absolute;
+    right: 15rem;
+    top: 0px;
+    white-space: nowrap;
+}
+
+.not-login {
+  right: 23rem;
+}
+
+.notice-nav {
+  display: inline-block;
+  position: absolute;
+  right: 22rem;
+  top: 0px;
+  white-space: nowrap;
+}
+.nav-lists li {
+  border-bottom: 1px solid #e7e7e7;
+  height: 40px;
+  padding: 10px 15px;
+  color: #999;
+  font-size: 10px;
+  line-height: 1;
+}
+
+
 
 
 @media (max-width: 480px){
@@ -268,6 +347,9 @@ p {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
      box-sizing: border-box;
+  }
+  .col-md-9, .col-md-3 {
+    padding: 0;
   }
   /*body {
   min-height: 600px;
@@ -285,6 +367,17 @@ p {
   }
   #nav-drawer {
     position: relative;
+  }
+
+  .top-icon {
+    margin: 0 auto;
+    width: 110px;
+  }
+
+  .search-icon {
+    position: absolute;
+    top: 0;
+    left: 34rem;
   }
 
   /*チェックボックス等は非表示に*/

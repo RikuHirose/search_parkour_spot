@@ -34,6 +34,7 @@
     background-color: #ffffff;
     box-shadow: 0 0 3px #ede0cc;
     box-sizing: border-box;
+    position: relative;
 }
 .bottom-content-list {
 	margin-left: .75rem;
@@ -46,6 +47,7 @@
   font-weight: 700;
   font-size: 1.8rem;
   padding-top: 10px;
+  margin-bottom: 10px;
 }
 .content-list {
 	display: table;
@@ -108,7 +110,7 @@
   height: 17px;
   font-size: 1.6rem;
   font-weight: bold;
-  line-height: 15px;
+  line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -174,7 +176,7 @@
     font-size: 20px;
     border: 1px solid #007bff;
     position: relative;
-    top: -.2rem;
+    top: -.3rem;
     z-index: 100;
     background-color: #fff;
   }
@@ -202,7 +204,8 @@
     position: relative;
     top: 0rem;
     z-index: 100;
-    right: -41rem;
+    /*right: -41rem;*/
+    right: -28rem;
   }
 
   .switch-bottom {
@@ -211,7 +214,7 @@
   }
 
   .content-top {
-    border-top: 1px dotted #e7e7e7;
+
   }
 
   .likes {
@@ -250,6 +253,58 @@
     object-fit: cover;
   }
 
+  .side_user-thumb{
+    border-radius: 50%;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    float: left;
+    margin-right: 1rem;
+  }
+
+.side-user-wrap {
+  margin: 0  1rem;
+  padding: 1rem 0;
+  border-bottom: 1px dotted #e7e7e7;
+}
+.user-list-h3 {
+    font-size: 13px;
+    margin: 0 0 8px 4px;
+    font-weight: 500;
+    color: #5F5354;
+    padding: 15px 6px 6px;
+    border-bottom: 1px solid #5F5354;
+}
+
+.user-name {
+    font-size: 12px;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+.tag {
+    margin: 6px 3px 0 3px;
+    display: inline-block;
+    height: 20px;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 3px;
+}
+ul {
+  padding: 0;
+}
+.tag a {
+    padding: 5px 12px 5px 12px;
+    background: 0 0;
+    border-radius: 3px;
+    font-family: HelveticaNeueDeskInterface-Regular!important;
+    color: rgba(0,0,0,.87);
+    text-decoration: none;
+    height: 22px;
+    font-size: 12px;
+}
 /* メッセージ */
 .alert {
     width: 300px;
@@ -260,6 +315,36 @@
     top: 7%;
     left: 10%;
 }
+
+.new-video-icon {
+    position: absolute;
+    top: -8rem;
+    z-index: 100;
+    right: 1rem;
+}
+.po-u-section {
+    width: 100%;
+    word-wrap: break-word;
+    overflow: hidden;
+    height: 20px;
+}
+.side-bar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px;
+}
+.content-list-text {
+  display: table-cell;
+    width: 80%;
+    text-align: left;
+    vertical-align: top;
+    position: relative;
+    left: -40px;
+}
+.content-position {
+  align-items: flex-start;
+}
+
 
 /*mobile*/
 @media (max-width: 480px){
@@ -288,6 +373,9 @@
     border: 1px solid #e0e0e0;
 	}
 
+  .new-video-icon {
+    right: 1rem;
+  }
   .ranking_img {
     /*display: inline-block;
     width: 100%;
@@ -428,4 +516,31 @@
     display: block;
     height: 6rem;
   }
+  .content_list {
+        padding-left: 0;
+  }
+  .ranking-num {
+    font-size: 15px;
+  }
+   .side_user-thumb{
+    position: relative;
+    top: .5rem;
+  }
+  .po-u-section {
+    width: 100%;
+    word-wrap: break-word;
+    overflow: hidden;
+    height: 20px;
+
+
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .content-list-text {
+    position: relative;
+    left: 10px;
+}
+
 }

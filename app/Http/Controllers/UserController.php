@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Photo;
 use App\Tag;
 use App\Notifications\UserFollowed;
+use Storage;
 
 
 
@@ -119,10 +120,13 @@ class UserController extends Controller
         $user_id = $request->id;
 
         if ($request->file('avatar_name')->isValid([])) {
-            $filename = $request->file('avatar_name')->store('/user');
+            $filename = $request->file('avatar_name');
+
+            $path = Storage::disk('s3')->putFile('user', $filename, 'public');
+            $url = Storage::disk('s3')->url($path);
 
             $user = User::find(auth()->id());
-            $user->avatar_name = basename($filename);
+            $user->avatar_name = basename($url);
             $user->save();
 
             return redirect('/user/'.$user_id.'/edit')->with('success', '更新しました。');

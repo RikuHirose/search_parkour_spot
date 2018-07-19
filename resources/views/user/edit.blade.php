@@ -12,7 +12,7 @@
         </div>
         <div class="img-modal">
             <p>{{ $user['name'] }}</p>
-            <p  class="modal-open">プロフィール写真を編集する</p>
+            <p class="modal-open">プロフィール写真を編集する</p>
         </div>
     </div>
     <div id="modal">

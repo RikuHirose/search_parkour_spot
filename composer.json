@@ -9,11 +9,12 @@
         "doctrine/dbal": "^2.7",
         "fideloper/proxy": "^4.0",
         "jenssegers/agent": "^2.6",
+        "kanazaca/counter-cache": "1.0.*",
         "laravel/framework": "5.6.*",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.6",
-        "kanazaca/counter-cache": "1.0.*"
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
