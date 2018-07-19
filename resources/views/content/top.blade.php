@@ -3,27 +3,28 @@
 
 @section('css')
 <link href="{{ asset('css/top.css') }}" rel="stylesheet">
+<link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
 <div class="top-display">
   <?php if(App\Helpers\Helper::isMobile() == false):?>
     <!--↓↓ 検索フォーム ↓↓-->
-   <!--  <form class="top-form" action="/search" method="get">
+    <!-- <form class="top-form" action="/search" method="get">
       <div class="">
-      <input type="text" name="tag" class="top-form-input" placeholder="気になるTagから検索する">
+      <input type="text" name="q" class="top-form-input" placeholder="気になるTagから検索する">
       <input type="submit" value="検索" class="btn btn-info">
       </div>
     </form> -->
 
-    <form class="top-form" action="/place" method="get" id="form_id">
+   <!--  <form class="top-form" action="/place" method="get" id="form_id">
       <div class="">
-        <input id="pac-input" class="top-form-input" type="text"  name="place" placeholder="気になる地名から検索する">
+        <input id="pac-input" class="top-form-input" type="text"  name="q" placeholder="気になる地名から検索する">
         <input id="lat-input" type="hidden" name="lat" value="">
         <input id="lng-input" type="hidden" name="lng" value="">
         <input value="検索" class="btn btn-info" type="submit" id="btn_id">
       </div>
-    </form>
+    </form> -->
   <?php endif; ?>
   @if (session('success'))
     <div class="alert alert-info">
@@ -36,20 +37,40 @@
 <div class="wrap">
     <div class="card">
         <div class="card-body">
+          <div class="container">
+              <div class="row content-position">
+                  <div class="col-md-9">
+                    <h2 class="content-header">ranking</h2>
+                    <div class="content-group clearfix">
+                        <?php App\Helpers\Helper::RankingContentList($ranking); ?>
+                    </div>
+                    <h2 class="content-header">new</h2>
+                    <div class="clearfix content-top">
+                        <?php App\Helpers\Helper::NewContentList($content); ?>
+                    </div>
 
-            <h2 class="content-header">ranking</h2>
-            <div class="content-group clearfix">
-                <?php App\Helpers\Helper::RankingContentList($ranking); ?>
-            </div>
-            <h2 class="content-header">new</h2>
-            <div class="clearfix content-top">
-                <?php App\Helpers\Helper::TopOneColumnContentList($content); ?>
-            </div>
-
-            <h2 class="content-header">人気のユーザー</h2>
-            <div class="clearfix content-top">
-              <?php App\Helpers\Helper::UserList($popular_user); ?>
-            </div>
+                  </div>
+                  <div class="col-md-3 side-bar">
+                    <h3 class="user-list-h3">人気のユーザー</h3>
+                    <div class="clearfix content-top">
+                      <?php App\Helpers\Helper::SideUserList($users); ?>
+                    </div>
+                    <h3 class="user-list-h3">人気のタグ</h3>
+                    <div class="clearfix content-top">
+                      <?php $recommendtags = App\Helpers\Helper::recommendTags(); ?>
+                      <ul>
+                        <?php foreach($recommendtags as $tag): ?>
+                          <li class="tag">
+                            <a href="/search?q=<?php echo $tag; ?>">
+                              <?php echo $tag; ?>
+                            </a>
+                          </li>
+                        <?php endforeach; ?>
+                      </ul>
+                    </div>
+                  </div>
+              </div>
+          </div>
         </div>
     </div>
 </div>
@@ -57,7 +78,7 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/searchBox.js')}}"></script>
+<!-- <script src="{{asset('js/searchBox.js')}}"></script> -->
 <script type="text/javascript">
   initAutocomplete();
 

@@ -20,22 +20,32 @@
                                 @if (App\Helpers\Helper::isFB($v['avatar_name']) == true)
                                     <img src="{{ $v['avatar_name'] }}" class="avatar_name">
                                 @else
-                                    <img src="/item/user/{{ $v['avatar_name'] }}" class="avatar_name">
+                                    <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/{{ $v['avatar_name'] }}" class="avatar_name">
+                                    <!-- <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/{{ $v['avatar_name'] }}" class="avatar_name"> -->
                                 @endif
                             @endif
                             {{ $v['name'] }}
                         </a>
                         @if (Auth::check())
                             @if (App\Helpers\Helper::isUser($v['id']) == true)
-                                <!-- delete -->
-                                <button type="button" class="btn btn-default" id="content_delete">
-                                    {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
+                                <i class="fas fa-align-right modal-open"></i>
+                                <div id="modal">
+                                    <div class="iziModal-content">
+                                        <a data-izimodal-close="">×</a>
+                                        <!-- modal -->
+                                        <div class="select-modal">
+                                            <!-- delete -->
+                                            <button type="button" class="btn btn-default" id="content_delete">
+                                                {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
 
-                                        {!! Form::hidden('id',$content['id']) !!}
-                                        {!! Form::submit('delete',['class' => 'btn btn-default', 'name' => 'btn']) !!}
+                                                    {!! Form::hidden('id',$content['id']) !!}
+                                                    {!! Form::submit('delete',['class' => 'btn btn-default', 'name' => 'btn']) !!}
 
-                                    {!! Form::close() !!}
-                                </button><i class="fas fa-align-right"></i>
+                                                {!! Form::close() !!}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             @else
                                 <a href="javascript:history.back()" class="history-back"><i class="fas fa-undo fa-2x"></i></a>
                             @endif
@@ -48,11 +58,11 @@
                         <?php foreach($img as $v):?>
                                 <?php if(App\Helpers\Helper::judgeImgorVideo($v) == 0): ?>
                                     <div>
-                                        <img class="slide_item_img" src="/item/{{ $v }}">
+                                        <img class="slide_item_img" src="{{ $v }}">
                                     </div>
                                 <?php elseif(App\Helpers\Helper::judgeImgorVideo($v) == 1): ?>
                                     <div class="slide-backgraound">
-                                        <video class="slide_item_video" src="/item/{{ $v }}" controls></video>
+                                        <video class="slide_item_video" src="{{ $v }}" controls></video>
                                     </div>
                                 <?php endif; ?>
                         <?php endforeach; ?>
@@ -109,14 +119,7 @@
                                 <h3 class="comment-title">Comment</h3>
                             </div>
                             <p>
-                                <?php
-                                    $string = $content['comment'];
-                                    $pattern = '/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u';
-                                    $replacement = '<a href="/search?tag=${1}">#${1}</a>';
-                                    $replacement2 = '${1}';
-                                    echo preg_replace($pattern, $replacement, $string);
-                                     // echo preg_replace($pattern, $replacement2, $string);
-                                ?>
+                                <?php echo App\Helpers\Helper::commentTotag($content['comment']); ?>
                             </p>
                         </div>
 
@@ -128,14 +131,18 @@
                     </div>
 
                     <div class="sns-section">
-                        
+                        <div class="sharethis-inline-share-buttons"></div>
                     </div>
 
                     <ul class="form-group clearfix around-section content_list">
-                        <h2 class="content-header">このスポット周辺の投稿</h2>
-                        <?php App\Helpers\Helper::OneColumnContentList($around); ?>
-                        <div id="more_btn">もっと見る <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
-                        <div id="close_btn">表示数を戻す <i class="fa fa-chevron-up" aria-hidden="true"></i></div>
+                        <h2 class="content-header">このスポット周辺の投稿(<?php echo count($around); ?>件)</h2>
+                        <?php if($around == ''): ?>
+                            <p>周辺にスポットはありません</p>
+                        <?php else: ?>
+                            <?php App\Helpers\Helper::OneColumnContentList($around); ?>
+                            <div id="more_btn">もっと見る <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                            <div id="close_btn">表示数を戻す <i class="fa fa-chevron-up" aria-hidden="true"></i></div>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
@@ -157,6 +164,7 @@ if(window.confirm('この投稿を削除しますか？')){
 @endsection
 
 @section('js')
+<script src="{{asset('js/iziModal.min.js')}}"></script>
 <script src="{{asset('js/content.js')}}"></script>
 <script src="{{asset('js/_like.js')}}"></script>
 <script src="{{asset('js/more.js')}}"></script>

@@ -63,13 +63,7 @@
             <div class="user-bottom">
                 <p><?php echo $user['name']; ?></p>
                 <p>
-                    <?php
-                        $string = $user['comment'];
-                        $pattern = '/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u';
-                        $replacement = '<a href="/search?tag=${1}">#${1}</a>';
-                        $replacement2 = '${1}';
-                        echo preg_replace($pattern, $replacement, $string);
-                    ?>
+                    <?php echo App\Helpers\Helper::commentTotag($user['comment']); ?>
                 </p>
             </div>
             <div class="card-header result-icons">

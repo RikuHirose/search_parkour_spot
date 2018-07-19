@@ -125,8 +125,7 @@
     }
     .direction-map {
         font-size: 1.4rem;
-        position: relative;
-        top: -0.5rem;
+        
         letter-spacing: 1px;
     }
     .history-back {
@@ -164,5 +163,8 @@
     .slick-dots li {
         width: 10px;
         height: 10px;
+    }
+    .content_list {
+        padding-left: 0;
     }
 }

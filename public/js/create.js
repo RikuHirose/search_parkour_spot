@@ -206,7 +206,7 @@ setDefault();
 
 
   function initAutocomplete(map) {
-    var input = document.getElementById('pac-input');
+    var input = document.getElementById('map-input');
     if (!input) { return }
     // var map = new google.maps.Map(document.getElementById('map_canvas'), {
     //   center: {lat: latval, lng: lngval},

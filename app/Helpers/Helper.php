@@ -69,6 +69,23 @@ class Helper
         return $match;
     }
 
+    public static function recommendTags()
+    {
+        $tags = ['SandyArea', 'Wall', 'Bar', 'Rail', 'Glass', 'Rocks', 'Gym', 'Trampoline', 'Precision', 'Plyometrics', 'Flow'];
+
+        return $tags;
+    }
+
+    public static function ResultMore($content)
+    {
+        if(count($content) < 10): ?>
+
+        <?php else: ?>
+            <div id="more_btn">もっと見る <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+            <div id="close_btn">表示数を戻す <i class="fa fa-chevron-up" aria-hidden="true"></i></div>
+        <?php endif;
+    }
+
     public static function avatarLogic($avatar_name)
     {
         if($avatar_name == ''): ?>
@@ -77,7 +94,7 @@ class Helper
             if (Helper::isFB($avatar_name) == true): ?>
                 <img src="<?php echo $avatar_name; ?>" class="account-avatar">
             <?php else: ?>
-                <img src="/item/user/<?php echo $avatar_name; ?>" class="account-avatar">
+                <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $avatar_name; ?>" class="account-avatar">
             <?php endif; ?>
         <?php endif;
     }
@@ -89,7 +106,7 @@ class Helper
             if (Helper::isFB($avatar_name) == true): ?>
                 <img src="<?php echo $avatar_name; ?>" class="avatar_name">
             <?php else: ?>
-                <img src="/item/user/<?php echo $avatar_name; ?>" class="avatar_name">
+                <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $avatar_name; ?>" class="avatar_name">
             <?php endif; ?>
         <?php endif;
     }
@@ -101,6 +118,7 @@ class Helper
         $needle   = 'https://graph.facebook.com/v3.0/'; // 見つけたい文字列
 
         // 文字列が含まれるかどうかチェック
+
         if ( strpos( $heystack, $needle ) === false ) {
           return false;
         } else {
@@ -108,16 +126,26 @@ class Helper
         }
     }
 
+    public static function commentTotag($comment)
+    {
+        $string = $comment;
+        $pattern = '/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u';
+        $replacement = '<a href="/search?q=${1}">#${1}</a>';
+        $comment = preg_replace($pattern, $replacement, $string);
+
+        return $comment;
+    }
+
     public static function tagLogic($tag)
     {
         preg_match('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $tag, $match);?>
-        <a href="/search?tag=<?php echo $match[1]; ?>"><?php echo $tag; ?></a>
+        <a href="/search?q=<?php echo $match[1]; ?>"><?php echo $tag; ?></a>
 <?php
     }
 
-    public static function UserList($popular_user)
+    public static function UserList($users)
     { ?>
-            <?php foreach($popular_user as $user): ?>
+            <?php foreach($users as $user): ?>
 
                 <div class="popular-wrap">
                     <a href="/user/<?php echo $user['id']; ?>">
@@ -128,7 +156,7 @@ class Helper
                             <?php if (\App\Helpers\Helper::isFB($user['avatar_name']) == true): ?>
                                 <img src="<?php echo $user['avatar_name']; ?>" class="user-thumb">
                             <?php else: ?>
-                                <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="user-thumb">
+                                <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $user['avatar_name']; ?>" class="user-thumb">
                             <?php endif; ?>
                         <?php endif; ?>
                             <div class="user-profile">
@@ -137,6 +165,37 @@ class Helper
                                     <p><?php echo $user['comment']; ?></p>
                                 </div>
                                 <!-- <p>{{ $user['content_count'] }}</p> -->
+                            </div>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+    <?php
+    }
+
+    public static function SideUserList($users)
+    { ?>
+            <?php foreach($users as $user): ?>
+
+                <div class="side-user-wrap">
+                    <a href="/user/<?php echo $user['id']; ?>" class="clearfix">
+                        <?php if($user['avatar_name'] == ''): ?>
+                            <img src="/item/user-default.png" class="side_user-thumb">
+                        <?php else: ?>
+
+                            <?php if (\App\Helpers\Helper::isFB($user['avatar_name']) == true): ?>
+                                <img src="<?php echo $user['avatar_name']; ?>" class="side_user-thumb">
+                            <?php else: ?>
+                                <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $user['avatar_name']; ?>" class="side_user-thumb">
+                            <?php endif; ?>
+                        <?php endif; ?>
+                            <div class="user-profile">
+                                <span class="user-name"><?php echo $user['name']; ?></span>
+                                <?php if(Helper::isMobile() == true): ?>
+                                    <p class="po-u-section"><?php echo $user['comment']; ?></p>
+                                <?php else: ?>
+                                    <span class="po-u-section"><?php echo $user['comment']; ?></span>
+                                <?php endif; ?>
+
                             </div>
                     </a>
                 </div>
@@ -161,11 +220,11 @@ class Helper
                                 }else{
                                     if(Helper::judgeImgorVideo($img) == 0) {
                                         echo "<span class='ranking-num'>".$count."</span>";
-                                        echo "<img class='ranking_img' src='/item/$img'>";
+                                        echo "<img class='ranking_img' src='$img'>";
                                     } elseif(Helper::judgeImgorVideo($img) == 1) {
                                         echo "<span class='ranking-num'>".$count."</span>";
                                         echo "<span class='ranking-video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
-                                        echo "<video class='ranking_video' src='/item/$img'></video>";
+                                        echo "<video class='ranking_video' src='$img'></video>";
                                     }
                                     $i++;
                                 }
@@ -185,7 +244,7 @@ class Helper
                                         <?php if (Helper::isFB($user['avatar_name']) == true): ?>
                                             <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name">
                                         <?php else: ?>
-                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name">
+                                            <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name">
                                         <?php endif; ?>
 
                                     <?php endif; ?>
@@ -236,7 +295,7 @@ class Helper
                                         <?php if (Helper::isFB($user['avatar_name']) == true): ?>
                                             <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
                                         <?php else: ?>
-                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                            <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
                                         <?php endif; ?>
 
                                     <?php endif; ?>
@@ -304,7 +363,7 @@ class Helper
                                         <?php if (Helper::isFB($user['avatar_name']) == true): ?>
                                             <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
                                         <?php else: ?>
-                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                            <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
                                         <?php endif; ?>
 
                                     <?php endif; ?>
@@ -353,19 +412,19 @@ class Helper
         <?php endforeach;
     }
 
-    public static function TopOneColumnContentList($content)
+    public static function NewContentList($content)
     {
         $content = array_reverse($content);
         $content = array_slice($content, 0, 6);
         foreach($content as $v):
         ?>
                 <div class="bottom-content-list clearfix">
-                    <a href="/content/<?php echo $v['id']; ?>" class="card_item">
+                    <a href="/content/<?php echo $v['id']; ?>" class="">
                         <h3 class="content-title content-new-title">
                             <?php echo $v['spot_name']; ?>
                         </h3>
-                        <div class="user-block">
-                            <?php foreach($v['user'] as $user): ?>
+                        <!-- <div class="user-block"> -->
+                            <!-- <?php foreach($v['user'] as $user): ?>
                                     <?php if($user['avatar_name'] == ''): ?>
                                         <img src="/item/user-default.png" class="top_avatar_name2">
                                     <?php else: ?>
@@ -373,16 +432,16 @@ class Helper
                                         <?php if (Helper::isFB($user['avatar_name']) == true): ?>
                                             <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
                                         <?php else: ?>
-                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                            <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
                                         <?php endif; ?>
 
                                     <?php endif; ?>
-                            <?php endforeach; ?>
-                        </div>
+                            <?php endforeach; ?> -->
+                        <!-- </div> -->
                     </a>
                     <div class="content-list">
                         <div>
-                            <a href="/content/<?php echo $v['id']; ?>" class="card_item">
+                            <a href="/content/<?php echo $v['id']; ?>" class="">
                             <?php
                                 $i = 0;
                                 $num = 1;
@@ -391,9 +450,10 @@ class Helper
                                         break;
                                     }else{
                                         if(Helper::judgeImgorVideo($img) == 0) {
-                                            echo "<img class='card_item_img2' src='/item/$img'>";
+                                            echo "<img class='card_item_img2' src='$img'>";
                                         } elseif(Helper::judgeImgorVideo($img) == 1) {
-                                            echo "<video class='card_item_img2' src='/item/$img'></video>";
+                                            echo "<span class='new-video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
+                                            echo "<video class='card_item_img2' src='$img'></video>";
                                         }
                                         $i++;
                                     }
@@ -444,7 +504,7 @@ class Helper
                                         <?php if (Helper::isFB($user['avatar_name']) == true): ?>
                                             <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
                                         <?php else: ?>
-                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
+                                            <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name2">
                                         <?php endif; ?>
 
                                     <?php endif; ?>
@@ -535,7 +595,7 @@ class Helper
                                         <?php if (Helper::isFB($user['avatar_name']) == true): ?>
                                             <img src="<?php echo $user['avatar_name']; ?>" class="top_avatar_name">
                                         <?php else: ?>
-                                            <img src="/item/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name">
+                                            <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/<?php echo $user['avatar_name']; ?>" class="top_avatar_name">
                                         <?php endif; ?>
 
                                     <?php endif; ?>

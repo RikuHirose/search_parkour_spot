@@ -3,6 +3,7 @@
 <!-- cssの読み込み -->
 @section('css')
 <link href="{{ asset('css/top.css') }}" rel="stylesheet">
+<link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -35,16 +36,67 @@
         </div>
 
         <div class="card-body">
-            <ul id="content-block" class="form-group clearfix content_list">
-                <?php App\Helpers\Helper::SearchTagContentList($content); ?>
-                <div id="more_btn">もっと見る <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
-                <div id="close_btn">表示数を戻す <i class="fa fa-chevron-up" aria-hidden="true"></i></div>
-            </ul>
+            <div class="container" id="content-block">
+                <div class="row content-position">
+                    <div class="col-md-9">
+                        <div class="content-group clearfix">
+                            <ul id="content-block" class="form-group clearfix content_list">
+                                <?php App\Helpers\Helper::SearchTagContentList($content); ?>
+                                <?php App\Helpers\Helper::ResultMore($content); ?>
+                            </ul>
+                        </div>
+                    </div>
+                  <div class="col-md-3 side-bar">
+                    <h3 class="user-list-h3">人気のユーザー</h3>
+                    <div class="clearfix content-top">
+                      <?php App\Helpers\Helper::SideUserList($users); ?>
+                    </div>
+                    <h3 class="user-list-h3">人気のタグ</h3>
+                    <div class="clearfix content-top">
+                        <?php $recommendtags = App\Helpers\Helper::recommendTags(); ?>
+                        <ul>
+                            <?php foreach($recommendtags as $tag): ?>
+                                <li class="tag">
+                                    <a href="/search?q=<?php echo $tag; ?>">
+                                        <?php echo $tag; ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="map-block">
-            <div id="map_canvas" class="map_canvas"></div>
-            <div id="getcurrentlocation" class="get-current">
-                <p class="current-p">現在地を取得する</p>
+            <div class="container" id="content-block">
+                <div class="row content-position">
+                    <div class="col-md-9">
+                        <div class="content-group clearfix">
+                            <div id="map_canvas" class="map_canvas"></div>
+                            <div id="getcurrentlocation" class="get-current">
+                                <p class="current-p">現在地を取得する</p>
+                            </div>
+                        </div>
+                    </div>
+                  <div class="col-md-3 side-bar">
+                    <h3 class="user-list-h3">人気のユーザー</h3>
+                    <div class="clearfix content-top">
+                      <?php App\Helpers\Helper::SideUserList($users); ?>
+                    </div>
+                    <h3 class="user-list-h3">人気のタグ</h3>
+                    <div class="clearfix content-top">
+                        <?php $recommendtags = App\Helpers\Helper::recommendTags(); ?>
+                        <ul>
+                            <?php foreach($recommendtags as $tag): ?>
+                                <li class="tag">
+                                    <a href="/search?q=<?php echo $tag; ?>">
+                                        <?php echo $tag; ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

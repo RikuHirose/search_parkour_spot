@@ -140,7 +140,7 @@ body::before {
         font-weight: 300;
       }
 
-      #pac-input {
+      #map-input {
         background-color: #fff;
         font-family: Roboto;
         font-size: 15px;
@@ -150,7 +150,7 @@ body::before {
         width: 100%;
       }
 
-      #pac-input:focus {
+      #map-input:focus {
         border-color: #4d90fe;
       }
 
@@ -194,13 +194,14 @@ body::before {
     margin-top: 40px;
 }
 .img-upload-input {
-    cursor: pointer;
+   cursor: pointer;
     height: 53px;
-    left: calc(50% - 157px);
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    width: 314px;
+    left: calc(50% - 147px);
+     opacity: 0; 
+    position: relative;
+    top: 35px;
+    /* width: 314px; */
+    margin: 0;
 }
 
 .info-latlng {
@@ -235,7 +236,15 @@ body::before {
     display: block;
   }
 
+.rectags {
+  margin: 0 .5rem;
   /*mobile*/
+}
+.image-upload {
+    text-align: center;
+}
+
+
 @media (max-width: 480px){
   .search-box ,.spot_name, .comment-area{
     border: .5px  solid;

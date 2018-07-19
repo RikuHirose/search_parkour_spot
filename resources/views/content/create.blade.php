@@ -54,12 +54,18 @@
 
                         <div class="tag_area">
                             <span>おすすめのタグ</span>
-                            <?php foreach($tags as $tag): ?>
-                                <a onclick="$('#tag_caption').val($('#tag_caption').val() + '#{{ $tag }} ');" href="javascript: void(0);">
+                            <?php
+                            $recommendtags = App\Helpers\Helper::recommendTags();
+                            foreach($recommendtags as $tag): ?>
+                                <a onclick="$('#tag_caption').val($('#tag_caption').val() + '#{{ $tag }} ');" href="javascript: void(0);" class="rectags">
                                     <i class="fa fa-plus"></i>
                                     <span>#{{ $tag }}</span>
                                 </a>
                             <?php endforeach; ?>
+                            <!-- <a onclick="$('#tag_caption').val($('#tag_caption').val() + '#Sandy Area');" href="javascript: void(0);">
+                                    <i class="fa fa-plus"></i>
+                                    <span>#SandyArea</span>
+                            </a> -->
                         </div>
                         <table class="info-latlng">
                             <tr>
@@ -82,7 +88,7 @@
                         <input type="hidden" name="address" value="{{ Input::old('address') }}" id="old_address">
 
                         <p>地名などから検索する</p>
-                        <input id="pac-input" class="controls search-box" type="text" placeholder="(例):渋谷">
+                        <input id="map-input" class="controls search-box" type="text" placeholder="(例):渋谷">
                         <div id="map_canvas" class="map_canvas"></div>
                         <div id="selectcurrentlocation" class="get-current">
                             <p class="current-p">現在地を取得する</p>
@@ -91,7 +97,7 @@
 
                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                     <div class="form-group">
-                        <input class="upload-btn" type="submit" value="upload">
+                        <input class="upload-btn" type="button" value="upload">
                     </div>
                     {!! Form::close() !!}
 
@@ -102,6 +108,13 @@
 @endsection
 
 @section('js')
+<script>
+    $(function(){
+        $('input[type=button]').click(function(){
+            $('form').submit();
+        });
+    });
+</script>
 <script src="{{asset('js/create.js')}}"></script>
 <script src="{{asset('js/validate_file.js')}}"></script>
 @endsection

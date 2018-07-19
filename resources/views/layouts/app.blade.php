@@ -24,10 +24,14 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/default.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/notification.css') }}" rel="stylesheet">
     <link href="{{ asset('css/iziModal.min.css') }}" rel="stylesheet">
     @yield('css')
 
     <!-- Scripts -->
+    <!-- bugが出る -->
+    <!-- <script src="//platform-api.sharethis.com/js/sharethis.js#property=5b473a663cd9e600119c7b57&product=inline-share-buttons"></script> -->
+    <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5b473a663cd9e600119c7b57&product=inline-share-buttons' async='async'></script> -->
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -96,6 +100,23 @@
                                 <i class="fas fa-camera fa-3x"></i>
                                 upload
                             </a>
+                            <!-- <a class="sidebar-list">
+                                <div class="dropdown" id="markasread">
+                                    <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        notification<span class="badge" id="badge">{{ count(auth()->user()->unreadNotifications) }}</span>
+                                    </div>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        @forelse(auth()->user()->unreadNotifications as $notification)
+                                            <li class="">
+                                                @include('layouts.partials.notification.'.snake_case(class_basename($notification->type)))
+                                                @empty
+                                                <a href="#">No notifications</a>
+                                            </li>
+                                        @endforelse
+
+                                    </ul>
+                                </div>
+                            </a> -->
                             <a class="sidebar-list sidebar-list-last" href="/contact">
                                 <i class="far fa-envelope-open fa-3x"></i>
                                 contact
@@ -130,7 +151,7 @@
 
                         <div id="form-content" class="form-content">
                             <form class="" action="/search" method="get">
-                                <input type="text" name="tag" class="topbar-form-input" placeholder="気になるタグから検索する" value="">
+                                <input type="text" name="q" class="topbar-form-input" placeholder="気になるタグから検索する" value="">
                                 <!-- <input type="submit" value="検索" class="btn btn-info"> -->
                             </form>
                             <i class="fas fa-search fa-2x input-search-icon"></i>
@@ -138,7 +159,7 @@
 
                         <div id="form-content2" class="form-content2">
                             <form class="" action="/place" method="get" id="form_id">
-                                <input id="pac-input" class="topbar-form-input" type="text"  name="place" placeholder="気になる地名から検索する" value="">
+                                <input id="pac-input" class="topbar-form-input" type="text"  name="q" placeholder="気になる地名から検索する" value="">
                                 <input id="lat-input" type="hidden" name="lat" value="">
                                 <input id="lng-input" type="hidden" name="lng" value="">
                                 <!-- <input type="submit" value="検索" class="btn btn-info"> -->
@@ -151,90 +172,90 @@
 
             <!-- pc -->
             <?php else:?>
-                <div class="search-icon">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="top-icon">
-                    <a class="" href="{{ url('/') }}">
-                        <p>pkLinks</p>
-                    </a>
-                </div>
-
-                @guest
-                    <div class="dropdown">
-                      <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        menu
-                      </div>
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-
-                            <li><a class="sidebar-list" href="/content/">map</a></li>
-                            <li><a class="sidebar-list" href="">pklinksとは？</a></li>
-                            <li><a class="sidebar-list" href="/contact">contact</a></li>
-                      </ul>
+                <div class="m-header-inner">
+                     <div class="top-icon">
+                        <a class="" href="{{ url('/') }}">
+                            <p>pkLinks</p>
+                        </a>
                     </div>
-
-                    <a class="auth-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
-                @else
-
-
-                    <div class="dropdown" id="markasread">
-                        <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            notification<span class="badge" id="badge">{{ count(auth()->user()->unreadNotifications) }}</span>
-                        </div>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li class="">
-                                @forelse(auth()->user()->unreadNotifications as $notification)
-                                    @include('layouts.partials.notification.'.snake_case(class_basename($notification->type)))
-                                    @empty
-                                    <a href="#">No notifications</a>
-                                @endforelse
-                            </li>
-
-                        </ul>
-                    </div>
-
-                    <div class="dropdown">
-                        <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <?php \App\Helpers\Helper::topbar_avatarLogic(Auth::user()->avatar_name) ?>
-                        </div>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li>
-                                <a id="" href="/user/{{ Auth::user()->id }}">
-                                    {{ Auth::user()->name }}
-                                </a>
-                            </li>
-                           <!-- @guest
-                                <li><a class="sidebar-list" href="/content/">map</a></li>
-                                <li><a class="sidebar-list" href="">pklinksとは？</a></li>
-                                <li><a class="sidebar-list" href="/contact">contact</a></li>
-                            @else -->
-                                <li><a class="sidebar-list" href="/content/">map</a></li>
-                                <li><a class="sidebar-list" href="/content/create">upload</a></li>
-                                <!-- <a class="sidebar-list" href="/content/id/editlist">edit</a> -->
-                            <!-- @endguest -->
-                            <!-- <li class="dropdown">
-                                <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="glyphicon glyphicon-user"></span>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="notificationsMenu" id="notificationsMenu">
-                                    <li class="dropdown-header">No notifications</li>
-                                </ul>
-                            </li>
- -->
-                        </ul>
-                    </div>
-
-
-                    <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
+                    <form class="search-icon" action="/place" method="get" id="form_id">
+                        <input id="pac-input" type="text"  name="q" placeholder="気になる地名から検索する" class="pac-input">
+                        <input id="lat-input" type="hidden" name="lat" value="">
+                        <input id="lng-input" type="hidden" name="lng" value="">
+                        <!-- <input value="" class="m-header-search-button" type="submit" id="btn_id"> -->
                     </form>
-                @endguest
+                    <i class="fas fa-search nav-search-poosition"></i>
 
+                    @guest
+                        <div class="m-header-navi not-login">
+                            <a class="sidebar-list" href="/content/">map</a>
+                            <a class="sidebar-list" href="">pklinksとは？</a>
+                        </div>
+                        <div class="m-header-navi">
+                            <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="auth-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </div>
+                    @else
+
+
+                        <div class="dropdown notice-nav" id="markasread">
+                            <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                notification<span class="badge" id="badge">{{ count(auth()->user()->unreadNotifications) }}</span>
+                            </div>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                @forelse(auth()->user()->unreadNotifications as $notification)
+                                    <li class="">
+                                        @include('layouts.partials.notification.'.snake_case(class_basename($notification->type)))
+                                        @empty
+                                        <a href="#">No notifications</a>
+                                    </li>
+                                @endforelse
+
+                            </ul>
+                        </div>
+
+                        <div class="dropdown m-header-navi">
+                            <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <?php \App\Helpers\Helper::topbar_avatarLogic(Auth::user()->avatar_name) ?>
+                            </div>
+                            <ul class="dropdown-menu nav-lists" aria-labelledby="dropdownMenu1">
+                                <li>
+                                    <a id="" href="/user/{{ Auth::user()->id }}">
+                                        {{ Auth::user()->name }}
+                                        <span style="display: block;">マイページをみる</span>
+                                    </a>
+                                </li>
+                               <!-- @guest
+                                    <li><a class="sidebar-list" href="/content/">map</a></li>
+                                    <li><a class="sidebar-list" href="">pklinksとは？</a></li>
+                                    <li><a class="sidebar-list" href="/contact">contact</a></li>
+                                @else -->
+                                    <li><a class="sidebar-list" href="/content/">map</a></li>
+                                    <li><a class="sidebar-list" href="/content/create">upload</a></li>
+                                    <li>
+                                        <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+                                    </li>
+                                    <!-- <a class="sidebar-list" href="/content/id/editlist">edit</a> -->
+                                <!-- @endguest -->
+                                <!-- <li class="dropdown">
+                                    <a class="dropdown-toggle" id="notifications" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="notificationsMenu" id="notificationsMenu">
+                                        <li class="dropdown-header">No notifications</li>
+                                    </ul>
+                                </li>
+     -->
+                            </ul>
+                        </div>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    @endguest
+                </div>
             <?php endif; ?>
 
 
@@ -269,7 +290,7 @@
     <script src="{{asset('js/slide.js')}}"></script>
     <script src="{{asset('js/message.js')}}"></script>
     <script src="{{asset('js/topbar_search.js')}}"></script>
-    <script src="{{asset('js/notification.js')}}"></script>
+    <!-- <script src="{{asset('js/notification.js')}}"></script> -->
 
 </body>
 </html>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Photo;
 use App\Tag;
 use App\User;
+use Storage;
 
 class ContentController extends Controller
 {
@@ -60,7 +61,6 @@ class ContentController extends Controller
         $this->validate($request,Content::$rules);
 
         // 正規表現でtagとcommentを分ける
-        // this #bar spot  is a amaging spot!!このような場合どうするのか？
         $str = $request->comment;
         preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
         // preg_match_all('/[＃＃]([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
@@ -84,13 +84,26 @@ class ContentController extends Controller
         // tag idの配列を渡し、contentに紐付いたtagを保存
         $content->tags()->attach($tagid);
 
-        // 画像の保存
-        foreach ($request->file('files') as $index=> $e) {
-                $ext = $e['photo']->guessExtension();
-                $filename = "{$request->spot_name}_{$index}.{$ext}";
-                $path = $e['photo']->storeAs('photos', $filename);
+        // 画像の保存 s3
+        foreach ($request->file('files') as $index) {
+                // $ext = $e['photo']->guessExtension();
+                // $filename = "{$request->spot_name}_{$index}.{$ext}";
+
+                // $path = $e['photo']->storeAs('photos', $filename);
                 // photosメソッドにより、商品に紐付けられた画像を保存する
-                $content->photos()->create(['path'=> $path]);
+                // $content->photos()->create(['path'=> $path]);
+
+                // $filename = $request->file('avatar_name');
+            $filename = $index['photo'];
+            $path = Storage::disk('s3')->putFile('pklinks', $filename, 'public');
+
+            $url = Storage::disk('s3')->url($path);
+
+            $content->photos()->create(['path'=> $url]);
+
+                // $user = User::find(auth()->id());
+                // $user->avatar_name = basename($url);
+                // $user->save();
         }
 
         return redirect('/')->with(['success'=> '保存しました！']);
@@ -124,7 +137,7 @@ class ContentController extends Controller
         $lat = $content['lat'];
         $lng = $content['lng'];
 
-        $around = Content::whereBetween('lat',[$lat - 15.5,$lat + 15.5])->whereBetween('lng',[$lng - 15.5,$lng + 15.5])->whereNotIn('id', [$id])->get();
+        $around = Content::whereBetween('lat',[$lat - 25.5,$lat + 25.5])->whereBetween('lng',[$lng - 25.5,$lng + 25.5])->whereNotIn('id', [$id])->get();
 
         $around = array_map(function($v) use ($lat, $lng){
             $str = $v['comment'];
@@ -142,10 +155,15 @@ class ContentController extends Controller
         }, $around->toArray());
 
         // ソート用の配列を用意
-        foreach ($around as $key => $value) {
-          $sort[$key] = $value['diastance'];
+        // var_dump($around);die;
+        if(empty($around)) {
+            $around = '';
+        } else {
+            foreach ($around as $key => $value) {
+              $sort[$key] = $value['diastance'];
+            }
+            array_multisort($sort, SORT_ASC, $around);
         }
-        array_multisort($sort, SORT_ASC, $around);
 
 
         return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around, 'tags' => $tags, 'like' =>$like, 'user' => $user]);
@@ -225,9 +243,9 @@ class ContentController extends Controller
 
     public function searchTag(Request $request)
     {
-        $q  = \Request::get('tag');
+        $q  = \Request::get('q');
 
-        // $content = Content::tagFilter($q)->SearchAddress($q)->SearchSpotName($q)->get();
+        $content = Content::tagFilter($q)->SearchAddress($q)->SearchSpotName($q)->get();
         $content = Content::tagFilter($q)->get();
 
         $content = array_map(function($v){
@@ -254,74 +272,46 @@ class ContentController extends Controller
             ];
         }, $content);
 
+        // popular user
+        $user = User::get();
+        $popular_user = array_map(function($v){
+            $contents = Content::where('user_id', $v['id'])->get();
+            $num = count($contents);
+            return [
+                'id' => $v['id'],
+                'name' => $v['name'],
+                'comment' => $v['comment'],
+                'avatar_name' => $v['avatar_name'],
+                'content_count' => $num,
+            ];
 
-        return view('content.searchresultByTag', ['content' => $content, 'query' => $q, 'content_location' => $content_location]);
+        },$user->toArray());
+        // 投稿が多い順にソート
+        foreach ((array) $popular_user as $key => $value) {
+            $sort[$key] = $value['content_count'];
+        }
+
+        array_multisort($sort, SORT_DESC, $popular_user);
+        $popular_user = array_slice($popular_user, 0, 5);
+
+
+        return view('content.searchresultByTag', ['content' => $content, 'query' => $q, 'content_location' => $content_location, 'users' => $popular_user]);
     }
 
     public function searchPlace(Request $request)
     {
 
         // $requestで緯度経度を撮りたい
-        $q  = \Request::get('place');
+        $q  = \Request::get('q');
         $content = $request->toArray();
 
         $lat = $content['lat'];
         $lng = $content['lng'];
-        $place = $content['place'];
+        $place = $content['q'];
 
 
-        // if($lat != null && $lng != null || $lat != '' && $lng != '') {
-        //     $content = Content::whereBetween('lat',[$lat - 1.5,$lat + 1.5])->whereBetween('lng',[$lng - 1.5,$lng + 1.5])->get();
-
-        //     $content = array_map(function($v) use ($lat, $lng){
-        //         $str = $v['comment'];
-        //         preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
-
-        //         return [
-        //             'img' => self::getPhotos($v['id']),
-        //             'id' => $v['id'],
-        //             'spot_name' => $v['spot_name'],
-        //             'address' => $v['address'],
-        //             'tags' => $match[0],
-        //             'diastance' => self::getDistance($lat, $lng, $v['lat'], $v['lng']),
-        //             'lat' => $v['lat'],
-        //             'lng' => $v['lng'],
-        //             'user' => self::getUserInfo($v['user_id']),
-        //             'likes_count' => $v['likes_count'],
-        //         ];
-        //     }, $content->toArray());
-
-        //     $searchLocation = ['lat' => $lat, 'lng' => $lng];
-
-        // } elseif($lat === null && $lng === null || $lat === '' && $lng === '') {
-        //     // 呼び出しのタイミング？
-        //     $latlng  = \App\Helpers\Helper::get_gps_from_address($place);
-
-        //     // var_dump($latlng);die;
-        //     $content = Content::whereBetween('lat',[$latlng['lat'] - 1.5,$latlng['lat'] + 1.5])->whereBetween('lng',[$latlng['lng'] - 1.5,$latlng['lng'] + 1.5])->get();
-
-        //     $content = array_map(function($v) use ($latlng){
-        //         $str = $v['comment'];
-        //         preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
-
-        //         return [
-        //             'img' => self::getPhotos($v['id']),
-        //             'id' => $v['id'],
-        //             'spot_name' => $v['spot_name'],
-        //             'address' => $v['address'],
-        //             'tags' => $match[0],
-        //             'diastance' => self::getDistance($latlng['lat'], $latlng['lng'], $v['lat'], $v['lng']),
-        //             'lat' => $v['lat'],
-        //             'lng' => $v['lng'],
-        //             'user' => self::getUserInfo($v['user_id']),
-        //             'likes_count' => $v['likes_count'],
-        //         ];
-        //     }, $content->toArray());
-
-        //     $searchLocation = ['lat' => $latlng['lat'], 'lng' => $latlng['lng']];
-        // }
-
-        $content = Content::whereBetween('lat',[$lat - 1.5,$lat + 1.5])->whereBetween('lng',[$lng - 1.5,$lng + 1.5])->get();
+        if($lat != null && $lng != null || $lat != '' && $lng != '') {
+            $content = Content::whereBetween('lat',[$lat - 1.5,$lat + 1.5])->whereBetween('lng',[$lng - 1.5,$lng + 1.5])->get();
 
             $content = array_map(function($v) use ($lat, $lng){
                 $str = $v['comment'];
@@ -341,26 +331,169 @@ class ContentController extends Controller
                 ];
             }, $content->toArray());
 
-        $searchLocation = ['lat' => $lat, 'lng' => $lng];
+            $searchLocation = ['lat' => $lat, 'lng' => $lng];
+
+            $sort = array();
+            // ソート用の配列を用意
+            foreach ($content as $key => $value) {
+              $sort[$key] = $value['diastance'];
+            }
+            array_multisort($sort, SORT_ASC, $content);
+
+            $content_location = array_map(function($v){
+                return [
+                    'id' => $v['id'],
+                    'lat' => $v['lat'],
+                    'lng' => $v['lng'],
+                ];
+            }, $content);
+
+            // popular user
+            $user = User::get();
+            $popular_user = array_map(function($v){
+                $contents = Content::where('user_id', $v['id'])->get();
+                $num = count($contents);
+                return [
+                    'id' => $v['id'],
+                    'name' => $v['name'],
+                    'comment' => $v['comment'],
+                    'avatar_name' => $v['avatar_name'],
+                    'content_count' => $num,
+                ];
+
+            },$user->toArray());
 
 
-        $sort = array();
-        // ソート用の配列を用意
-        foreach ($content as $key => $value) {
-          $sort[$key] = $value['diastance'];
+            // 投稿が多い順にソート
+            $popsort = array();
+            foreach ((array) $popular_user as $key => $value) {
+                $popsort[$key] = $value['content_count'];
+            }
+
+            // array_multisort($sort, SORT_DESC, $popular_user);
+            $popular_user = array_slice($popular_user, 0, 5);
+
+
+            return view('content.searchresultByPlace', ['content' => $content, 'query' => $q, 'content_location' => $content_location, 'searchLocation' => $searchLocation, 'users' => $popular_user]);
+
+        } elseif($lat === null && $lng === null || $lat === '' && $lng === '') {
+            // // 呼び出しのタイミング？
+            // $latlng  = \App\Helpers\Helper::get_gps_from_address($place);
+
+            // // var_dump($latlng);die;
+            // $content = Content::whereBetween('lat',[$latlng['lat'] - 1.5,$latlng['lat'] + 1.5])->whereBetween('lng',[$latlng['lng'] - 1.5,$latlng['lng'] + 1.5])->get();
+
+            // $content = array_map(function($v) use ($latlng){
+            //     $str = $v['comment'];
+            //     preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
+
+            //     return [
+            //         'img' => self::getPhotos($v['id']),
+            //         'id' => $v['id'],
+            //         'spot_name' => $v['spot_name'],
+            //         'address' => $v['address'],
+            //         'tags' => $match[0],
+            //         'diastance' => self::getDistance($latlng['lat'], $latlng['lng'], $v['lat'], $v['lng']),
+            //         'lat' => $v['lat'],
+            //         'lng' => $v['lng'],
+            //         'user' => self::getUserInfo($v['user_id']),
+            //         'likes_count' => $v['likes_count'],
+            //     ];
+            // }, $content->toArray());
+
+            // $searchLocation = ['lat' => $latlng['lat'], 'lng' => $latlng['lng']];
+            $content = Content::tagFilter($q)->get();
+
+            $content = array_map(function($v){
+                $str = $v['comment'];
+                preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
+                return [
+                    'img' => self::getPhotos($v['id']),
+                    'id' => $v['id'],
+                    'spot_name' => $v['spot_name'],
+                    'address' => $v['address'],
+                    'tags' => $match[0],
+                    'user' => self::getUserInfo($v['user_id']),
+                    'likes_count' => $v['likes_count'],
+                    'lat' => $v['lat'],
+                    'lng' => $v['lng'],
+                ];
+            }, $content->toArray());
+
+            $content_location = array_map(function($v){
+                return [
+                    'id' => $v['id'],
+                    'lat' => $v['lat'],
+                    'lng' => $v['lng'],
+                ];
+            }, $content);
+
+            // popular user
+            $user = User::get();
+            $popular_user = array_map(function($v){
+                $contents = Content::where('user_id', $v['id'])->get();
+                $num = count($contents);
+                return [
+                    'id' => $v['id'],
+                    'name' => $v['name'],
+                    'comment' => $v['comment'],
+                    'avatar_name' => $v['avatar_name'],
+                    'content_count' => $num,
+                ];
+
+            },$user->toArray());
+            // 投稿が多い順にソート
+            foreach ((array) $popular_user as $key => $value) {
+                $sort[$key] = $value['content_count'];
+            }
+
+            array_multisort($sort, SORT_DESC, $popular_user);
+            $popular_user = array_slice($popular_user, 0, 5);
+
+
+            return view('content.searchresultByTag', ['content' => $content, 'query' => $q, 'content_location' => $content_location, 'users' => $popular_user]);
         }
-        array_multisort($sort, SORT_ASC, $content);
 
-        $content_location = array_map(function($v){
-            return [
-                'id' => $v['id'],
-                'lat' => $v['lat'],
-                'lng' => $v['lng'],
-            ];
-        }, $content);
+        // $content = Content::whereBetween('lat',[$lat - 1.5,$lat + 1.5])->whereBetween('lng',[$lng - 1.5,$lng + 1.5])->get();
+
+        //     $content = array_map(function($v) use ($lat, $lng){
+        //         $str = $v['comment'];
+        //         preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
+
+        //         return [
+        //             'img' => self::getPhotos($v['id']),
+        //             'id' => $v['id'],
+        //             'spot_name' => $v['spot_name'],
+        //             'address' => $v['address'],
+        //             'tags' => $match[0],
+        //             'diastance' => self::getDistance($lat, $lng, $v['lat'], $v['lng']),
+        //             'lat' => $v['lat'],
+        //             'lng' => $v['lng'],
+        //             'user' => self::getUserInfo($v['user_id']),
+        //             'likes_count' => $v['likes_count'],
+        //         ];
+        //     }, $content->toArray());
+
+        // $searchLocation = ['lat' => $lat, 'lng' => $lng];
 
 
-        return view('content.searchresultByPlace', ['content' => $content, 'query' => $q, 'content_location' => $content_location, 'searchLocation' => $searchLocation]);
+        // $sort = array();
+        // // ソート用の配列を用意
+        // foreach ($content as $key => $value) {
+        //   $sort[$key] = $value['diastance'];
+        // }
+        // array_multisort($sort, SORT_ASC, $content);
+
+        // $content_location = array_map(function($v){
+        //     return [
+        //         'id' => $v['id'],
+        //         'lat' => $v['lat'],
+        //         'lng' => $v['lng'],
+        //     ];
+        // }, $content);
+
+
+        // return view('content.searchresultByPlace', ['content' => $content, 'query' => $q, 'content_location' => $content_location, 'searchLocation' => $searchLocation]);
     }
 
 
@@ -427,7 +560,7 @@ class ContentController extends Controller
         $popular_user = array_slice($popular_user, 0, 5);
 
 
-        return view('content.top', ['content' => $content, 'ranking' => $ranking, 'popular_user' => $popular_user]);
+        return view('content.top', ['content' => $content, 'ranking' => $ranking, 'users' => $popular_user]);
     }
 
     public function getEditList()
