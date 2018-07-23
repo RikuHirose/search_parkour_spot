@@ -1,3 +1,7 @@
+.col-md-8 {
+    padding: 0;
+}
+
 .slide_item_img {
     display: inline-block;
     width: 100%;
@@ -13,19 +17,14 @@
 .slide-backgraound {
 	background-color: black;
 }
-.content-list-text .card_item_text {
-    font-size: 10px;
-    word-wrap: break-word;
-    width: 100%;
-    padding-left: 3rem;
-}
+
 .spot_name {
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0;
 }
 
 .map-direction {
-    margin: 0 auto;
+    margin: 3rem auto;
     width: 60%;
     text-align: center;
     padding: 5px;
@@ -33,8 +32,8 @@
     vertical-align: middle;
     border-radius: 10px;
     font-size: 13px;
-    font-weight: bolder;
-    margin: 3rem 0;
+    /*font-weight: bolder;*/
+    letter-spacing: 1px;
 }
 .slick-next {
     right: 2px;
@@ -76,11 +75,7 @@
     position: relative;
     top: .5rem;
 }
-.current-p {
-    color: #fff;
-    background-color: blue;
 
-}
 .around-section {
     margin: 2rem 0;
 }
@@ -95,9 +90,50 @@
     border-bottom: 1px solid black;
     padding-bottom: .5rem;
 }
+.modal-pos {
+    float: right;
+    position: relative;
+    top: -3rem;
+    right: 61rem;
+    font-size: 1.5rem;
+    overflow: visible;
+}
+.us-name {
+    font-size: 1.3rem;
+    padding-left: 1rem;
+}
+.fav-btn {
+    border: none;
+}
+
+.likes_count {
+    font-size: 1.2rem;
+}
+.del-open {
+    position: relative;
+    top: 1rem;
+    right: 1rem;
+}
 
 /*mobile*/
 @media (max-width: 480px){
+    .del-open {
+        position: relative;
+        top: 0rem;
+        right: -15rem;
+    }
+
+    .like-postision {
+        margin-bottom: 1rem;
+    }
+    .modal-pos {
+        float: right;
+        position: relative;
+        top: -1rem;
+        right: 33rem;
+        font-size: 1.5rem;
+        overflow: visible;
+    }
     .top_avatar_name2 {
         right: 0;
         width: 25px;
@@ -108,7 +144,8 @@
         display: block;
         font-weight: 700;
         font-size: 1.8rem;
-        padding-top: 10px;
+        /*padding-top: 10px;*/
+        margin-top: -4px;
         margin-bottom: 0;
         padding-bottom: 1rem;
         overflow: hidden;

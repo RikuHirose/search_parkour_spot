@@ -68,3 +68,5 @@ Route::get('/markAsRead', function(){
 	auth()->user()->unreadNotifications->markAsRead();
 });
 
+Route::get('/notifications','UserController@notifications');
+

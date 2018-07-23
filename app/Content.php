@@ -49,7 +49,6 @@ class Content extends Model
 
     public function scopeTagFilter($query, ?string $tag)
     {
-
         if(strpos($tag,'#') !== false){
           //'tag'のなかに'#'が含まれている場合
             $tag = $tag;
@@ -63,13 +62,14 @@ class Content extends Model
         return $query;
     }
 
-    public function scopeSearchAddress($query, ?string $word)
-    {
-        if (!is_null($word)) {
-            return $query->where('address', 'like', '%' . $word . '%');
-        }
-        return $query;
-    }
+    // public function scopeSearchAddress(?string $word)
+    //  {
+    //      if (!is_null($word)) {
+    //          $content =  Content::where('address', 'like', '%' . $word . '%')->get();
+    //      }
+    //      return $content;
+
+    // }
 
     public function scopeSearchSpotName($query, ?string $word)
     {
@@ -85,7 +85,7 @@ class Content extends Model
             'lat' => 'required',
             'lng' => 'required',
             'address' => 'required|max:255',
-            'spot_name' => 'required|max:255',
+            'spot_name' => 'required|max:50',
             'comment' => 'required|max:255',
             'user_id' => 'required',
      );

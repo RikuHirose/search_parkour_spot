@@ -1,3 +1,40 @@
+.auth-container {
+  width: 600px;
+  margin: 0 auto;
+}
+.title-or {
+    text-align: center;
+    margin: 2rem 0;
+}
+.new-res {
+ 
+}
+.new-resbtn {
+    text-align: center;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 1rem;
+    text-decoration: none;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 40px;
+    background: #ED7483;
+    width: 360px;
+    height: 40px;
+    border: 0;
+    border-radius: 5px;
+    display: block;
+    width: auto;
+    height: 36px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    line-height: 28px;
+    padding: 4px 0px;
+    margin: 8px 22px 24px;
+}
 .navigation-tab {
     display: table;
     width: 100%;
@@ -12,6 +49,7 @@
 .navigation-tab>.tab.-active>.item {
     border-bottom: 2px solid #007bff;
     color: #007bff;
+    font-weight: bold;
 }
 .navigation-tab>.tab>.item {
     display: block;
@@ -23,6 +61,7 @@
     font-size: .8125rem;
     color: #929496;
     text-decoration: none;
+    font-size: 1.3rem;
 }
 
 .auth-btn-positon{
@@ -33,9 +72,23 @@
 }
 
 .text-area {
-    font-size: .8125rem;
+    font-size: 1.2rem;
     margin-bottom: 20px;
     line-height: 21px;
+    /*text-align: center;*/
+    width: 70%;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+}
+.text-area2 {
+    margin-top: 2rem;
+    text-align: center;
+}
+.form-poss {
+    margin-left: 15rem;
+}
+.form-posslast {
+    margin-bottom: 2rem;
 }
 .btn-fb {
     background-color: #3C5A99;
@@ -49,12 +102,60 @@
 	display: block;
 	text-align: center;
 }
-.btn-sns {
+.btn-auth {
+	height: 40px;
+    width: 200px;
+    font-size: 1.3rem;
+}
+.sns-icon {
+	width: 30px;
+	height: 30px;
+	position: relative;
+    right: 7rem;
+    top: .5rem;
+}
+.sign-sns-name {
+	width: 65%;
+    /*margin: 0 auto;*/
+    position: relative;
+    font-size: 1.3rem;
+    color: #fff;
+    position: relative;
+    top: -2rem;
+    font-weight: bold;
+    margin-left: 11rem;
+    right: 4.5rem;
+}
+.btn-fb:before {
+	content: '';
+    position: absolute;
+    top: 0;
+    left: 60px;
+	height: 45px;
+    width: 0px;
+    border-left: 1px solid white;
+}
 
+.forgetpass {
+	margin-bottom: 2rem;
 }
 
 /*mobile*/
 @media (max-width: 480px){
+	.btn-fb {
+    background-color: #3C5A99;
+    color: #fff;
+    border: none;
+    position: relative;
+    border-radius: 4px;
+    width: auto;
+    height: 36px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    line-height: 28px;
+    padding: 4px 0px;
+    margin: 8px 22px 24px;
+}
 	.btn-auth{
 		height: 50px;
     	line-height: 50px;
@@ -72,20 +173,21 @@
 		width: 30px;
 		height: 30px;
 		position: relative;
-	    top: .8rem;
-	    right: 13.5rem;
+	    top: 0rem;
+        right: 11.5rem;
 	}
 	.sign-sns-name {
-		width: 50%;
+		width: 55%;
 	    /* margin-left: auto; */
 	    margin: 0 auto;
 	    position: relative;
 	    font-size: 15px;
 	    color: #fff;
 	    position: relative;
-	    top: -1.7rem;
+	    top: -2.7rem;
 	    font-weight: bold;
-	    margin-left: 11rem;
+	    margin-left: 10rem;
+	    right: 0;
 	}
 	.btn-fb:before {
 		content: '';

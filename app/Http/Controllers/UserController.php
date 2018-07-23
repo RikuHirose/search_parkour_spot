@@ -220,6 +220,13 @@ class UserController extends Controller
         return view('user.followlist' ,['follow'=> $followers]);
     }
 
+    public function notifications()
+    {
+        $notifications =  auth()->user()->Notifications;
+
+        return view('layouts.notifications', ['notifications' => $notifications]);
+    }
+
     // functions
     public function getPhotos($contentid)
     {

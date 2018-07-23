@@ -89,7 +89,7 @@ class User extends Authenticatable
 
 
     public static $rules = array(
-        'name' => 'required|string|max:255',
+        'name' => 'required|string|max:30',
         'email' => 'required|string|email|max:255',
         'comment' => '|present|max:255',
     );

@@ -30,7 +30,8 @@
 
 <div class="wrap">
     <div class="card">
-        <div class="card-header result-icons">
+        <?php if(App\Helpers\Helper::isMobile() == true): ?>
+             <div class="card-header result-icons">
             <a id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
             <a id="result-map"><i class="fa fa-map-marker-alt fa-3x"></i></a>
         </div>
@@ -41,7 +42,7 @@
                     <div class="col-md-9">
                         <div class="content-group clearfix">
                             <ul id="content-block" class="form-group clearfix content_list">
-                                <?php App\Helpers\Helper::SearchTagContentList($content); ?>
+                                <?php App\Helpers\Helper::mobileSearchTagContentList($content); ?>
                                 <?php App\Helpers\Helper::ResultMore($content); ?>
                             </ul>
                         </div>
@@ -99,6 +100,59 @@
                 </div>
             </div>
         </div>
+        <?php endif; ?>
+        <!-- pc -->
+        <?php if(App\Helpers\Helper::isMobile() == false): ?>
+        <div class="row content-position">
+            <div class="col-md-8">
+                    <!-- <div class="card-header result-icons">
+                        <a id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
+                        <a id="result-map"><i class="fa fa-map-marker-alt fa-3x"></i></a>
+                    </div> -->
+
+                <div class="card-body">
+                        <div class="card-header result-icons">
+                            <a id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
+                            <a id="result-map"><i class="fa fa-map-marker-alt fa-3x"></i></a>
+                        </div>
+                    <div class="container" id="content-block">
+                        <div class="content-group clearfix">
+                            <ul id="content-block" class="form-group clearfix content_list">
+                                <?php App\Helpers\Helper::SearchTagContentList($content); ?>
+                                <!-- <?php App\Helpers\Helper::ResultMore($content); ?> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="map-block">
+                        <div class="content-group clearfix">
+                            <div id="map_canvas" class="map_canvas"></div>
+                            <div id="getcurrentlocation" class="get-current">
+                                <p class="current-p acbtn">現在地を取得する</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 side-bar">
+                <h3 class="user-list-h3">人気のユーザー</h3>
+                <div class="clearfix content-top">
+                    <?php App\Helpers\Helper::SideUserList($users); ?>
+                </div>
+                <h3 class="user-list-h3">人気のタグ</h3>
+                <div class="clearfix content-top">
+                    <?php $recommendtags = App\Helpers\Helper::recommendTags(); ?>
+                <ul>
+                    <?php foreach($recommendtags as $tag): ?>
+                        <li class="tag">
+                            <a href="/search?q=<?php echo $tag; ?>">
+                                <?php echo $tag; ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 

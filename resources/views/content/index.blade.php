@@ -10,7 +10,7 @@
                 <div class="card-body">
 	                <div id="map_canvas" class="map_canvas"></div>
 	                <div id="getcurrentlocation" class="get-current">
-                            <p class="current-p">現在地を取得する</p>
+                            <p class="current-p acbtn">現在地を取得する</p>
                     </div>
 	            </div>
 

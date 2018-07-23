@@ -3,11 +3,19 @@
     width: 100%;
     border-bottom: 1px solid #efefef;
 }
+.user-container {
+    width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
 .user-top {
 	padding: 1rem;
 	width: 100%;
 }
-
+.user-info {
+	position: relative;
+    top: -3rem;
+}
 .user-img {
 	/*width: 30%;*/
 	margin: 0 auto;
@@ -69,13 +77,16 @@
     position: relative;
     top: 1rem;
     z-index: 100;
-    right: -28rem;
+    right: -30rem;
  }
  .current-p {
-    color: #fff;
+ 	color: #fff;
     background-color: #03a9f4;
-
+    text-align: center;
+    height: 40px;
+    padding-top: 1rem;
 }
+
 .switch-bottom {
     border-bottom: 1px solid black;
     padding-bottom: .5rem;
@@ -99,12 +110,15 @@
 .account-avatar {
 	border-radius: 50%;
 	overflow: hidden;
-	width: 90px;
-	height: 90px;
+	width: 150px;
+	height: 150px;
 	object-fit: cover;
+	margin: 0 9rem;
 }
 .search-result-word {
 	text-align: center;
+	margin:2rem 0 1rem;
+	font-size: 1.5rem;
 }
 /*.user-btn {
 	position: absolute;
@@ -155,22 +169,152 @@
 	border-top: 1px solid #e0e0e0;
 }
 .img-section {
-	float: left;
+	position: relative;
+    right: -11rem;
 }
 .img-modal {
-	position: absolute;
+	/*position: absolute;
 	top: 1rem;
-	right: 9rem;
+	right: 9rem;*/
+}
+.imhedpos {
+	position: relative;
+    right: -17rem;
+    top: -2.5rem;
+}
+
+.imgsub {
+	width: 100%;
+	font-size: 1.5rem;
+}
+.imgup {
+	color: #3897f0;
+    font-weight: 700;
+}
+.imgdel {
+	color: #ed4956;
+	font-weight: 700;
+}
+.upposition {
+	margin:1rem auto;
+}
+
+.ch-profile {
+	text-align: center;
+	color: #262626;
+	font-weight: 600;
+	font-size: 16px;
+    padding: 1rem;
 }
 
 .form-item {
-	margin-bottom: 1rem;
+	position: relative;
+	height: 46px;
+    padding: 0px;
+    margin: 25px 0;
+    position: relative;
+}
+.form-item .label-pos {
+	position: absolute;
+    bottom: 0px;
+    height: 32px;
+    min-width: 133.3px;
+    margin: 0px;
+    line-height: 32px;
+    font-size: 12px;
+    text-align: right;
+    color: var(--label-color);
+    font-weight: 600;
+    line-height: 18px;
+}
+.form-item input {
+	border-radius: 2px;
+    height: 36px;
+    border: 1px solid #E8E1E1;
+    position: absolute;
+    bottom: 0px;
+    left: 28%;
+    width: 260px;
+    height: 32px;
+    padding: 7px 8px 7px 12px;
+    font-size: 12px;
+    color: #988D8D;
+    line-height: 18px;
+    font-weight: 400;
 }
 
+.L3NKy {
+    background-color: #3897f0;
+    border-radius: 4px;
+    color: #fff;
+}
+._8A5w5{
+    background-color: transparent;
+    border: 1px solid #dbdbdb;
+    /*padding: 0 24px;*/
+}
+
+.user-name-h2 {
+	font-size: 2.5rem;
+    line-height: 40px;
+    font-weight: 200;
+    width: 25%;
+    margin: 0 auto;
+}
+
+.user-btn {
+	position: relative;
+	top: 8rem;
+    right: 2rem;
+    width: 22%;
+    margin: 0 auto;
+}
+/*.user-posts ,.user-cim{
+	width: 25%;
+    margin: 0 auto;
+}*/
+.get-current {
+	width: 100%;
+}
+.ul-lis{
+
+	display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.ul-lis li {
+	font-size: 16px;
+    margin-right: 40px;
+}
+.user-cim {
+	width: 25%;
+    margin: 0 auto;
+}
+
+
 @media (max-width: 480px){
+
+	.user-info {
+	    position: relative;
+	    top: -1rem;
+	}
+	.user-info2 {
+	    position: relative;
+	    top: -2rem;
+	}
 	.account-avatar {
 	width: 80px;
 	height: 80px;
+	margin: 0;
 	}
 	.card_item_list {
 	    width: 33%;
@@ -211,9 +355,10 @@
     	height: 30px;
     }
     .user-btn {
-	position: absolute;
-    top: 6rem;
-    right: 5.5rem;
+		position: absolute;
+	    top: 6rem;
+	    right: 5.5rem;
+	    width: auto;
 	}
 	.user-posts {
 		position: absolute;
@@ -221,6 +366,7 @@
 	    right: 18rem;
 	    font-size: 1.1rem;
 	}
+
 	.user-posts span {
 		position: relative;
 	    top: -2rem;
@@ -252,6 +398,51 @@
 	    top: -2rem;
 	    right: -2.5rem;
 	    font-size: 1.3rem;
+	}
+	.form-item input {
+	    bottom: 0px;
+	    left: 13%;
+	    width: 260px;
+	    height: 32px;
+	    padding: 7px 8px 7px 12px;
+	}
+	.edit-selfint {
+		bottom: 0px;
+	    left: 13%;
+	    width: 260px;
+	    height: 32px;
+	    padding: 7px 8px 7px 12px;
+	}
+	.img-section {
+    	position: relative;
+    	right: -3rem;
+	}
+	.user-container {
+		width: auto;
+	}
+	.imhedpos {
+		position: relative;
+		top: -2rem;
+		left: 11rem;
+	}
+	.img-section {
+		position: relative;
+		top: 0;
+		left: 0;
+	}
+	.rubi-pos {
+		position: relative;
+		right: -5rem;
+		color: var(--label-color);
+		font-weight: 600;
+    	line-height: 18px;
+	}
+	.avatar-pos {
+		position: relative;
+    	right: -6rem
+	}
+	.img-pad {
+		padding: 1rem;
 	}
 
 }

@@ -2,9 +2,13 @@
 
 @section('content')
 
-    
+<div class="wrap">
         <div class="col-md-8">
-            <div class="card">
+            <?php if(App\Helpers\Helper::isMobile() == false): ?>
+                <div class="card auth-container">
+            <?php elseif(App\Helpers\Helper::isMobile() == true): ?>
+                <div class="card">
+            <?php endif; ?>
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
                 <div class="card-body">
@@ -60,4 +64,5 @@
                 </div>
             </div>
         </div>
+</div>
 @endsection

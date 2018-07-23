@@ -3,7 +3,6 @@
 
   $('#markasread').on('click', function() {
   	var notificationCount = $('#badge').html()
-
     markNotificationAsRead(notificationCount)
   });
 

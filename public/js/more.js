@@ -2,6 +2,7 @@
   'use strict';
 
   var listContents = $('.content_list #content_list').length
+  console.log(listContents)
 
   $('.content_list').each(function(){
     var Num = 10,
