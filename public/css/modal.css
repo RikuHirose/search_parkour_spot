@@ -1,0 +1,30 @@
+#modal {
+	width: 70%;
+}
+.modal-close {
+	font-size: 3rem;
+	position: relative;
+    top: -1rem;
+    right: -.5rem;
+}
+
+.deletebtn-modal {
+	background-color: transparent;
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 1px solid #efefef;
+    cursor: pointer;
+    line-height: 48px;
+    margin: 0;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: 100%;
+}
+
+.btn-sub {
+	border: none;
+}

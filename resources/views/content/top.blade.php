@@ -39,18 +39,24 @@
         <div class="card-body">
           <div class="container">
               <div class="row content-position">
-                  <div class="col-md-9">
+                  <div class="col-md-8">
                     <h2 class="content-header">ranking</h2>
                     <div class="content-group clearfix">
                         <?php App\Helpers\Helper::RankingContentList($ranking); ?>
                     </div>
                     <h2 class="content-header">new</h2>
                     <div class="clearfix content-top">
+                      <?php if(App\Helpers\Helper::isMobile() == false):?>
                         <?php App\Helpers\Helper::NewContentList($content); ?>
+                      <?php elseif(App\Helpers\Helper::isMobile() == true):?>
+                        <ul class="form-group clearfix around-section content_list">
+                            <?php App\Helpers\Helper::mobileNewContentList($content); ?>
+                        </ul>
+                      <?php endif; ?>
                     </div>
 
                   </div>
-                  <div class="col-md-3 side-bar">
+                  <div class="col-md-4 side-bar">
                     <h3 class="user-list-h3">人気のユーザー</h3>
                     <div class="clearfix content-top">
                       <?php App\Helpers\Helper::SideUserList($users); ?>

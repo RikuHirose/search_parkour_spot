@@ -8,7 +8,8 @@
 @section('content')
 <div class="wrap">
     <div class="clearfix content-top">
-        <?php App\Helpers\Helper::UserList($follow); ?>
+    	<?php App\Helpers\Helper::SideUserList($follow); ?>
+        <!-- <?php App\Helpers\Helper::UserList($follow); ?> -->
     </div>
 </div>
 

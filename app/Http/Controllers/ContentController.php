@@ -84,16 +84,10 @@ class ContentController extends Controller
         // tag idの配列を渡し、contentに紐付いたtagを保存
         $content->tags()->attach($tagid);
 
+// var_dump(112);die;
         // 画像の保存 s3
         foreach ($request->file('files') as $index) {
-                // $ext = $e['photo']->guessExtension();
-                // $filename = "{$request->spot_name}_{$index}.{$ext}";
 
-                // $path = $e['photo']->storeAs('photos', $filename);
-                // photosメソッドにより、商品に紐付けられた画像を保存する
-                // $content->photos()->create(['path'=> $path]);
-
-                // $filename = $request->file('avatar_name');
             $filename = $index['photo'];
             $path = Storage::disk('s3')->putFile('pklinks', $filename, 'public');
 
@@ -101,9 +95,6 @@ class ContentController extends Controller
 
             $content->photos()->create(['path'=> $url]);
 
-                // $user = User::find(auth()->id());
-                // $user->avatar_name = basename($url);
-                // $user->save();
         }
 
         return redirect('/')->with(['success'=> '保存しました！']);
@@ -164,9 +155,32 @@ class ContentController extends Controller
             }
             array_multisort($sort, SORT_ASC, $around);
         }
+        $around = array_slice($around, 0, 10);
+
+        // popular user
+        $users = User::get();
+        $users = array_map(function($v){
+            $contents = Content::where('user_id', $v['id'])->get();
+            $num = count($contents);
+            return [
+                'id' => $v['id'],
+                'name' => $v['name'],
+                'comment' => $v['comment'],
+                'avatar_name' => $v['avatar_name'],
+                'content_count' => $num,
+            ];
+
+        },$users->toArray());
+        // 投稿が多い順にソート
+        foreach ((array) $users as $key => $value) {
+            $sort[$key] = $value['content_count'];
+        }
+
+        // array_multisort($sort, SORT_DESC, $users);
+        $users = array_slice($users, 0, 5);
 
 
-        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around, 'tags' => $tags, 'like' =>$like, 'user' => $user]);
+        return view('content.show' ,['content' => $content, 'img' => $img, 'around' => $around, 'tags' => $tags, 'like' =>$like, 'user' => $user, 'users' => $users]);
     }
 
     /**
@@ -245,7 +259,8 @@ class ContentController extends Controller
     {
         $q  = \Request::get('q');
 
-        $content = Content::tagFilter($q)->SearchAddress($q)->SearchSpotName($q)->get();
+        // $content = Content::tagFilter($q)->SearchAddress($q)->SearchSpotName($q)->get();
+        // $content = Content::tagFilter($q)->SearchSpotName($q)->get();
         $content = Content::tagFilter($q)->get();
 
         $content = array_map(function($v){
@@ -402,7 +417,9 @@ class ContentController extends Controller
             // }, $content->toArray());
 
             // $searchLocation = ['lat' => $latlng['lat'], 'lng' => $latlng['lng']];
+
             $content = Content::tagFilter($q)->get();
+            // $content = self::searchAddress($q);
 
             $content = array_map(function($v){
                 $str = $v['comment'];
@@ -519,9 +536,9 @@ class ContentController extends Controller
 
         // ranking
         //  いいねが多い順
-        $ranking = Content::orderBy('likes_count', 'desc')->get();
+        $rank = Content::orderBy('likes_count', 'desc')->get();
 
-        $ranking = array_map(function($v){
+        $ranking_many = array_map(function($v){
             $str = $v['comment'];
             preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
             return [
@@ -533,9 +550,10 @@ class ContentController extends Controller
                 'user' => self::getUserInfo($v['user_id']),
                 'likes_count' => $v['likes_count'],
             ];
-        }, $ranking->toArray());
+        }, $rank->toArray());
 
-        $ranking = array_slice($ranking, 0, 6);
+        $ranking = array_slice($ranking_many, 0, 6);
+
 
         // popular user
         $user = User::get();
@@ -622,6 +640,15 @@ class ContentController extends Controller
         $distance = round($distance, 2);
 
         return $distance;
+    }
+
+    public function searchAddress(?string $word)
+    {
+        if (!is_null($word)) {
+            $content =  Content::where('address', 'like', '%' . $word . '%')->get();
+        }
+        return $content;
+
     }
 
 

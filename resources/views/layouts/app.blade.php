@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <link rel="shortcut icon" href="/item/icon9.png">
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
@@ -51,7 +51,7 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
 
             <?php if(App\Helpers\Helper::isMobile() == true): ?>
-            
+
                 <div id="nav-drawer">
                     <input id="nav-input" type="checkbox" class="nav-unshown">
                     <label id="nav-open" for="nav-input"><span></span></label>
@@ -59,75 +59,63 @@
                     <div id="nav-content">
                         <div  class="login-position">
                             @guest
-                               <a class="auth-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
-                               <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
+                               <a id="" class="" href="/login">
+                                    <div class="LinkToMyPage linktoLog">
+                                      <span class="authlogsign">無料会員登録・ログイン</span>
+                                    </div>
+                                </a>
                             @else
-
-                                <a id="" class="nav-link auth-btn" href="/user/{{ Auth::user()->id }}">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                <a id="" class="" href="/user/{{ Auth::user()->id }}">
+                                    <div class="LinkToMyPage">
+                                      <?php \App\Helpers\Helper::topbar_avatarLogic(Auth::user()->avatar_name) ?>
+                                      <span class="auth-name">{{ Auth::user()->name }}</span>
+                                    </div>
                                 </a>
-
-                                <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
 
                             @endguest
                         </div>
 
                         @guest
-                            <a class="sidebar-list" href="">
-                                <i class="far fa-question-circle fa-3x"></i>
-                                pklinksとは？
-                            </a>
                             <a class="sidebar-list" href="/content/">
                                 <i class="fas fa-globe fa-3x"></i>
                                 map
                             </a>
-                            <a class="sidebar-list sidebar-list-last" href="/contact">
+                            <!-- <a class="sidebar-list sidebar-list-last" href="/contact">
                                 <i class="far fa-envelope-open fa-3x"></i>
                                 contact
-                            </a>
+                            </a> -->
                         @else
+                            <a class="sidebar-list" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                            </form>
                             <a class="sidebar-list" href="/content/">
                                 <i class="fas fa-globe fa-3x"></i>
                                 map
                             </a>
                             <a class="sidebar-list" href="/content/create">
-                                <i class="fas fa-camera fa-3x"></i>
+                                <i class="fas fa-upload fa-3x"></i>
                                 upload
                             </a>
-                            <!-- <a class="sidebar-list">
-                                <div class="dropdown" id="markasread">
-                                    <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        notification<span class="badge" id="badge">{{ count(auth()->user()->unreadNotifications) }}</span>
-                                    </div>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        @forelse(auth()->user()->unreadNotifications as $notification)
-                                            <li class="">
-                                                @include('layouts.partials.notification.'.snake_case(class_basename($notification->type)))
-                                                @empty
-                                                <a href="#">No notifications</a>
-                                            </li>
-                                        @endforelse
-
-                                    </ul>
-                                </div>
-                            </a> -->
-                            <a class="sidebar-list sidebar-list-last" href="/contact">
-                                <i class="far fa-envelope-open fa-3x"></i>
-                                contact
+                            <a class="sidebar-list" id="markasread" href="/notifications">
+                                <i class="fas fa-bell fa-3x"></i>
+                                notification
+                                <span class="badge" id="badge">{{ count(auth()->user()->unreadNotifications) }}</span>
                             </a>
+                            <!-- <a class="sidebar-list sidebar-list-last" href="/contact">
+                                <i class="fas fa-envelope-open fa-3x"></i>
+                                contact
+                            </a> -->
                             <!-- <a class="sidebar-list" href="/content/id/editlist">edit</a> -->
                         @endguest
                     </div>
                 </div>
                 <div class="top-icon">
                     <a class="" href="{{ url('/') }}">
-                        <p>pkLinks</p>
+                        <img src="/item/icon9.png" style="width: 30px; height: 30px;">
                     </a>
                 </div>
                 <div class="search-icon">
@@ -175,11 +163,11 @@
                 <div class="m-header-inner">
                      <div class="top-icon">
                         <a class="" href="{{ url('/') }}">
-                            <p>pkLinks</p>
+                            <img src="/item/icon9.png" style="width: 30px; height: 30px;"><span>pkLinks</span>
                         </a>
                     </div>
                     <form class="search-icon" action="/place" method="get" id="form_id">
-                        <input id="pac-input" type="text"  name="q" placeholder="気になる地名から検索する" class="pac-input">
+                        <input id="pac-input" type="text"  name="q" placeholder="気になる地名・タグから検索する" class="pac-input" value="<?php echo isset($query) ? $query : '' ;  ?>">
                         <input id="lat-input" type="hidden" name="lat" value="">
                         <input id="lng-input" type="hidden" name="lng" value="">
                         <!-- <input value="" class="m-header-search-button" type="submit" id="btn_id"> -->
@@ -188,23 +176,30 @@
 
                     @guest
                         <div class="m-header-navi not-login">
-                            <a class="sidebar-list" href="/content/">map</a>
-                            <a class="sidebar-list" href="">pklinksとは？</a>
+                            <!-- <a class="sidebar-list m-header-navi-menu" href="/content/">map</a> -->
+                            <!-- <a class="sidebar-list" href="">pklinksとは？</a> -->
                         </div>
                         <div class="m-header-navi">
-                            <a class="auth-btn" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            <a class="auth-btn" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class=" m-header-navi-menu" href="/content/">map</a>
+                            <a class="auth-btn m-header-navi-menu" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <span class="sign">|</span>
+                            <a class="auth-btn m-header-navi-menu m-header-navi-menu-left" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </div>
                     @else
 
 
                         <div class="dropdown notice-nav" id="markasread">
-                            <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                notification<span class="badge" id="badge">{{ count(auth()->user()->unreadNotifications) }}</span>
+                            <div class=" " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i class="fas fa-bell fa-3x bellpos"></i>
+                                <?php if (count(auth()->user()->unreadNotifications) !=  0): ?>
+                                    <span class="badge-pos" id="badge">
+                                        <?php echo count(auth()->user()->unreadNotifications); ?>
+                                    </span>
+                                <?php endif; ?>
                             </div>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                @forelse(auth()->user()->unreadNotifications as $notification)
-                                    <li class="">
+                            <ul class="dropdown-menu dpd-menu" aria-labelledby="dropdownMenu1">
+                                @forelse(auth()->user()->Notifications as $notification)
+                                    <li class="dpd-menu-li">
                                         @include('layouts.partials.notification.'.snake_case(class_basename($notification->type)))
                                         @empty
                                         <a href="#">No notifications</a>
@@ -215,14 +210,14 @@
                         </div>
 
                         <div class="dropdown m-header-navi">
-                            <div class="btn btn-default dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <div class="dropdown-toggle " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <?php \App\Helpers\Helper::topbar_avatarLogic(Auth::user()->avatar_name) ?>
                             </div>
-                            <ul class="dropdown-menu nav-lists" aria-labelledby="dropdownMenu1">
-                                <li>
+                            <ul class="dropdown-menu nav-lists dbmenu" aria-labelledby="dropdownMenu1">
+                                <li class="acbtn">
                                     <a id="" href="/user/{{ Auth::user()->id }}">
-                                        {{ Auth::user()->name }}
-                                        <span style="display: block;">マイページをみる</span>
+                                        <!-- {{ Auth::user()->name }} -->
+                                        マイページをみる
                                     </a>
                                 </li>
                                <!-- @guest
@@ -230,9 +225,9 @@
                                     <li><a class="sidebar-list" href="">pklinksとは？</a></li>
                                     <li><a class="sidebar-list" href="/contact">contact</a></li>
                                 @else -->
-                                    <li><a class="sidebar-list" href="/content/">map</a></li>
-                                    <li><a class="sidebar-list" href="/content/create">upload</a></li>
-                                    <li>
+                                    <li class="acbtn"><a class="sidebar-list" href="/content/">map</a></li>
+                                    <li class="acbtn"><a class="sidebar-list" href="/content/create">upload</a></li>
+                                    <li class="acbtn">
                                         <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}
                                         </a>
@@ -290,7 +285,7 @@
     <script src="{{asset('js/slide.js')}}"></script>
     <script src="{{asset('js/message.js')}}"></script>
     <script src="{{asset('js/topbar_search.js')}}"></script>
-    <!-- <script src="{{asset('js/notification.js')}}"></script> -->
+    <script src="{{asset('js/notification.js')}}"></script>
 
 </body>
 </html>

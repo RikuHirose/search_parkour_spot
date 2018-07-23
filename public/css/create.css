@@ -92,81 +92,82 @@ body::before {
 .tag_area {
     padding: 10px;
     margin-top: 10px;
-    background: #f6f6f6;
+    background: #fff;
     font-size: 11px;
 }
 #description {
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-      }
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+}
 
-      #infowindow-content .title {
-        font-weight: bold;
-      }
+#infowindow-content .title {
+  font-weight: bold;
+}
 
-      #infowindow-content {
-        display: none;
-      }
+#infowindow-content {
+  display: none;
+}
 
-      #map #infowindow-content {
-        display: inline;
-      }
+#map #infowindow-content {
+  display: inline;
+}
 
-      .pac-card {
-        margin: 10px 10px 0 0;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        background-color: #fff;
-        font-family: Roboto;
-      }
+.pac-card {
+  margin: 10px 10px 0 0;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  font-family: Roboto;
+}
 
-      #pac-container {
-        padding-bottom: 12px;
-        margin-right: 12px;
-      }
+#pac-container {
+  padding-bottom: 12px;
+  margin-right: 12px;
+}
 
-      .pac-controls {
-        display: inline-block;
-        padding: 5px 11px;
-      }
+.pac-controls {
+  display: inline-block;
+  padding: 5px 11px;
+}
 
-      .pac-controls label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
+.pac-controls label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
 
-      #map-input {
-        background-color: #fff;
-        font-family: Roboto;
-        font-size: 15px;
-        font-weight: 300;
-        padding: .5rem 1rem;
-        text-overflow: ellipsis;
-        width: 100%;
-      }
+#map-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  padding: .5rem 1rem;
+  text-overflow: ellipsis;
+  width: 100%;
+}
 
-      #map-input:focus {
-        border-color: #4d90fe;
-      }
+#map-input:focus {
+  border-color: #4d90fe;
+}
 
-      #title {
-        color: #fff;
-        background-color: #4d90fe;
-        font-size: 25px;
-        font-weight: 500;
-        padding: 6px 12px;
-      }
-      #target {
-        width: 345px;
-      }
+#title {
+  color: #fff;
+  background-color: #4d90fe;
+  font-size: 25px;
+  font-weight: 500;
+  padding: 6px 12px;
+}
+#target {
+  width: 345px;
+}
 
 .l-post-form__top__image {
     width: 100%;
+    margin-bottom: 3rem;
 }
 .l-post-form__top__image .upload-wrapper {
     background-color: #3b3b3b;
@@ -205,35 +206,65 @@ body::before {
 }
 
 .info-latlng {
-  margin: 2rem 0;
+  margin-bottom: 2rem;
 }
 
-.spot_name {
+.map-des {
+  margin-top: 2rem;
+}
+.spot_name ,.comment-area{
     display: block;
+    width: 100%;
+}
+.spot_name {
+  margin: 0;
+  padding: 1rem;
+  border: 0;
+  border-bottom: 1px solid ;
+  outline: 0;
+  width: 100%;
+  height: 30px;
+  font-size: 12px;
+  line-height: 16px;
+}
+.comment-area {
+  margin: 0;
+  padding: 1rem;
+  border: 0;
+  outline: 0;
+  width: 100%;
+  display: block;
+  height: 100px;
+  font-size: 12px;
+  line-height: 16px;
+  /*background: transparent;*/
 }
 
 .current-p {
     color: #fff;
     background-color: #03a9f4;
+    text-align: center;
+    height: 40px;
+    padding-top: 1rem;
 }
 .upload-btn {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: #03a9f4;
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-    outline: none;
-    padding: 10px 0;
-    text-decoration: none;
-    font-size: 24px;
-    font-size: 1.5rem;
-    left: calc(50% - 150px);
-    width: 300px;
-    margin: 0 auto;
-    display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #03a9f4;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  padding: 10px 0;
+  text-decoration: none;
+  font-size: 24px;
+  font-size: 1.5rem;
+  left: calc(50% - 150px);
+  width: 300px;
+  margin: 2rem auto 1rem;
+  display: block;
   }
 
 .rectags {
@@ -243,16 +274,37 @@ body::before {
 .image-upload {
     text-align: center;
 }
-
+.up-body {
+  background-color: #f5f8fa;
+}
+.info-latlng {
+  background-color: #fff;
+  width: 100%;
+}
+.up-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
 
 @media (max-width: 480px){
-  .search-box ,.spot_name, .comment-area{
+  .spot_name, .comment-area{
+    background-color: #fff;
+    border-bottom: .5px  solid;
+  }
+  .spot_name,.comment-area{
+    border-top: .5px  solid #fff;
+    border-left: .5px  solid #fff;
+    border-right: .5px  solid #fff;
+  }
+  .search-box {
+    background-color: #fff;
     border: .5px  solid;
   }
   .get-current {
-        width: 100%;
-        padding: 0;
-        /*border: 1px solid;*/
+    width: 100%;
+    padding: 0;
+    /*border: 1px solid;*/
   }
   .current-p {
         text-align: center;
@@ -263,7 +315,7 @@ body::before {
   .spot_name {
     display: block;
     width: 100%;
-    margin: 0 auto 1rem;
+    /*margin: 0 auto 1rem;*/
   }
   .comment-area {
     width: 100%;
