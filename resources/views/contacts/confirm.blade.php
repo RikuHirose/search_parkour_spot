@@ -1,8 +1,17 @@
 @extends('layouts.app')
+@section('title')
+    確認する   |
+@endsection
+
+@section('css')
+<link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+<link href="{{ asset('css/contact.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
  
 <div class="wrap">
-            <div class="panel panel-default">
+            <div class="panel panel-default card auth-container">
                 <div class="panel-heading">お問い合わせ</div>
                 <div class="panel-body">
                     <p>誤りがないことを確認のうえ送信ボタンをクリックしてください。</p>

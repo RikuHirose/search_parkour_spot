@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title')
+    通知   |
+@endsection
 
 @section('css')
 <link href="{{ asset('css/notification.css') }}" rel="stylesheet">

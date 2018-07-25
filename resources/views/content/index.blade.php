@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    Mapから探す   |
+@endsection
+
 @section('css')
 <link href="{{ asset('css/create.css') }}" rel="stylesheet">
 @endsection

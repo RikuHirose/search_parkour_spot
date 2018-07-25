@@ -1,5 +1,5 @@
 #modal {
-	width: 70%;
+	width: 40%;
 }
 .modal-close {
 	font-size: 3rem;
@@ -27,4 +27,32 @@
 
 .btn-sub {
 	border: none;
+}
+
+.delmodal {
+    text-align: center;
+    font-size: 1.3rem;
+    line-height: 48px;
+}
+
+.needregistar {
+    text-align: center;
+}
+.btn-auth {
+    height: 40px;
+    width: 200px;
+    font-size: 1.3rem;
+}
+
+.needregistar .letregid {
+    color: #fff;
+    margin-bottom: 2rem;
+    padding: 1rem;
+}
+
+@media (max-width: 480px){
+    #modal {
+        width: 70%;
+    }
+    
 }

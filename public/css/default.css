@@ -7,8 +7,13 @@ body {
 :root{
   --grey: #606060;
   --label-color: #5F5354;
+  --red: red;
+  --logoblue: #249cdc;
 }
 
+.card {
+  border: none;
+}
 li {
   list-style: none;
 }
@@ -245,7 +250,7 @@ p {
     padding: 10px 0 10px 10px;
     font-size: 1.5rem;
     font-weight: 700;
-    border-left: #229863 2px solid;
+    border-left: 2px solid var(--logoblue);
     margin: 20px 0;
 }
 
@@ -262,7 +267,7 @@ p {
     /*margin:0 auto;*/
     /*margin: 0 auto;*/
     position: absolute;
-    top: 0;
+    top: 7%;
     left: 10%;
 }
 
@@ -386,7 +391,7 @@ nav .border {
 .sign {
   position: absolute;
   top: 15px;
-  right: 44px;
+  right: 59px;
   font-size: 14px;
   color: #5F5354;
   line-height: 20px;
@@ -428,7 +433,7 @@ nav .border {
     margin: 0px;
   }
   .LinkToMyPage {
-      background: #ED7483;
+      background: var(--logoblue);
       background-size: 20px 20px;
       background-position: left;
       height: 60px;
@@ -439,6 +444,8 @@ nav .border {
   }
   .auth-name {
     color: #fff;
+    font-size: 1.4rem;
+    font-weight: 600;
   }
   .LinkToMyPage img {
       height: 32px;
@@ -573,7 +580,7 @@ nav .border {
   }
 
   .m-search-header-title {
-    font-size: 16px;
+    font-size: 18px;
     letter-spacing: .1em;
     padding-top: 14px;
     text-align: center;
@@ -609,7 +616,7 @@ nav .border {
     padding-top: 19px;
     padding-bottom: 18px;
     border-bottom: 1px solid #eceef0;
-    font-size: .8125rem;
+    font-size: 1.3rem;
     color: #929496;
     text-decoration: none;
 }
@@ -663,10 +670,48 @@ nav .border {
   .spot-diastance {
     font-size: 1.6rem;
     font-weight: bolder;
-    color: red;
+    color: var(--red);
   }
   .content-list-text {
     padding-left: 1.5rem;
+  }
+  .sidecan {
+    line-height: 30px;
+    margin: 14px 8px 4px;
+    padding-left: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 1px solid #5F5354;
+  }
+  .sidebarcan {
+    padding-left: 30px;
+    text-decoration: none;
+    display: block;
+    line-height: 48px;
+  }
+
+  .sidebarcan span {
+    color: #5F5354;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding-left: 1rem;
+    position: relative;
+    right: -1rem;
+    top: -.5rem;
+  }
+  .noticerable:after {
+    position: absolute;
+    height: 5px;
+    width: 5px;
+    content: '';
+    top: 214px;
+    border: 1px solid var(--red);
+    background-color: var(--red);
+    border-radius: 50%;
+    right: 24.5rem;
+  }
+  .sidecolor {
+    color: var(--logoblue);
   }
 
 }

@@ -7,7 +7,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+         @yield('title')pkLinks
+    </title>
     <link rel="shortcut icon" href="/item/icon9.png">
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -30,8 +32,8 @@
 
     <!-- Scripts -->
     <!-- bugが出る -->
-    <!-- <script src="//platform-api.sharethis.com/js/sharethis.js#property=5b473a663cd9e600119c7b57&product=inline-share-buttons"></script> -->
-    <!-- <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5b473a663cd9e600119c7b57&product=inline-share-buttons' async='async'></script> -->
+    <script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5b473a663cd9e600119c7b57&product=inline-share-buttons' async='async'></script>
+
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
@@ -76,34 +78,47 @@
                         </div>
 
                         @guest
-                            <a class="sidebar-list" href="/content/">
-                                <i class="fas fa-globe fa-3x"></i>
-                                map
+                            <p class="sidecan">pkLinksで出来ること</p>
+                            <a class="sidebarcan" href="/content/">
+                                <i class="fas fa-globe fa-3x sidecolor"></i>
+                                <span> Mapから探す</span>
+                            </a>
+                            <a class="sidebarcan" href="/content/create">
+                                <i class="fas fa-upload fa-3x sidecolor"></i>
+                                <span>投稿する</span>
+                            </a>
+                            <a class="sidebarcan" id="markasread" href="/notifications">
+                                <i class="fas fa-bell fa-3x  sidecolor"></i>
+                                <span>通知</span>
                             </a>
                             <!-- <a class="sidebar-list sidebar-list-last" href="/contact">
                                 <i class="far fa-envelope-open fa-3x"></i>
                                 contact
                             </a> -->
                         @else
-                            <a class="sidebar-list" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <!-- <a class="sidebar-list" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            </a> -->
+                            <!-- <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
-                            </form>
-                            <a class="sidebar-list" href="/content/">
-                                <i class="fas fa-globe fa-3x"></i>
-                                map
+                            </form> -->
+                            <p class="sidecan">pkLinksで出来ること</p>
+                            <a class="sidebarcan" href="/content/">
+                                <i class="fas fa-globe fa-3x sidecolor"></i>
+                                <span> Mapから探す</span>
                             </a>
-                            <a class="sidebar-list" href="/content/create">
-                                <i class="fas fa-upload fa-3x"></i>
-                                upload
+                            <a class="sidebarcan" href="/content/create">
+                                <i class="fas fa-upload fa-3x sidecolor"></i>
+                                <span>投稿する</span>
                             </a>
-                            <a class="sidebar-list" id="markasread" href="/notifications">
-                                <i class="fas fa-bell fa-3x"></i>
-                                notification
-                                <span class="badge" id="badge">{{ count(auth()->user()->unreadNotifications) }}</span>
+                            <a class="sidebarcan" id="markasread" href="/notifications">
+                                @if (count(auth()->user()->unreadNotifications) != 0)
+                                    <i class="fas fa-bell fa-3x noticerable sidecolor"></i>
+
+                                @elseif (count(auth()->user()->unreadNotifications) == 0)
+                                    <i class="fas fa-bell fa-3x  sidecolor"></i>
+                                @endif
+                                <span>通知</span>
                             </a>
                             <!-- <a class="sidebar-list sidebar-list-last" href="/contact">
                                 <i class="fas fa-envelope-open fa-3x"></i>
@@ -116,6 +131,7 @@
                 <div class="top-icon">
                     <a class="" href="{{ url('/') }}">
                         <img src="/item/icon9.png" style="width: 30px; height: 30px;">
+                        <span>pkLinks</span>
                     </a>
                 </div>
                 <div class="search-icon">
@@ -180,10 +196,12 @@
                             <!-- <a class="sidebar-list" href="">pklinksとは？</a> -->
                         </div>
                         <div class="m-header-navi">
-                            <a class=" m-header-navi-menu" href="/content/">map</a>
-                            <a class="auth-btn m-header-navi-menu" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class=" m-header-navi-menu" href="/content/">Mapから探す</a>
+                            <a class="auth-btn m-header-navi-menu" href="{{ route('register') }}">会員登録</a>
                             <span class="sign">|</span>
-                            <a class="auth-btn m-header-navi-menu m-header-navi-menu-left" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="auth-btn m-header-navi-menu m-header-navi-menu-left" href="{{ route('login') }}">
+                                ログイン
+                            </a>
                         </div>
                     @else
 
@@ -225,11 +243,11 @@
                                     <li><a class="sidebar-list" href="">pklinksとは？</a></li>
                                     <li><a class="sidebar-list" href="/contact">contact</a></li>
                                 @else -->
-                                    <li class="acbtn"><a class="sidebar-list" href="/content/">map</a></li>
-                                    <li class="acbtn"><a class="sidebar-list" href="/content/create">upload</a></li>
+                                    <li class="acbtn"><a class="sidebar-list" href="/content/">Mapから探す</a></li>
+                                    <li class="acbtn"><a class="sidebar-list" href="/content/create">投稿する</a></li>
                                     <li class="acbtn">
                                         <a class="auth-btn" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
+                                            ログアウト
                                         </a>
                                     </li>
                                     <!-- <a class="sidebar-list" href="/content/id/editlist">edit</a> -->

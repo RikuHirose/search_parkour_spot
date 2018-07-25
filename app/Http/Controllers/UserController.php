@@ -8,6 +8,7 @@ use App\Content;
 use Illuminate\Support\Facades\Auth;
 use App\Photo;
 use App\Tag;
+use App\Like;
 use App\Notifications\UserFollowed;
 use Storage;
 
@@ -23,7 +24,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('ContentsIndex', 'UserSearchMap', 'ContentsIndexMap');
+        $this->middleware('auth')->except('ContentsIndex', 'UserSearchMap', 'ContentsIndexMap', 'likedMapList');
     }
 
     /**
@@ -40,7 +41,6 @@ class UserController extends Controller
         $followers = $user->getFollowers($user_id);
 
         $user = json_decode(json_encode($user), true);
-
 
         $content = Content::where('user_id',$user_id)->get();
         $content = json_decode(json_encode($content), true);
@@ -85,6 +85,84 @@ class UserController extends Controller
         return view('user.indexmap' ,['content' => $content,'user' => $user, 'follows'=> $follows, 'followers' => $followers]);
     }
 
+    public function likedContent(Request $request)
+    {
+        $user_id = $request->id;
+
+        $likedContent = Like::where('user_id', $user_id)->pluck('content_id');
+        $likedContent = json_decode(json_encode($likedContent), true);
+
+        $likedContent = array_map(function($v){
+
+            return [
+                    'id' => $v,
+                    'img' => self::getPhotos($v),
+                    'lat' => self::getLat($v),
+                    'lng' => self::getLng($v),
+            ];
+        }, $likedContent);
+        $likedContent = array_reverse($likedContent);
+
+        $user = User::find($user_id);
+
+        $user = json_decode(json_encode($user), true);
+
+
+        return view('user.liked', ['content' => $likedContent, 'user' => $user]);
+
+    }
+
+
+    public function likedContentMap(Request $request)
+    {
+        $user_id = $request->id;
+
+        $likedContent = Like::where('user_id', $user_id)->pluck('content_id');
+        $likedContent = json_decode(json_encode($likedContent), true);
+
+        $likedContent = array_map(function($v){
+
+            return [
+                    'id' => $v,
+                    'img' => self::getPhotos($v),
+                    'lat' => self::getLat($v),
+                    'lng' => self::getLng($v),
+            ];
+        }, $likedContent);
+
+
+        $user = User::find($user_id);
+
+        $follows = $user->getFollows($user_id);
+        $followers = $user->getFollowers($user_id);
+
+        $user = json_decode(json_encode($user), true);
+
+
+        return view('user.likedMap', ['content' => $likedContent, 'user' => $user, 'follows'=> $follows, 'followers' => $followers]);
+
+    }
+
+    public function likedMapList(Request $request)
+    {
+        $user_id = $request->user_id;
+        // $content = Content::where('user_id', $user_id)->get();
+        $likedContent = Like::where('user_id', $user_id)->pluck('content_id');
+        $likedContent = json_decode(json_encode($likedContent), true);
+
+        $likedContent = array_map(function($v){
+
+            return [
+                    'id' => $v,
+                    'lat' => self::getLat($v),
+                    'lng' => self::getLng($v),
+            ];
+        }, $likedContent);
+
+
+        return $likedContent;
+    }
+
     public function UserSearchMap(Request $request)
     {
         $user_id = $request->user_id;
@@ -100,6 +178,7 @@ class UserController extends Controller
 
         $user = User::find($user_id);
         $user = json_decode(json_encode($user), true);
+
         return view('user.edit', ['user' => $user]);
     }
 
@@ -235,6 +314,24 @@ class UserController extends Controller
 
         return $path;
     }
+
+    public function getLat($contentid)
+    {
+        $lat = Content::where('id',$contentid)->pluck('lat')->toArray();
+        $lat = $lat[0];
+
+        return $lat;
+    }
+
+    public function getLng($contentid)
+    {
+        $lng = Content::where('id',$contentid)->pluck('lng')->toArray();
+        $lng = $lng[0];
+
+        return $lng;
+    }
+
+
 
     public function getUserName($userId)
     {

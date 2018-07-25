@@ -97,7 +97,7 @@ class ContentController extends Controller
 
         }
 
-        return redirect('/')->with(['success'=> '保存しました！']);
+        return redirect('/')->with(['success'=> '投稿しました！']);
     }
 
     /**
@@ -108,6 +108,7 @@ class ContentController extends Controller
      */
     public function show($id)
     {
+
         // $content = Content::find($id);
         $content = Content::findOrFail($id); // findOrFail 見つからなかった時の例外処理
         if(Auth::check()) {
@@ -146,7 +147,7 @@ class ContentController extends Controller
         }, $around->toArray());
 
         // ソート用の配列を用意
-        // var_dump($around);die;
+        $sort = array();
         if(empty($around)) {
             $around = '';
         } else {
@@ -172,11 +173,12 @@ class ContentController extends Controller
 
         },$users->toArray());
         // 投稿が多い順にソート
+        $sort = array();
         foreach ((array) $users as $key => $value) {
             $sort[$key] = $value['content_count'];
         }
 
-        // array_multisort($sort, SORT_DESC, $users);
+        array_multisort($sort, SORT_DESC, $users);
         $users = array_slice($users, 0, 5);
 
 
@@ -302,6 +304,7 @@ class ContentController extends Controller
 
         },$user->toArray());
         // 投稿が多い順にソート
+        $sort = array();
         foreach ((array) $popular_user as $key => $value) {
             $sort[$key] = $value['content_count'];
         }
@@ -460,6 +463,7 @@ class ContentController extends Controller
 
             },$user->toArray());
             // 投稿が多い順にソート
+            $sort = array();
             foreach ((array) $popular_user as $key => $value) {
                 $sort[$key] = $value['content_count'];
             }
@@ -569,7 +573,9 @@ class ContentController extends Controller
             ];
 
         },$user->toArray());
+
         // 投稿が多い順にソート
+        $sort = array();
         foreach ((array) $popular_user as $key => $value) {
             $sort[$key] = $value['content_count'];
         }

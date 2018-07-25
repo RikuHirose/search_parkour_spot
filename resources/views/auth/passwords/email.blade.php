@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('title')
+    パスワードをリセットする   |
+@endsection
+
+@section('css')
+<link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="wrap">
     <?php if(App\Helpers\Helper::isMobile() == false): ?>

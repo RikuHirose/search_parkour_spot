@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('title')
+    {{ $content['spot_name'] }}   |
+@endsection
+
+
 @section('css')
 <link rel="stylesheet" type="text/css" href="{{ asset('/slick/slick.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('/slick/slick-theme.css') }}"/>
@@ -27,7 +32,7 @@
                                         <!-- <img src="https://s3-ap-northeast-1.amazonaws.com/pklinks/user/{{ $v['avatar_name'] }}" class="avatar_name"> -->
                                     @endif
                                 @endif
-                                {{ $v['name'] }}
+                                <span class="us-name">{{ $v['name'] }}</span>
                             </a>
                             @if (Auth::check())
                                 @if (App\Helpers\Helper::isUser($v['id']) == true)
@@ -147,8 +152,9 @@
                                                 <div class="iziModal-content">
                                                     <a data-izimodal-close="" class="modal-close">×</a>
                                                     <!-- modal -->
-                                                    <div class="select-modal">
-                                                        <a href="/login">you need login</a>
+                                                    <div class="select-modal needregistar">
+                                                        <p class="">この投稿をいいねするには会員登録が必要です。</p>
+                                                        <a  class="btn btn-primary btn-auth acbtn letregid" href="/register">会員登録する(無料)</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -184,8 +190,9 @@
                                                 <div class="iziModal-content">
                                                     <a data-izimodal-close="" class="modal-close">×</a>
                                                     <!-- modal -->
-                                                    <div class="select-modal">
-                                                        <a href="/login">you need login</a>
+                                                    <div class="select-modal needregistar">
+                                                        <p class="">この投稿をいいねするには会員登録が必要です。</p>
+                                                        <a  class="btn btn-primary btn-auth acbtn letregid" href="/register">会員登録する(無料)</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -243,9 +250,15 @@
                                     <div id="getcurrentlocation" class="get-current">
                                         <p class="current-p acbtn">現在地を取得する</p>
                                     </div>
+                                    <div class="comment-section">
+                                        <div class="comment-h3 clearfix">
+                                            <i class="fas fa-share-alt fa-3x comment-fas"></i>
+                                            <h3 class="comment-title">シェアする</h3>
+                                        </div>
+                                        <div class="sns-section">
+                                            <div class="sharethis-inline-share-buttons"></div>
+                                        </div>
 
-                                    <div class="sns-section">
-                                        <div class="sharethis-inline-share-buttons"></div>
                                     </div>
                                 </div>
                             </div>

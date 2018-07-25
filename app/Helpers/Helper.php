@@ -314,7 +314,11 @@ class Helper
                                         echo "<img class='ranking_img' src='$img'>";
                                     } elseif(Helper::judgeImgorVideo($img) == 1) {
                                         echo "<span class='ranking-num'>".$count."</span>";
-                                        echo "<span class='ranking-video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
+                                        if(Helper::isMobile() == true) {
+                                            echo "<span class='ranking-video-icon'><i class='fas fa-video fa-videosize fa-color'></i></span>";
+                                        } else {
+                                            echo "<span class='ranking-video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
+                                        }
                                         echo "<video class='ranking_video' src='$img'></video>";
                                     }
                                     $i++;
