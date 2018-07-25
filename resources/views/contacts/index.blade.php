@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
+@section('title')
+    お問い合わせ   |
+@endsection
 
 <!-- cssの読み込み -->
 @section('css')
-<!-- <link href="{{ asset('css/create.css') }}" rel="stylesheet"> -->
+<link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+<link href="{{ asset('css/contact.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
 
 <div class="wrap">
-            <div class="panel panel-default">
+            <div class="panel panel-default card auth-container">
                 <div class="panel-heading">お問い合わせ</div>
                 <div class="panel-body">
                     {{-- エラーの表示 --}}

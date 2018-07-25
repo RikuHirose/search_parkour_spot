@@ -22,7 +22,9 @@
     font-size: 2rem;
     margin: 1rem 0;
 }
-
+.sns-section {
+    margin: 4rem 0 2rem 0;
+}
 .map-direction {
     margin: 3rem auto;
     width: 60%;
@@ -32,7 +34,7 @@
     vertical-align: middle;
     border-radius: 10px;
     font-size: 13px;
-    /*font-weight: bolder;*/
+    font-weight: bold;
     letter-spacing: 1px;
 }
 .slick-next {
@@ -99,7 +101,7 @@
     overflow: visible;
 }
 .us-name {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     padding-left: 1rem;
 }
 .fav-btn {

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    「  {{$query}}  」の検索結果 {{ count($content) }}件   |
+@endsection
+
 <!-- cssの読み込み -->
 @section('css')
 <!-- <link href="{{ asset('css/top.css') }}" rel="stylesheet"> -->

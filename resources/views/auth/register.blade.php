@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 
+@section('title')
+    会員登録する   |
+@endsection
+
 <!-- cssの読み込み -->
 @section('css')
 <link href="{{ asset('css/auth.css') }}" rel="stylesheet">

@@ -1,8 +1,13 @@
 @extends('layouts.app')
 
 
+@section('title')
+    <?php echo $user['name']; ?>   |
+@endsection
+
 @section('css')
 <link href="{{ asset('css/user.css') }}" rel="stylesheet">
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -29,31 +34,48 @@
                                                 <form action="{{route('unfollow', ['id' => $user['id'] ]) }}" method="POST" class="">
                                                     {{ csrf_field() }}
                                                     {{ method_field('DELETE') }}
-                                                    <input type="submit" id="delete-follow-{{ $user['id'] }}" class="action-wrap _8A5w5" value="フォロー中">
+                                                    <input type="submit" id="delete-follow-{{ $user['id'] }}" class="notme _8A5w5" value="フォロー中">
                                                 </form>
                                         @else
                                                 <form action="{{route('follow', ['id' => $user['id'] ]) }}" method="POST" class="">
                                                     {{ csrf_field() }}
-                                                    <input type="submit" id="follow-user-{{ $user['id'] }}" class="action-wrap L3NKy" value="フォローする">
+                                                    <input type="submit" id="follow-user-{{ $user['id'] }}" class="notme L3NKy" value="フォローする">
                                                 </form>
                                         @endif
                                     <?php elseif(Auth::user()->id == $user['id']): ?>
                                         <a  href="/user/<?php echo $user['id']; ?>/edit">
-                                            <button class="action-wrap">edit profile</button>
+                                            <button class="action-wrap ">edit profile</button>
                                         </a>
+                                        <i class="fas fa-cog fa-3x modal-open logout-iconpos"></i>
+                                        <div id="modal">
+                                            <div class="iziModal-content">
+                                                <a data-izimodal-close="" class="modal-close">×</a>
+                                                <!-- modal -->
+                                                <div class="select-modal delmodal">
+                                                   <a href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="">
+                                                        {{ __('Logout') }}
+                                                    </a>
+
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                            @csrf
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <?php endif; ?>
 
                                 @endauth
                                 @guest
                                 <span class="modal-open">
-                                    <button class="action-wrap">フォローする</button>
+                                    <button class="notme">フォローする</button>
                                 </span>
                                  <div id="modal">
                                     <div class="iziModal-content">
-                                        <a data-izimodal-close="">×</a>
+                                        <a data-izimodal-close="" class="modal-close">×</a>
                                         <!-- modal -->
-                                        <div class="select-modal">
-                                           <a href="/login">you need login</a>
+                                        <div class="select-modal needregistar">
+                                           <p class="">このユーザーをフォローするには会員登録が必要です。</p>
+                                                <a  class="btn btn-primary btn-auth acbtn letregid" href="/register">会員登録する(無料)</a>
                                         </div>
                                     </div>
                                 </div>
@@ -69,7 +91,12 @@
                 </div>
                 <div class="card-header result-icons">
                     <a href="/user/<?php echo $user['id']; ?>" id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
-                    <a href="/user/<?php echo $user['id']; ?>/map" id="result-map" class="switch-bottom"><i class="fa fa-map-marker-alt fa-3x"></i></a>
+                    <a href="/user/<?php echo $user['id']; ?>/map" id="result-map" class="switch-bottom switch-left"><i class="fa fa-map-marker-alt fa-3x"></i></a>
+                    @auth
+                        <a href="/user/<?php echo $user['id']; ?>/liked">
+                            <i class="fas fa-heart fa-3x"></i>
+                        </a>
+                    @endauth
                 </div>
         </div>
     <?php elseif(App\Helpers\Helper::isMobile() == false): ?>
@@ -100,6 +127,22 @@
                                         <a  href="/user/<?php echo $user['id']; ?>/edit">
                                             <button class="action-wrap2">edit profile</button>
                                         </a>
+                                        <i class="fas fa-cog fa-3x modal-open logout-iconpos"></i>
+                                        <div id="modal">
+                                            <div class="iziModal-content">
+                                                <a data-izimodal-close="" class="modal-close">×</a>
+                                                <!-- modal -->
+                                                <div class="select-modal delmodal">
+                                                   <a href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="">
+                                                        {{ __('Logout') }}
+                                                    </a>
+
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                            @csrf
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <?php endif; ?>
 
                                 @endauth
@@ -109,10 +152,11 @@
                                 </span>
                                  <div id="modal">
                                     <div class="iziModal-content">
-                                        <a data-izimodal-close="">×</a>
+                                        <a data-izimodal-close="" class="modal-close">×</a>
                                         <!-- modal -->
-                                        <div class="select-modal">
-                                           <a href="/login">you need login</a>
+                                        <div class="select-modal needregistar">
+                                           <p class="">このユーザーをフォローするには会員登録が必要です。</p>
+                                                <a  class="btn btn-primary btn-auth acbtn letregid" href="/register">会員登録する(無料)</a>
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +184,12 @@
                 </div>
                 <div class="card-header result-icons">
                     <a href="/user/<?php echo $user['id']; ?>" id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
-                    <a href="/user/<?php echo $user['id']; ?>/map" id="result-map" class="switch-bottom" ><i class="fa fa-map-marker-alt fa-3x"></i></a>
+                    <a href="/user/<?php echo $user['id']; ?>/map" id="result-map" class="switch-left switch-bottom"><i class="fa fa-map-marker-alt fa-3x"></i></a>
+                    @auth
+                        <a href="/user/<?php echo $user['id']; ?>/liked">
+                            <i class="fas fa-heart fa-3x"></i>
+                        </a>
+                    @endauth
                 </div>
         </div>
     <?php endif; ?>
@@ -158,7 +207,5 @@
 
 @section('js')
 <script src="{{asset('js/user_index_map.js')}}"></script>
-@guest
-        <script src="{{asset('js/iziModal.min.js')}}"></script>
-@endguest
+<script src="{{asset('js/iziModal.min.js')}}"></script>
 @endsection

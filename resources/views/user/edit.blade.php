@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+    プロフィールを編集する   |
+@endsection
+
 @section('css')
 <link href="{{ asset('css/user.css') }}" rel="stylesheet">
 <link href="{{ asset('css/modal.css') }}" rel="stylesheet">

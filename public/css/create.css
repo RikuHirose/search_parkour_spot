@@ -176,23 +176,24 @@ body::before {
     position: relative;
 }
 .c-button {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: #03a9f4;
-    border: none;
-    border-radius: 8px;
-    color: #fff;
-    cursor: pointer;
-    outline: none;
-    padding: 10px 0;
-    text-decoration: none;
-    font-size: 24px;
-    font-size: 1.5rem;
-    left: calc(50% - 150px);
-    position: absolute;
-    width: 300px;
-    margin-top: 40px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #03a9f4;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  padding: 10px 0;
+  text-decoration: none;
+  font-size: 24px;
+  font-size: 1.5rem;
+  left: calc(50% - 150px);
+  position: absolute;
+  width: 300px;
+  margin-top: 40px;
+  font-weight: bold;
 }
 .img-upload-input {
    cursor: pointer;
@@ -220,7 +221,7 @@ body::before {
   margin: 0;
   padding: 1rem;
   border: 0;
-  border-bottom: 1px solid ;
+  border-bottom: 1px solid var(--grey);
   outline: 0;
   width: 100%;
   height: 30px;
@@ -287,7 +288,52 @@ body::before {
   margin: 0 auto;
 }
 
+.preview {
+  width: 100%;
+  padding:.5rem .25rem;
+}
+
+form img.thumb {
+  /*margin:0 5px 5px 0;*/
+  max-width:150px;
+  vertical-align:bottom;
+  width: 24%;
+  height: 70px;
+  object-fit: cover;
+}
+
+form video.thumb {
+  /*margin:0 5px 5px 0;*/
+  max-width:150px;
+  vertical-align:bottom;
+  width: 24%;
+  height: 70px;
+  object-fit: cover;
+}
+.ranking-video-icon {
+  position: relative;
+  top: -5rem;
+  z-index: 100;
+  right: -12rem;
+}
+.thumbpos {
+  margin-left: .5rem;
+}
+
 @media (max-width: 480px){
+  /*form img.thumb {
+    width: 21%;
+  }*/
+  .thumbpos {
+    margin-left: .25rem;
+  }
+  .ranking-video-icon {
+    position: relative;
+    top: -5rem;
+    z-index: 100;
+    right: -7rem;
+    font-size: .5rem;
+  }
   .spot_name, .comment-area{
     background-color: #fff;
     border-bottom: .5px  solid;

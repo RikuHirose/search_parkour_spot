@@ -1,0 +1,16 @@
+
+.comple {
+    color: #fff;padding: 1rem;margin: 1rem;margin-left: 20rem;
+}
+/*mobile*/
+@media (max-width: 480px){
+	.auth-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .comple {
+        width: 60%;
+        margin: 2rem auto;
+        padding: 0;
+    }
+}

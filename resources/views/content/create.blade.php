@@ -1,8 +1,14 @@
 @extends('layouts.app')
 
+@section('title')
+    投稿する   |
+@endsection
+
 <!-- cssの読み込み -->
 @section('css')
 <link href="{{ asset('css/create.css') }}" rel="stylesheet">
+
+
 @endsection
 
 <!-- contentの読み込み -->
@@ -34,13 +40,12 @@
                     <div class="form-group up-container">
                         <div class="l-post-form__top__image" id="form-image">
                             <div class="upload-wrapper">
-                                <p class="preview">
+                                <p class="preview" id="preview1">
                                     <span class="preview-delete"></span>
                                 </p>
                                 <p class="image-upload">
-                                    <label for="photo" class="image-upload-button c-button" type="button">ファイルを選択</label>
-                                    <!-- <input accept="image/jpeg,image/png" class="img-upload-input" name="cam_post[image]" type="file"> -->
-                                    <input  id="image" type="file" class="img-upload-input acbtn" name="files[][photo]" multiple="multiple">
+                                    <button for="photo" class="image-upload-button c-button acbtn" type="button">ファイルを選択(4つまで)</button>
+                                    <input  id="upload" type="file" class="img-upload-input" name="files[][photo]" multiple="multiple">
                                 </p>
                             </div>
                         </div>
@@ -118,4 +123,16 @@
 </script>
 <script src="{{asset('js/create.js')}}"></script>
 <script src="{{asset('js/validate_file.js')}}"></script>
+<script src="{{asset('js/jquery.upload_thumbs.js')}}"></script>
+<script>
+$(function() {
+    // jQuery Upload Thumbs 
+    $('#upload').uploadThumbs({
+        position : '#preview1',   // any: arbitrarily jquery selector
+    });
+
+});
+</script>
+
+
 @endsection

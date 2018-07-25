@@ -22,6 +22,11 @@
 	float: left;
 
 }
+.nosee {
+	text-align: center;
+    font-size: 1.5rem;
+    margin: 2rem 0;
+}
 /*.avatar_name {
 	border-radius: 50%;
 	overflow: hidden;
@@ -300,6 +305,12 @@
     margin: 0 auto;
 }
 
+.logout-iconpos {
+	position: relative;
+    top: 1rem;
+    right: -2rem;
+}
+
 
 @media (max-width: 480px){
 
@@ -351,12 +362,12 @@
     .user-btn .action-wrap {
     	border: 1px solid #e0e0e0;
     	/*padding: .7rem 6.5rem;*/
-    	width: 160px;
+    	width: 130px;
     	height: 30px;
     }
     .user-btn {
 		position: absolute;
-	    top: 6rem;
+	    top: 5rem;
 	    right: 5.5rem;
 	    width: auto;
 	}
@@ -443,6 +454,17 @@
 	}
 	.img-pad {
 		padding: 1rem;
+	}
+	.logout-iconpos {
+	    right: -1rem;
+	}
+
+	.notme {
+		font-weight: bold;
+		border: 1px solid #e0e0e0;
+	    width: 130px;
+	    height: 30px;
+		width: 150px;
 	}
 
 }

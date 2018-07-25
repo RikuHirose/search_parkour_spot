@@ -48,6 +48,7 @@
                     <div class="clearfix content-top">
                       <?php if(App\Helpers\Helper::isMobile() == false):?>
                         <?php App\Helpers\Helper::NewContentList($content); ?>
+
                       <?php elseif(App\Helpers\Helper::isMobile() == true):?>
                         <ul class="form-group clearfix around-section content_list">
                             <?php App\Helpers\Helper::mobileNewContentList($content); ?>

@@ -40,6 +40,8 @@ Route::get('/callback/facebook', 'SocialLiteController@callback');
 
 Route::get('/user/{id}','UserController@ContentsIndex');
 Route::get('/user/{id}/map','UserController@ContentsIndexMap');
+Route::get('/user/{id}/liked','UserController@likedContent');
+Route::get('/user/{id}/liked/map','UserController@likedContentMap');
 
 Route::get('/user/{id}/edit','UserController@edit');
 Route::post('/user/{id}/edit/update','UserController@update');
