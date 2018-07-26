@@ -715,4 +715,10 @@ nav .border {
   }
 
 }
+@media (max-width: 320px) {
+  .search-icon {
+    left: 29rem;
+  }
+}
+
 
