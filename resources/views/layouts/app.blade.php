@@ -290,7 +290,7 @@
         </div>
     </footer>
     <!-- Scripts（Jquery） -->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <!-- plugin-->
     <script src="{{asset('/slick/slick.min.js')}}"></script>
     <!-- Scripts（bootstrapのjavascript） -->
