@@ -155,8 +155,8 @@ class ContentController extends Controller
               $sort[$key] = $value['diastance'];
             }
             array_multisort($sort, SORT_ASC, $around);
+            $around = array_slice($around, 0, 10);
         }
-        $around = array_slice($around, 0, 10);
 
         // popular user
         $users = User::get();
@@ -194,10 +194,11 @@ class ContentController extends Controller
 
     public function edit($id)
     {
-        $content = Content::find($id);
-        $content = json_decode(json_encode($content), true);
-        $img = self::getPhotos($content['id']);
-        return view('content.edit' ,['content' => $content, 'img' => $img]);
+        // $content = Content::find($id);
+        // $content = json_decode(json_encode($content), true);
+        // $img = self::getPhotos($content['id']);
+        // return view('content.edit' ,['content' => $content, 'img' => $img]);
+        return redirect('/');
     }
 
     /**

@@ -93,9 +93,11 @@
                     <a href="/user/<?php echo $user['id']; ?>" id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
                     <a href="/user/<?php echo $user['id']; ?>/map" id="result-map" class="switch-bottom switch-left"><i class="fa fa-map-marker-alt fa-3x"></i></a>
                     @auth
-                        <a href="/user/<?php echo $user['id']; ?>/liked">
-                            <i class="fas fa-heart fa-3x"></i>
-                        </a>
+                        <?php if (Auth::user()->id == $user['id']): ?>
+                            <a href="/user/<?php echo $user['id']; ?>/liked">
+                                <i class="fas fa-heart fa-3x"></i>
+                            </a>
+                        <?php endif; ?>
                     @endauth
                 </div>
         </div>
@@ -186,9 +188,11 @@
                     <a href="/user/<?php echo $user['id']; ?>" id="result-index" class="switch-left"><i class="fa fa-list-ul fa-3x"></i></a>
                     <a href="/user/<?php echo $user['id']; ?>/map" id="result-map" class="switch-left switch-bottom"><i class="fa fa-map-marker-alt fa-3x"></i></a>
                     @auth
-                        <a href="/user/<?php echo $user['id']; ?>/liked">
-                            <i class="fas fa-heart fa-3x"></i>
-                        </a>
+                        <?php if (Auth::user()->id == $user['id']): ?>
+                            <a href="/user/<?php echo $user['id']; ?>/liked">
+                                <i class="fas fa-heart fa-3x"></i>
+                            </a>
+                        <?php endif; ?>
                     @endauth
                 </div>
         </div>

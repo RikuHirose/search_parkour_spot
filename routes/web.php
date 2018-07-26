@@ -22,17 +22,17 @@ Auth::routes();
 Route::resource('/content','ContentController', ['except' => ['store'],['index']]);
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('');
 });
 Route::get('/','ContentController@top');
 
 Route::post('/content/store','ContentController@store');
 
-Route::get('/content/{id}/route','ContentController@getroute');
+// Route::get('/content/{id}/route','ContentController@getroute');
 
 Route::post('/searchSpot','ContentController@searchSpot');
 
-Route::get('/content/id/editlist','ContentController@getEditList');
+// Route::get('/content/id/editlist','ContentController@getEditList');
 
 
 Route::get('/login/facebook', 'SocialLiteController@login');
