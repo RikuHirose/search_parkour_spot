@@ -228,7 +228,7 @@
   .likes {
     display: -webkit-inline-box;
     position: absolute;
-    top: 1.5rem;
+    top: .5rem;
     right: 2rem;
   }
   .top_avatar_name2 {

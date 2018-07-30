@@ -76,6 +76,7 @@
 	position: absolute;
     top: 0;
     left: 0;
+    /*object-fit: cover;*/
 }
 
 .video-icon {
@@ -309,6 +310,9 @@
 	position: relative;
     top: 1rem;
     right: -2rem;
+}
+.imgcoverstyle {
+	object-fit: cover;
 }
 
 

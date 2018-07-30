@@ -130,8 +130,7 @@
                 </div>
                 <div class="top-icon">
                     <a class="" href="{{ url('/') }}">
-                        <img src="/item/icon9.png" style="width: 30px; height: 30px;">
-                        <span>pkLinks</span>
+                        <img src="/item/icon11.png" style="width: 80px; height: 30px;">
                     </a>
                 </div>
                 <div class="search-icon">
@@ -179,7 +178,7 @@
                 <div class="m-header-inner">
                      <div class="top-icon">
                         <a class="" href="{{ url('/') }}">
-                            <img src="/item/icon9.png" style="width: 30px; height: 30px;"><span>pkLinks</span>
+                            <img src="/item/icon11.png" style="width: 80px; height: 30px;">
                         </a>
                     </div>
                     <form class="search-icon" action="/place" method="get" id="form_id">
@@ -208,7 +207,7 @@
 
                         <div class="dropdown notice-nav" id="markasread">
                             <div class=" " type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fas fa-bell fa-3x bellpos"></i>
+                                <i class="fas fa-bell  bellpos"></i>
                                 <?php if (count(auth()->user()->unreadNotifications) !=  0): ?>
                                     <span class="badge-pos" id="badge">
                                         <?php echo count(auth()->user()->unreadNotifications); ?>
@@ -220,7 +219,7 @@
                                     <li class="dpd-menu-li">
                                         @include('layouts.partials.notification.'.snake_case(class_basename($notification->type)))
                                         @empty
-                                        <a href="#">No notifications</a>
+                                        <p style="text-align: center;">通知はまだありません</p>
                                     </li>
                                 @endforelse
 

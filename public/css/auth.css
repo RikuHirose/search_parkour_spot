@@ -10,30 +10,20 @@
  
 }
 .new-resbtn {
-    text-align: center;
+    background-color: #3C5A99;
     color: #fff;
-    font-size: 1.3rem;
-    font-weight: bold;
-    margin: 1rem;
-    text-decoration: none;
-    color: #fff;
-    text-align: center;
-    font-size: 15px;
-    font-weight: bold;
-    line-height: 40px;
-    background: #ED7483;
-    width: 360px;
-    height: 40px;
-    border: 0;
-    border-radius: 5px;
-    display: block;
+    border: none;
+    position: relative;
+    border-radius: 4px;
     width: auto;
-    height: 36px;
+    height: 45px;
     font-weight: 500;
     letter-spacing: 1.5px;
     line-height: 28px;
-    padding: 4px 0px;
+    padding: 8px 0px;
     margin: 8px 22px 24px;
+    font-weight: bold;
+    font-size: 15px;
 }
 .navigation-tab {
     display: table;
@@ -105,7 +95,8 @@
 .btn-auth {
 	height: 40px;
     width: 200px;
-    font-size: 1.3rem;
+    font-weight: bold;
+    font-size: 15px;
 }
 .sns-icon {
 	width: 30px;
@@ -143,19 +134,19 @@
 /*mobile*/
 @media (max-width: 480px){
 	.btn-fb {
-    background-color: #3C5A99;
-    color: #fff;
-    border: none;
-    position: relative;
-    border-radius: 4px;
-    width: auto;
-    height: 36px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    line-height: 28px;
-    padding: 4px 0px;
-    margin: 8px 22px 24px;
-}
+        background-color: #3C5A99;
+        color: #fff;
+        border: none;
+        position: relative;
+        border-radius: 4px;
+        width: auto;
+        height: 45px;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        line-height: 28px;
+        padding: 8px 0px;
+        margin: 8px 22px 24px;
+    }
 	.btn-auth{
 		height: 50px;
     	line-height: 50px;

@@ -34,30 +34,6 @@
                                 @endif
                                 <span class="us-name">{{ $v['name'] }}</span>
                             </a>
-                            @if (Auth::check())
-                                @if (App\Helpers\Helper::isUser($v['id']) == true)
-                                    <i class="fas fa-align-right modal-open  acbtn del-open"></i>
-                                    <div id="modal">
-                                        <div class="iziModal-content">
-                                            <a data-izimodal-close="" class="modal-close">×</a>
-                                            <!-- modal -->
-                                            <div class="select-modal">
-                                                <!-- delete -->
-                                                <button type="button" class="btn btn-default" id="content_delete">
-                                                    {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
-
-                                                        {!! Form::hidden('id',$content['id']) !!}
-                                                        {!! Form::submit('delete',['class' => 'btn btn-default', 'name' => 'btn']) !!}
-
-                                                    {!! Form::close() !!}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @else
-                                    <!-- <a href="javascript:history.back()" class="history-back"><i class="fas fa-undo fa-2x"></i></a> -->
-                                @endif
-                            @endif
                         @endforeach
                     </div>
                 <?php endif; ?>
@@ -213,7 +189,6 @@
                                             <div class="comment-section">
                                                 <div class="comment-h3 clearfix">
                                                     <i class="far fa-comment fa-3x comment-fas"></i>
-                                                    <h3 class="comment-title">Comment</h3>
                                                 </div>
                                                 <p>
                                                     <?php echo App\Helpers\Helper::commentTotag($content['comment']); ?>
@@ -253,11 +228,42 @@
                                     <div class="comment-section">
                                         <div class="comment-h3 clearfix">
                                             <i class="fas fa-share-alt fa-3x comment-fas"></i>
-                                            <h3 class="comment-title">シェアする</h3>
                                         </div>
                                         <div class="sns-section">
                                             <div class="sharethis-inline-share-buttons"></div>
                                         </div>
+
+                                    </div>
+                                     <div class="delpos">
+                                        @foreach ($user as $v)
+                                            @if (Auth::check())
+                                                @if (App\Helpers\Helper::isUser($v['id']) == true)
+                                                <?php if(App\Helpers\Helper::isMobile() == true): ?>
+                                                    <!-- delete -->
+                                                    <button type="button" class="btn contente-deletebtn delconsub" id="content_delete">
+                                                        {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
+
+                                                            {!! Form::hidden('id',$content['id']) !!}
+                                                            {!! Form::submit('この投稿を削除する',['class' => '', 'name' => 'btn']) !!}
+
+                                                        {!! Form::close() !!}
+                                                    </button>
+                                                <?php elseif(App\Helpers\Helper::isMobile() == false): ?>
+                                                    <!-- delete -->
+                                                    <button type="button" class="btn contente-deletebtn" id="content_delete">
+                                                        {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
+
+                                                            {!! Form::hidden('id',$content['id']) !!}
+                                                            {!! Form::submit('この投稿を削除する',['class' => 'delconsub', 'name' => 'btn']) !!}
+
+                                                        {!! Form::close() !!}
+                                                    </button>
+                                                <?php endif; ?>
+                                                @else
+                                                    <!-- <a href="javascript:history.back()" class="history-back"><i class="fas fa-undo fa-2x"></i></a> -->
+                                                @endif
+                                            @endif
+                                        @endforeach
 
                                     </div>
                                 </div>
@@ -277,7 +283,7 @@
                             <h3 class="user-list-h3">人気のタグ</h3>
                             <div class="clearfix content-top">
                                 <?php $recommendtags = App\Helpers\Helper::recommendTags(); ?>
-                            <ul>
+                            <ul class="poptags">
                                 <?php foreach($recommendtags as $tag): ?>
                                     <li class="tag">
                                         <a href="/search?q=<?php echo $tag; ?>">
@@ -294,16 +300,16 @@
 </div>
 <script>
 
-function check(){
+    function check(){
 
-if(window.confirm('この投稿を削除しますか？')){
-        return true;
+    if(window.confirm('この投稿を削除しますか？')){
+            return true;
+        }
+        else{
+            window.alert('キャンセルされました');
+            return false;
+        }
     }
-    else{
-        window.alert('キャンセルされました');
-        return false;
-    }
-}
 
 </script>
 @endsection

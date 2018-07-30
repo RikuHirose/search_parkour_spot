@@ -56,9 +56,9 @@
     color: var(--grey);
 }
 .tag {
-    margin: 6px 3px 0 3px;
+    margin: 8px 5px 0 5px;
     display: inline-block;
-    height: 20px;
+    height: 24px;
     border: 1px solid rgba(0,0,0,.08);
     border-radius: 3px;
 }
@@ -71,7 +71,7 @@
     color: rgba(0,0,0,.87);
     text-decoration: none;
     height: 22px;
-    font-size: 12px;
+    font-size: 13px
 }
 ul {
 	padding: 0;
@@ -179,6 +179,7 @@ ul {
         height: 60px;
         position: relative;
         width: calc(100% - 80px);
+        top: .5rem;
     }
 
     .card_item_img2 {

@@ -45,7 +45,8 @@ Route::get('/user/{id}/liked/map','UserController@likedContentMap');
 
 Route::get('/user/{id}/edit','UserController@edit');
 Route::post('/user/{id}/edit/update','UserController@update');
-Route::post('/user/{id}/edit/updateimg ','UserController@updateimg');
+Route::post('/user/{id}/edit/updateimg','UserController@updateimg');
+Route::post('/user/{id}/delete','UserController@deleteUser');
 
 Route::post('/user/{id}/delete/deleteimg','UserController@deleteimg');
 

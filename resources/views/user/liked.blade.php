@@ -44,7 +44,7 @@
                 <?php foreach($v['img'] as $img): if($i >= $num): break; ?>
                     <?php else: ?>
                         <?php if(App\Helpers\Helper::judgeImgorVideo($img) == 0) {
-                            echo "<img class='card_item_list2' src='$img'>";
+                            echo "<img class='card_item_list2 imgcoverstyle' src='$img'>";
                         } elseif(App\Helpers\Helper::judgeImgorVideo($img) == 1) {
                             echo "<span class='video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
                             echo "<video class='card_item_list2 video-back' src='$img'></video>";
@@ -67,7 +67,7 @@
                 <?php foreach($v['img'] as $img): if($i >= $num): break; ?>
                     <?php else: ?>
                         <?php if(App\Helpers\Helper::judgeImgorVideo($img) == 0) {
-                            echo "<img class='content-size2' src='$img'>";
+                            echo "<img class='content-size2 imgcoverstyle' src='$img'>";
                         } elseif(App\Helpers\Helper::judgeImgorVideo($img) == 1) {
                             echo "<span class='video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
                             echo "<video class='content-size2 video-back' src='$img'></video>";
