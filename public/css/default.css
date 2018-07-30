@@ -30,6 +30,15 @@ img:hover ,video:hover{
   -ms-filter: "alpha(opacity=70)";
 }
 
+button {
+  background-color: #fff;
+  border: none;
+}
+.user-name {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
 .acbtn:hover {
   opacity: 0.7;
   filter: alpha(opacity=70);
@@ -82,8 +91,9 @@ p {
 }
 
 .top-icon {
-  margin: 0 auto;
-  width: 110px;
+  /*margin: 0 auto;
+  width: 110px;*/
+  text-align: center;
 }
 .humbarger-menu {
   display: none;
@@ -280,8 +290,8 @@ p {
 }
 .search-icon {
   position: absolute;
-  top: 2px;
-  left: 150px;
+  top: -2px;
+ 
 }
 
 .pac-input {
@@ -323,7 +333,7 @@ p {
 
 .nav-search-poosition {
   position: absolute;
-  top: 20px;
+  top: 16px;
   left: 160px;
   font-size: 1.5rem;
   color: #ddd;
@@ -333,7 +343,7 @@ p {
   display: inline-block;
     position: absolute;
     right: 15rem;
-    top: 0px;
+    top: -2px;
     white-space: nowrap;
 }
 
@@ -345,7 +355,7 @@ p {
   display: inline-block;
   position: absolute;
   right: 22rem;
-  top: 0px;
+  top: 1px;
   white-space: nowrap;
 }
 .nav-lists li {
@@ -358,8 +368,9 @@ p {
 }
 
 .bellpos {
-  top: 1rem;
+  top: 5px;
   position: relative;
+  font-size: 20px;
 }
 
 .badge-pos {
@@ -485,12 +496,13 @@ nav .border {
   .top-icon {
     margin: 0 auto;
     width: 110px;
+    text-align: justify;
   }
 
   .search-icon {
     position: absolute;
-    top: 0;
-    left: 34rem;
+    top: 1px;
+    right: 1rem;
   }
 
   /*チェックボックス等は非表示に*/
@@ -504,6 +516,8 @@ nav .border {
     width: 30px;
     height: 22px;
     vertical-align: middle;
+    position: relative;
+    top: 2px;
   }
 
   /*ハンバーガーアイコンをCSSだけで表現*/
@@ -587,9 +601,10 @@ nav .border {
   }
 
   .close-icon {
-    top: -45px;
+    top: -43px;
     position: relative;
-    left: 5px;
+    left: 10px;
+    font-size: 20px;
   }
   .m-search-header {
     height: 45px;
@@ -714,7 +729,7 @@ nav .border {
     color: var(--logoblue);
   }
 
-}
+
 @media (max-width: 320px) {
   .search-icon {
     left: 29rem;

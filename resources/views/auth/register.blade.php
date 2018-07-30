@@ -112,7 +112,6 @@
 
                             <div class="form-group row ">
                                 <div class="col-md-6">
-                                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
                                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus placeholder="お名前">
 
                                     @if ($errors->has('name'))
@@ -125,7 +124,7 @@
 
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+
                                     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required placeholder="メールアドレス">
 
                                     @if ($errors->has('email'))
@@ -138,7 +137,7 @@
 
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
                                     <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required placeholder="パスワード">
 
                                     @if ($errors->has('password'))
@@ -151,7 +150,7 @@
 
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+
                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required placeholder="パスワード(確認用)">
                                 </div>
                             </div>

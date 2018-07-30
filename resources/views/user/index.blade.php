@@ -101,7 +101,6 @@
                     <a href="/user/<?php echo $user['id']; ?>" id="result-index" class="switch-left switch-bottom"><i class="fa fa-list-ul fa-3x"></i></a>
                     <a href="/user/<?php echo $user['id']; ?>/map" id="result-map" class="switch-left"><i class="fa fa-map-marker-alt fa-3x"></i></a>
                     @auth
-                    <?php var_dump(Auth::user()->id); var_dump($user['id']); ?>
                         <?php if (Auth::user()->id == $user['id']): ?>
                             <a href="/user/<?php echo $user['id']; ?>/liked">
                                 <i class="fas fa-heart fa-3x"></i>
@@ -176,16 +175,16 @@
                         <h2 class="user-name-h2" ><?php echo $user['name']; ?></h2>
                         <ul class="ul-lis">
                             <li class="user-posts">
-                                <span><?php echo count($content); ?></span>posts</p>
+                                <span><?php echo count($content); ?></span>  posts</p>
                             </li>
                             <li>
                                 <a class="user-followers" href="/user/{{ $user['id'] }}/followerlist">
-                                    <span><?php echo count($followers); ?></span>followers
+                                    <span><?php echo count($followers); ?></span>  followers
                                 </a>
                             </li>
                             <li>
                                 <a class="user-follows" href="/user/{{ $user['id'] }}/followlist">
-                                    <span><?php echo count($follows); ?></span>follows
+                                    <span><?php echo count($follows); ?></span>  follows
                                 </a>
                             </li>
 
@@ -218,7 +217,7 @@
                 <?php foreach($v['img'] as $img): if($i >= $num): break; ?>
                     <?php else: ?>
                         <?php if(App\Helpers\Helper::judgeImgorVideo($img) == 0) {
-                            echo "<img class='card_item_list2' src='$img'>";
+                            echo "<img class='card_item_list2 imgcoverstyle' src='$img'>";
                         } elseif(App\Helpers\Helper::judgeImgorVideo($img) == 1) {
                             echo "<span class='video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
                             echo "<video class='card_item_list2 video-back' src='$img'></video>";
@@ -241,7 +240,7 @@
                 <?php foreach($v['img'] as $img): if($i >= $num): break; ?>
                     <?php else: ?>
                         <?php if(App\Helpers\Helper::judgeImgorVideo($img) == 0) {
-                            echo "<img class='content-size2' src='$img'>";
+                            echo "<img class='content-size2 imgcoverstyle' src='$img'>";
                         } elseif(App\Helpers\Helper::judgeImgorVideo($img) == 1) {
                             echo "<span class='video-icon'><i class='fas fa-video fa-2x fa-color'></i></span>";
                             echo "<video class='content-size2 video-back' src='$img'></video>";

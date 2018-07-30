@@ -76,6 +76,13 @@
                     <input type="submit" value="update" class="acbtn" >
                 </div>
             </form>
+
+            <form method="post" action="/user/{{ $user['id'] }}/delete">
+                {{ csrf_field() }}
+                <div class="form-item">
+                    <input type="submit" value="このアカウントを削除する" class="acbtn" >
+                </div>
+            </form>
         </div>
     </div>
 <?php elseif(App\Helpers\Helper::isMobile() == true): ?>
@@ -94,10 +101,16 @@
                 <div class="form-item">
                     <span class="rubi-pos">自己紹介</span>
                     <input type="text" name="comment" value="{{ $user['comment'] }}" placeholder="comment">
-                    
+
                 </div>
                 <div class="form-item">
                     <input type="submit" value="update" class="acbtn" >
+                </div>
+            </form>
+
+            <form method="post" action="/user/{{ $user['id'] }}/delete" onsubmit="return check()">
+                <div class="form-item">
+                    <input type="submit" value="このアカウントを削除する" class="acbtn" >
                 </div>
             </form>
         </div>
@@ -119,6 +132,21 @@
 @endsection
 
 @section('js')
+
+<script>
+
+function check(){
+
+if(window.confirm('本当にこのアカウントを削除しますか？')){
+        return true;
+    }
+    else{
+        window.alert('キャンセルされました');
+        return false;
+    }
+}
+
+</script>
 
 <script src="{{asset('js/iziModal.min.js')}}"></script>
 

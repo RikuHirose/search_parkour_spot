@@ -224,6 +224,14 @@ class UserController extends Controller
     }
 
 
+    public function deleteUser(Request $request)
+    {
+        User::find($request->id)->delete();
+        return redirect('/')->with('success', '削除しました。');
+
+    }
+
+
     public function follow(Request $request)
     {
         $follower = auth()->user();
