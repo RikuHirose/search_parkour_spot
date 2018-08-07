@@ -272,7 +272,6 @@ class UserController extends Controller
         $user = User::find($request->id);
         // 自分がフォローしている人
         $follows = $user->getFollows($user_id);
-        // var_dump($follows->toArray());
 
         $follows = array_map(function($v){
             return [

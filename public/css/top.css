@@ -229,7 +229,7 @@
     display: -webkit-inline-box;
     position: absolute;
     top: .5rem;
-    right: 2rem;
+    right: .5rem;
   }
   .top_avatar_name2 {
     border-radius: 50%;
@@ -272,7 +272,7 @@
   }
 
 .side-user-wrap {
-  margin: 0  1rem;
+  /*margin: 0  1rem;*/
   padding: 1rem 0;
   /*border-bottom: 1px dotted #e7e7e7;*/
 }
@@ -363,6 +363,7 @@ ul {
   .search-result-word {
     height: 30px;
     margin: 0;
+    margin-top: 1rem;
     text-align: center;
     font-size: 1.5rem;
     border-bottom: 1px solid;

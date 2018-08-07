@@ -15,9 +15,12 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('icon_name',100);
-            $table->float('lat');
-            $table->float('lng');
+            $table->string('spot_name');
+            $table->string('comment',255);
+            $table->decimal('lat',28,20);
+            $table->decimal('lng',28,20);
+            $table->string('address');
+            $table->integer('likes_count')->default(0);
             $table->timestamps();
         });
     }
