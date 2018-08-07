@@ -67,10 +67,7 @@
                                     <span>#{{ $tag }}</span>
                                 </a>
                             <?php endforeach; ?>
-                            <!-- <a onclick="$('#tag_caption').val($('#tag_caption').val() + '#Sandy Area');" href="javascript: void(0);">
-                                    <i class="fa fa-plus"></i>
-                                    <span>#SandyArea</span>
-                            </a> -->
+                            
                         </div>
                         <p class="map-des">地図をクリックすると位置を指定できます。</p>
                         <table class="info-latlng">

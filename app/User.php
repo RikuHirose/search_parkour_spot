@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\SocialProvider;
 
+
 class User extends Authenticatable
 {
     use Notifiable;

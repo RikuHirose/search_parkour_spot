@@ -7,6 +7,7 @@ use Socialite;
 use App\SocialProvider;
 use App\User;
 
+
 class SocialLiteController extends Controller
 {
 
@@ -42,11 +43,13 @@ class SocialLiteController extends Controller
         if($socialProvider){
           $user = $socialProvider->user;
           auth()->login($user);
+
           return redirect('/')->with(['success'=> ' Loginしました！']);
         }
 
         //すでにemailがあるかチェック
         $socialProvider = User::where('email',$socialUser->getEmail())->first();
+
 
         if(!$socialProvider) {
             $user = User::Create(['email' => $socialUser->getEmail(), 'name' => $socialUser->getName(), 'avatar_name' => $socialUser->getAvatar(), 'remember_token' => $socialUser->token]);

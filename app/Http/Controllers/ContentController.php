@@ -60,6 +60,13 @@ class ContentController extends Controller
         // }
         $this->validate($request,Content::$rules);
 
+        $request->lat = htmlspecialchars($request->lat, ENT_QUOTES, "UTF-8" );
+        $request->lng = htmlspecialchars($request->lng, ENT_QUOTES, "UTF-8" );
+        $request->address = htmlspecialchars($request->address, ENT_QUOTES, "UTF-8" );
+        $request->spot_name = htmlspecialchars($request->spot_name, ENT_QUOTES, "UTF-8" );
+        $request->comment = htmlspecialchars($request->comment, ENT_QUOTES, "UTF-8" );
+        $request->user_id = htmlspecialchars($request->user_id, ENT_QUOTES, "UTF-8" );
+
         // 正規表現でtagとcommentを分ける
         $str = $request->comment;
         preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
@@ -84,7 +91,6 @@ class ContentController extends Controller
         // tag idの配列を渡し、contentに紐付いたtagを保存
         $content->tags()->attach($tagid);
 
-// var_dump(112);die;
         // 画像の保存 s3
         foreach ($request->file('files') as $index) {
 
@@ -261,6 +267,7 @@ class ContentController extends Controller
     public function searchTag(Request $request)
     {
         $q  = \Request::get('q');
+        $q = htmlspecialchars($q, ENT_QUOTES, "UTF-8" );
 
         // $content = Content::tagFilter($q)->SearchAddress($q)->SearchSpotName($q)->get();
         // $content = Content::tagFilter($q)->SearchSpotName($q)->get();
@@ -322,6 +329,7 @@ class ContentController extends Controller
 
         // $requestで緯度経度を撮りたい
         $q  = \Request::get('q');
+        $q = htmlspecialchars($q, ENT_QUOTES, "UTF-8" );
         $content = $request->toArray();
 
         $lat = $content['lat'];
@@ -531,8 +539,8 @@ class ContentController extends Controller
             return [
                     'img' => self::getPhotos($v['id']),
                     'id' => $v['id'],
-                    'spot_name' => $v['spot_name'],
-                    'address' => $v['address'],
+                    'spot_name' => self::checkhtmlspecialchars($v['spot_name']),
+                    'address' => self::checkhtmlspecialchars($v['address']),
                     'tags' => $match[0],
                     'user' => self::getUserInfo($v['user_id']),
                 ];
@@ -543,14 +551,16 @@ class ContentController extends Controller
         //  いいねが多い順
         $rank = Content::orderBy('likes_count', 'desc')->get();
 
+
         $ranking_many = array_map(function($v){
+
             $str = $v['comment'];
             preg_match_all('/#([a-zA-Z0-9０-９ぁ-んァ-ヶー一-龠]+)/u', $str, $match);
             return [
                 'img' => self::getPhotos($v['id']),
                 'id' => $v['id'],
-                'spot_name' => $v['spot_name'],
-                'address' => $v['address'],
+                'spot_name' => self::checkhtmlspecialchars($v['spot_name']),
+                'address' => self::checkhtmlspecialchars($v['address']),
                 'tags' => $match[0],
                 'user' => self::getUserInfo($v['user_id']),
                 'likes_count' => $v['likes_count'],
@@ -656,6 +666,13 @@ class ContentController extends Controller
         }
         return $content;
 
+    }
+
+    public function checkhtmlspecialchars($v)
+    {
+        $v = htmlspecialchars($v, ENT_QUOTES, "UTF-8" );
+
+        return $v;
     }
 
 

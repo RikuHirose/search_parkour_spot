@@ -1,5 +1,16 @@
 @extends('layouts.app')
 
+@section('meta')
+    <meta property="fb:app_id" content="208411133128861" />
+    <meta name="twitter:card" content="summary" />
+    <!-- <meta name="twitter:site" content="@ユーザー名" /> -->
+    <meta property="og:url" content="/content{{ $content['id'] }}" />
+    <meta property="og:title" content="{{ $content['spot_name'] }}" />
+    <meta property="og:description" content="{{ $content['address'] }}" />
+    <meta property="og:image" content="$img[0]" />
+@endsection
+
+
 @section('title')
     {{ $content['spot_name'] }}   |
 @endsection
@@ -15,7 +26,6 @@
 @endsection
 
 @section('content')
-
 <div class="wrap">
             <div class="card">
                 <?php if(App\Helpers\Helper::isMobile() == true): ?>
@@ -42,7 +52,7 @@
                         <div class="col-md-8">
                             <?php if(App\Helpers\Helper::isMobile() == false): ?>
                                 <div class="card-header">
-                                @foreach ($user as $v)
+                                    @foreach ($user as $v)
                                     <a href="/user/{{ $v['id'] }}">
                                         @if($v['avatar_name'] == '')
                                             <img src="/item/user-default.png" class="avatar_name">
@@ -80,26 +90,26 @@
                                             <!-- <a href="javascript:history.back()" class="history-back"><i class="fas fa-undo fa-2x"></i></a> -->
                                         @endif
                                     @endif
-                                @endforeach
-                            </div>
+                                    @endforeach
+                                </div>
                             <?php endif; ?>
-                            <div class="card-body">
-                                <div class="content-group clearfix">
-                                    <!-- slide show-->
-                                    <div class="form-group slick-slider">
-                                        <?php foreach($img as $v):?>
-                                                <?php if(App\Helpers\Helper::judgeImgorVideo($v) == 0): ?>
-                                                    <div>
-                                                        <img class="slide_item_img" src="{{ $v }}">
-                                                    </div>
-                                                <?php elseif(App\Helpers\Helper::judgeImgorVideo($v) == 1): ?>
-                                                    <div class="slide-backgraound">
-                                                        <video class="slide_item_video" src="{{ $v }}" controls></video>
-                                                    </div>
-                                                <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <?php if(App\Helpers\Helper::isMobile() == false): ?>
+                            <?php if(App\Helpers\Helper::isMobile() == false): ?>
+                                <div class="card-body">
+                                    <div class="content-group clearfix">
+                                        <!-- slide show-->
+                                        <div class="form-group slick-slider">
+                                            <?php foreach($img as $v):?>
+                                                    <?php if(App\Helpers\Helper::judgeImgorVideo($v) == 0): ?>
+                                                        <div>
+                                                            <img class="slide_item_img" src="{{ $v }}">
+                                                        </div>
+                                                    <?php elseif(App\Helpers\Helper::judgeImgorVideo($v) == 1): ?>
+                                                        <div class="slide-backgraound">
+                                                            <video class="slide_item_video" src="{{ $v }}" controls></video>
+                                                        </div>
+                                                    <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </div>
                                         @if (Auth::check())
 
                                                 <button class="likes-btn fav-btn" type="submit" id="like_delete" style="@if (!$like) display: none; @endif" value="{{$content['id']}}">
@@ -135,9 +145,121 @@
                                                 </div>
                                             </div>
                                         @endif
-                                    <?php endif; ?>
+                                        @if (Auth::check())
+                                            <div class="">
+                                                <h2 class="spot_name">{{ $content['spot_name'] }}</h2>
+                                                <input type="hidden" id="lat_detail" value="{{ $content['lat'] }}">
+                                                <input type="hidden" id="lng_detail" value="{{ $content['lng'] }}">
+                                                <p id="address_detail" class="address_detail">
+                                                    {{ $content['address'] }}
+                                                    {{ $content['created_at'] }}
+                                                </p>
+                                                    <a href="http://maps.google.com/maps?saddr=&daddr={{ $content['lat'] }},{{ $content['lng'] }}&z=16" target="_blank">
+                                                        <div id="js-access-map" class="map-direction acbtn">
+                                                            <p class="direction-map">Directions</p>
+                                                            <i class="fas fa-map-marker-alt fa-2x"></i></div>
+                                                    </a>
 
-                                    <?php if(App\Helpers\Helper::isMobile() == true): ?>
+                                                <div class="comment-section">
+                                                    <div class="comment-h3 clearfix">
+                                                        <i class="far fa-comment fa-3x comment-fas"></i>
+                                                    </div>
+                                                    <p>
+                                                        <?php echo App\Helpers\Helper::commentTotag($content['comment']); ?>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        @else
+                                            <div class="content-blocker">
+                                                <h2 class="spot_name">{{ $content['spot_name'] }}</h2>
+                                                <input type="hidden" id="lat_detail" value="{{ $content['lat'] }}">
+                                                <input type="hidden" id="lng_detail" value="{{ $content['lng'] }}">
+                                                <p id="address_detail" class="address_detail">{{ $content['address'] }}</p>
+                                                    <a href="http://maps.google.com/maps?saddr=&daddr={{ $content['lat'] }},{{ $content['lng'] }}&z=16" target="_blank">
+                                                        <div id="js-access-map" class="map-direction acbtn">
+                                                            <p class="direction-map">Directions</p>
+                                                            <i class="fas fa-map-marker-alt fa-2x"></i></div>
+                                                    </a>
+
+                                                <div class="comment-section">
+                                                    <div class="comment-h3 clearfix">
+                                                        <i class="far fa-comment fa-3x comment-fas"></i>
+                                                        <h3 class="comment-title">Comment</h3>
+                                                    </div>
+                                                    <p>
+                                                        <?php echo App\Helpers\Helper::commentTotag($content['comment']); ?>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        @endif
+
+                                        <div id="map_canvas" class="map_canvas"></div>
+                                        <div id="getcurrentlocation" class="get-current">
+                                            <p class="current-p acbtn">現在地を取得する</p>
+                                        </div>
+                                        <div class="comment-section">
+                                            <div class="comment-h3 clearfix">
+                                                <i class="fas fa-share-alt fa-3x comment-fas"></i>
+                                            </div>
+                                            <div class="sns-section">
+                                                <div class="sharethis-inline-share-buttons"></div>
+                                            </div>
+
+                                        </div>
+                                         <div class="delpos">
+                                            @foreach ($user as $v)
+                                                @if (Auth::check())
+                                                    @if (App\Helpers\Helper::isUser($v['id']) == true)
+                                                    <?php if(App\Helpers\Helper::isMobile() == true): ?>
+                                                        <!-- delete -->
+                                                        <button type="button" class="btn contente-deletebtn delconsub" id="content_delete">
+                                                            {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
+
+                                                                {!! Form::hidden('id',$content['id']) !!}
+                                                                {!! Form::submit('この投稿を削除する',['class' => '', 'name' => 'btn']) !!}
+
+                                                            {!! Form::close() !!}
+                                                        </button>
+                                                    <?php elseif(App\Helpers\Helper::isMobile() == false): ?>
+                                                        <!-- delete -->
+                                                        <button type="button" class="btn contente-deletebtn" id="content_delete">
+                                                            {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
+
+                                                                {!! Form::hidden('id',$content['id']) !!}
+                                                                {!! Form::submit('この投稿を削除する',['class' => 'delconsub', 'name' => 'btn']) !!}
+
+                                                            {!! Form::close() !!}
+                                                        </button>
+                                                    <?php endif; ?>
+                                                    @else
+                                                        <!-- <a href="javascript:history.back()" class="history-back"><i class="fas fa-undo fa-2x"></i></a> -->
+                                                    @endif
+                                                @endif
+                                            @endforeach
+
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                            <?php if(App\Helpers\Helper::isMobile() == true): ?>
+                                <!-- slide show-->
+                                <div class="form-group slick-slider">
+                                    <?php foreach($img as $v):?>
+                                            <?php if(App\Helpers\Helper::judgeImgorVideo($v) == 0): ?>
+                                                <div>
+                                                    <img class="slide_item_img" src="{{ $v }}">
+                                                </div>
+                                            <?php elseif(App\Helpers\Helper::judgeImgorVideo($v) == 1): ?>
+                                                <div class="slide-backgraound">
+                                                    <video class="slide_item_video" src="{{ $v }}" controls></video>
+                                                </div>
+                                            <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="card-body">
+                                    <div class="content-group clearfix">
                                         @if (Auth::check())
 
                                                 <button class="likes-btn" type="submit" id="like_delete" style="@if (!$like) display: none; @endif" value="{{$content['id']}}">
@@ -173,101 +295,105 @@
                                                 </div>
                                             </div>
                                         @endif
-                                    <?php endif;  ?>
-                                    @if (Auth::check())
-                                        <div class="content-blocker">
-                                            <h2 class="spot_name">{{ $content['spot_name'] }}</h2>
-                                            <input type="hidden" id="lat_detail" value="{{ $content['lat'] }}">
-                                            <input type="hidden" id="lng_detail" value="{{ $content['lng'] }}">
-                                            <p id="address_detail" class="address_detail">{{ $content['address'] }}</p>
-                                                <a href="http://maps.google.com/maps?saddr=&daddr={{ $content['lat'] }},{{ $content['lng'] }}&z=16" target="_blank">
-                                                    <div id="js-access-map" class="map-direction acbtn">
-                                                        <p class="direction-map">Directions</p>
-                                                        <i class="fas fa-map-marker-alt fa-2x"></i></div>
-                                                </a>
-
-                                            <div class="comment-section">
-                                                <div class="comment-h3 clearfix">
-                                                    <i class="far fa-comment fa-3x comment-fas"></i>
-                                                </div>
-                                                <p>
-                                                    <?php echo App\Helpers\Helper::commentTotag($content['comment']); ?>
+                                        @if (Auth::check())
+                                            <div class="">
+                                                <h2 class="spot_name">{{ $content['spot_name'] }}</h2>
+                                                <input type="hidden" id="lat_detail" value="{{ $content['lat'] }}">
+                                                <input type="hidden" id="lng_detail" value="{{ $content['lng'] }}">
+                                                <p id="address_detail" class="address_detail">
+                                                    {{ $content['address'] }}
+                                                    {{ $content['created_at'] }}
                                                 </p>
+                                                    <a href="http://maps.google.com/maps?saddr=&daddr={{ $content['lat'] }},{{ $content['lng'] }}&z=16" target="_blank">
+                                                        <div id="js-access-map" class="map-direction acbtn">
+                                                            <p class="direction-map">Directions</p>
+                                                            <i class="fas fa-map-marker-alt fa-2x"></i></div>
+                                                    </a>
+
+                                                <div class="comment-section">
+                                                    <div class="comment-h3 clearfix">
+                                                        <i class="far fa-comment fa-3x comment-fas"></i>
+                                                    </div>
+                                                    <p>
+                                                        <?php echo App\Helpers\Helper::commentTotag($content['comment']); ?>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        @else
+                                            <div class="content-blocker">
+                                                <h2 class="spot_name">{{ $content['spot_name'] }}</h2>
+                                                <input type="hidden" id="lat_detail" value="{{ $content['lat'] }}">
+                                                <input type="hidden" id="lng_detail" value="{{ $content['lng'] }}">
+                                                <p id="address_detail" class="address_detail">{{ $content['address'] }}</p>
+                                                    <a href="http://maps.google.com/maps?saddr=&daddr={{ $content['lat'] }},{{ $content['lng'] }}&z=16" target="_blank">
+                                                        <div id="js-access-map" class="map-direction acbtn">
+                                                            <p class="direction-map">Directions</p>
+                                                            <i class="fas fa-map-marker-alt fa-2x"></i></div>
+                                                    </a>
+
+                                                <div class="comment-section">
+                                                    <div class="comment-h3 clearfix">
+                                                        <i class="far fa-comment fa-3x comment-fas"></i>
+                                                        <h3 class="comment-title">Comment</h3>
+                                                    </div>
+                                                    <p>
+                                                        <?php echo App\Helpers\Helper::commentTotag($content['comment']); ?>
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        @endif
+
+                                        <div id="map_canvas" class="map_canvas"></div>
+                                        <div id="getcurrentlocation" class="get-current">
+                                            <p class="current-p acbtn">現在地を取得する</p>
+                                        </div>
+                                        <div class="comment-section">
+                                            <div class="comment-h3 clearfix">
+                                                <i class="fas fa-share-alt fa-3x comment-fas"></i>
+                                            </div>
+                                            <div class="sns-section">
+                                                <div class="sharethis-inline-share-buttons"></div>
                                             </div>
 
                                         </div>
-                                    @else
-                                        <div class="content-blocker">
-                                            <h2 class="spot_name">{{ $content['spot_name'] }}</h2>
-                                            <input type="hidden" id="lat_detail" value="{{ $content['lat'] }}">
-                                            <input type="hidden" id="lng_detail" value="{{ $content['lng'] }}">
-                                            <p id="address_detail" class="address_detail">{{ $content['address'] }}</p>
-                                                <a href="http://maps.google.com/maps?saddr=&daddr={{ $content['lat'] }},{{ $content['lng'] }}&z=16" target="_blank">
-                                                    <div id="js-access-map" class="map-direction acbtn">
-                                                        <p class="direction-map">Directions</p>
-                                                        <i class="fas fa-map-marker-alt fa-2x"></i></div>
-                                                </a>
+                                        <div class="delpos">
+                                            @foreach ($user as $v)
+                                                @if (Auth::check())
+                                                    @if (App\Helpers\Helper::isUser($v['id']) == true)
+                                                    <?php if(App\Helpers\Helper::isMobile() == true): ?>
+                                                        <!-- delete -->
+                                                        <button type="button" class="btn contente-deletebtn delconsub" id="content_delete">
+                                                            {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
 
-                                            <div class="comment-section">
-                                                <div class="comment-h3 clearfix">
-                                                    <i class="far fa-comment fa-3x comment-fas"></i>
-                                                    <h3 class="comment-title">Comment</h3>
-                                                </div>
-                                                <p>
-                                                    <?php echo App\Helpers\Helper::commentTotag($content['comment']); ?>
-                                                </p>
-                                            </div>
+                                                                {!! Form::hidden('id',$content['id']) !!}
+                                                                {!! Form::submit('この投稿を削除する',['class' => '', 'name' => 'btn']) !!}
 
-                                        </div>
-                                    @endif
+                                                            {!! Form::close() !!}
+                                                        </button>
+                                                    <?php elseif(App\Helpers\Helper::isMobile() == false): ?>
+                                                        <!-- delete -->
+                                                        <button type="button" class="btn contente-deletebtn" id="content_delete">
+                                                            {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
 
-                                    <div id="map_canvas" class="map_canvas"></div>
-                                    <div id="getcurrentlocation" class="get-current">
-                                        <p class="current-p acbtn">現在地を取得する</p>
-                                    </div>
-                                    <div class="comment-section">
-                                        <div class="comment-h3 clearfix">
-                                            <i class="fas fa-share-alt fa-3x comment-fas"></i>
-                                        </div>
-                                        <div class="sns-section">
-                                            <div class="sharethis-inline-share-buttons"></div>
-                                        </div>
+                                                                {!! Form::hidden('id',$content['id']) !!}
+                                                                {!! Form::submit('この投稿を削除する',['class' => 'delconsub', 'name' => 'btn']) !!}
 
-                                    </div>
-                                     <div class="delpos">
-                                        @foreach ($user as $v)
-                                            @if (Auth::check())
-                                                @if (App\Helpers\Helper::isUser($v['id']) == true)
-                                                <?php if(App\Helpers\Helper::isMobile() == true): ?>
-                                                    <!-- delete -->
-                                                    <button type="button" class="btn contente-deletebtn delconsub" id="content_delete">
-                                                        {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
-
-                                                            {!! Form::hidden('id',$content['id']) !!}
-                                                            {!! Form::submit('この投稿を削除する',['class' => '', 'name' => 'btn']) !!}
-
-                                                        {!! Form::close() !!}
-                                                    </button>
-                                                <?php elseif(App\Helpers\Helper::isMobile() == false): ?>
-                                                    <!-- delete -->
-                                                    <button type="button" class="btn contente-deletebtn" id="content_delete">
-                                                        {!! Form::open(['url' => '/content/'.$content['id'], 'method' => 'delete', 'onSubmit' => 'return check()']) !!}
-
-                                                            {!! Form::hidden('id',$content['id']) !!}
-                                                            {!! Form::submit('この投稿を削除する',['class' => 'delconsub', 'name' => 'btn']) !!}
-
-                                                        {!! Form::close() !!}
-                                                    </button>
-                                                <?php endif; ?>
-                                                @else
-                                                    <!-- <a href="javascript:history.back()" class="history-back"><i class="fas fa-undo fa-2x"></i></a> -->
+                                                            {!! Form::close() !!}
+                                                        </button>
+                                                    <?php endif; ?>
+                                                    @else
+                                                        <!-- <a href="javascript:history.back()" class="history-back"><i class="fas fa-undo fa-2x"></i></a> -->
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        @endforeach
+                                            @endforeach
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
+
                         </div>
                         <div class="col-md-4 side-bar">
                             <ul class="form-group clearfix around-section content_list">
