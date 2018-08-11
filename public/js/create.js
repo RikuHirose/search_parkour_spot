@@ -18,7 +18,7 @@
     createMap(old_lat,old_lng,zoom);
   }
 
-setDefault();
+  setDefault();
   //  defaultの場所を設定
   function setDefault() {
     lat = 35.729756;
