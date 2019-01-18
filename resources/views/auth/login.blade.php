@@ -30,13 +30,13 @@
                             </a>
                         </div> -->
 
-                        <div class="form-group row mb-0 auth-btn-positon btn-fb btn-auth acbtn">
+                       <!--  <div class="form-group row mb-0 auth-btn-positon btn-fb btn-auth acbtn">
                             <a class="btn-sns" href="/login/facebook">
                                 <img class="sns-icon" src="/item/fb-icon.png" alt="Light 100">
                                 <p class="sign-sns-name">Facebookでログイン</p>
                             </a>
-                        </div>
-                        <p class="title-or">または</p>
+                        </div> -->
+                        <!-- <p class="title-or">または</p> -->
                         <form method="POST" action="{{ route('login') }}" class="form-style">
                             @csrf
 

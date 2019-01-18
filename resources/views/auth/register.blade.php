@@ -25,13 +25,13 @@
                 <div class="card-body">
                     <p class="text-area">会員登録をすると、投稿をいいねしたり、他のユーザーをフォローすることができるようになります。</p>
 
-                        <div class="form-group row mb-0 auth-btn-positon btn-fb btn-auth acbtn">
+                       <!--  <div class="form-group row mb-0 auth-btn-positon btn-fb btn-auth acbtn">
                             <a class="btn-sns" href="/login/facebook">
                                 <img class="sns-icon" src="/item/fb-icon.png" alt="Light 100">
                                 <p class="sign-sns-name">Facebookで登録</p>
                             </a>
                         </div>
-                    <p class="title-or">または</p>
+                    <p class="title-or">または</p> -->
                     <form method="POST" action="{{ route('register') }}" class="form-style">
                         @csrf
 

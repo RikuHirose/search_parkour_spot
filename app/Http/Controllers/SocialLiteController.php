@@ -27,6 +27,7 @@ class SocialLiteController extends Controller
 
     public function callback()
     {
+        dd(11);
         \Log::debug('a');
         try
         {
