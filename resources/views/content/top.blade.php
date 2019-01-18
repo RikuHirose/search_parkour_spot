@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div class="top-display">
+<div class="">
   <?php if(App\Helpers\Helper::isMobile() == false):?>
     <!--↓↓ 検索フォーム ↓↓-->
     <!-- <form class="top-form" action="/search" method="get">
